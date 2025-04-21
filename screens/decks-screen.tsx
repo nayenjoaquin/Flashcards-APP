@@ -4,7 +4,7 @@ import { DeckCard } from "components/deck-card";
 import useDecks from "hooks/decks";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Button, SafeAreaView, ScrollView, Text, View } from "react-native"
-import { DecksStackParamList, RootStackParamList } from "types/navigation";
+import { DecksStackParamList} from "types/navigation";
 
 
 

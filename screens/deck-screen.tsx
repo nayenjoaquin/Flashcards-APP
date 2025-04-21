@@ -1,18 +1,18 @@
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { SafeAreaView, Text, View } from "react-native"
-import { RootStackParamList } from "types/navigation";
+import { DecksStackParamList} from "types/navigation";
 
 
 export const DeckScreen = () => {
 
-    type DeeckScreenRouteProp = RouteProp<RootStackParamList, 'deck'>;
+    type DeeckScreenRouteProp = RouteProp<DecksStackParamList, 'Deck'>;
 
     const route = useRoute<DeeckScreenRouteProp>();
-    const {did} = route.params;
+    const {deck} = route.params;
     return(
         <View className="h-full flex items-center justify-center">
             <SafeAreaView>
-                <Text className="text-3xl font-bold">{did}</Text>
+                <Text className="text-3xl font-bold">{deck.title}</Text>
             </SafeAreaView>
         </View>
     )

@@ -1,13 +1,9 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
-export type RootStackParamList = {
-    Home: undefined;
-    deck: { did: string;};
-    decks: undefined;
-  };
+
   export type DecksStackParamList = {
     Decks: undefined;
-    Deck: { did: string };
+    Deck: { deck: Deck };
   };
   
   export type RootTabParamList = {
