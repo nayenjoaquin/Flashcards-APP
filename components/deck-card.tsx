@@ -36,7 +36,7 @@ export const DeckCard = ({deck, index}: DeckProps) => {
                     elevation: 5,
                 }} className="flex flex-col gap-2.5 p-2.5 bg-white rounded-md">
                     <View className="aspect-[3/4] bg-neutral-300 w-full"></View>
-                    <Text>{deck.title}</Text>
+                    <Text>{deck.name}</Text>
                 </View>
             </Pressable>
         </View>

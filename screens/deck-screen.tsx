@@ -11,8 +11,8 @@ export const DeckScreen = () => {
     const {deck} = route.params;
     return(
         <View className="h-full flex items-center justify-center">
-            <SafeAreaView>
-                <Text className="text-3xl font-bold">{deck.title}</Text>
+            <SafeAreaView className="w-full flex items-center justify-center p-5">
+                <Text className="text-3xl font-bold">{deck.name}</Text>
             </SafeAreaView>
         </View>
     )

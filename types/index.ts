@@ -1,8 +1,7 @@
 type Deck={
-    did: string;
-    title: string;
+    id: string;
+    name: string;
     description: string;
-    img: string;
     saved: number;
-    visibility: number;
+    visibility: string;
 }

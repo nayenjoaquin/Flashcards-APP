@@ -26,7 +26,7 @@ export const DecksScreen = () => {
                     <Text className="text-3xl font-bold">{error}</Text>
                     : <View className="flex flex-row flex-wrap justify-center">
                             {decks.map((deck: Deck, index: number)=>{
-                            return <DeckCard deck={deck} key={deck.did} index={index}/>
+                            return <DeckCard deck={deck} key={deck.id} index={index}/>
                             })}
                         </View>
                 }
