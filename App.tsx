@@ -27,7 +27,9 @@ import { Ionicons } from '@expo/vector-icons';
       <NavigationContainer>
         <Tab.Navigator>
         <Tab.Screen name='Home' component={ScreenContent} options={{
-          tabBarIcon: ({color, size, focused})=><Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>
+          tabBarIcon: ({color, size, focused})=><Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>,
+          tabBarActiveTintColor: '#8a8eca',
+          tabBarInactiveTintColor: 'gray',
         }}/>
         <Tab.Screen
           name="DecksStack"
@@ -38,7 +40,7 @@ import { Ionicons } from '@expo/vector-icons';
       
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#007bff',
+          tabBarActiveTintColor: '#8a8eca',
           tabBarInactiveTintColor: 'gray',
         }}
         />  
