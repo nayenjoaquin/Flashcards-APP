@@ -17,7 +17,7 @@ export const MainTabNavigator = () => {
         <Tab.Screen
             name="Decks"
             component={DecksScreen}
-            options={{ title: 'Decks',
+            options={{ title: 'Library',
                 headerTitle: 'My Decks',
             tabBarIcon: ({ color, size, focused }) => {
             const iconName = focused ? 'albums' : 'albums-outline';

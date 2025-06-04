@@ -17,4 +17,5 @@ import { NavigatorScreenParams } from "@react-navigation/native";
       cards: Card[],
       deckName: string
     };
+    new_deck: undefined;
   }

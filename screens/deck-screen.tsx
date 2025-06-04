@@ -33,21 +33,24 @@ export const DeckScreen = () => {
             }
           )
         }} />
-        <ScrollView className="w-full h-full">
-        <View className="w-full h-full flex items-center justify-center gap-2.5">
-          {cards.map((card) => (
-            <View key={card.id} className="p-2.5 w-full flex flex-col gap-0 border border-gray-200 bg-white rounded-lg">
-              <Text className="text-md font-semibold">{card.front}</Text>
-              <Text className="text-gray-600">{card.back}</Text>
-            </View>
-          ))}
-        </View>
-        </ScrollView>
-        {cards.length === 0 && (
-          <Text className="text-gray-500 text-center mt-5">
-            No flashcards available in this deck.
-          </Text>
-        )}
+        {cards.length === 0 ?
+          <View className=" flex grow items-center justify-center">
+            <Text className="text-gray-500 text-center flex">
+              No flashcards available in this deck.
+            </Text>
+          </View>
+        :
+          <ScrollView className=" w-full ">
+          <View className=" flex items-center justify-center gap-2.5">
+            {cards.map((card) => (
+              <View key={card.id} className="p-2.5 w-full flex flex-col gap-0 border border-gray-200 bg-white rounded-lg">
+                <Text className="text-md font-semibold">{card.front}</Text>
+                <Text className="text-gray-600">{card.back}</Text>
+              </View>
+            ))}
+          </View>
+          </ScrollView>
+        }
       </SafeAreaView>
     </View>
   );

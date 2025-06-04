@@ -8,6 +8,7 @@ import { DeckScreen } from 'screens/deck-screen';
 import { ReviewScreen } from 'screens/review';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { NewDeckScreen } from 'screens/new-deck-screen';
 
 
 
@@ -23,24 +24,28 @@ import { Ionicons } from '@expo/vector-icons';
         <stack.Navigator screenOptions={{
           headerTintColor: 'black'
         }}>
+
           <stack.Screen
           options={{
             headerShown: false
           }}
           name='Main' component={MainTabNavigator} />
-          <stack.Screen options={{
+
+          <stack.Screen options={({navigation}) =>({
             headerBackTitle: '',
-          }} name='Deck' component={DeckScreen}/>
+          })} name='Deck' component={DeckScreen}/>
+
           <stack.Screen options={({ navigation }) => ({
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => navigation.goBack()}
+
             >
               <Ionicons name="close" size={32} />
               {/* or use Feather: name="x" */}
             </TouchableOpacity>
           ),
-        })} name='Review' component={ReviewScreen}/>          
+        })} name='Review' component={ReviewScreen}/>  
         </stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>
