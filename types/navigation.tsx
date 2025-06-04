@@ -3,10 +3,18 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 
   export type DecksStackParamList = {
     Decks: undefined;
-    Deck: { deck: Deck };
   };
   
-  export type RootTabParamList = {
+  export type MainTabParamList = {
     Home: undefined;
-    DecksStack: NavigatorScreenParams<DecksStackParamList>;
+    Decks: undefined;
   };
+
+  export type RootStackParamList = {
+    Main: undefined;
+    Deck: { deck: Deck };
+    Review: {
+      cards: Card[],
+      deckName: string
+    };
+  }

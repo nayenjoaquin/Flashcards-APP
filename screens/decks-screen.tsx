@@ -2,8 +2,7 @@ import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DeckCard } from "components/deck-card";
 import useDecks from "hooks/decks";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Button, SafeAreaView, ScrollView, Text, View } from "react-native"
+import { ActivityIndicator, ScrollView, Text, View } from "react-native"
 import { DecksStackParamList} from "types/navigation";
 
 
@@ -13,7 +12,7 @@ type NavigationProp = NativeStackNavigationProp<DecksStackParamList, 'Decks'>;
 export const DecksScreen = () => {
     const navigation = useNavigation<NavigationProp>();
 
-    const {decks, loading, error, fetchDecks} = useDecks();
+    const {decks, loading, error} = useDecks();
 
 
     return(

@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Pressable, Text, View } from "react-native";
-import { DecksStackParamList } from "types/navigation";
+import { DecksStackParamList, RootStackParamList } from "types/navigation";
 
 interface DeckProps{
     deck: Deck;
@@ -9,7 +9,7 @@ interface DeckProps{
 }
 
 
-type NavigationProp = NativeStackNavigationProp<DecksStackParamList, 'Decks'>;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Deck'>;
 
 export const DeckCard = ({deck, index}: DeckProps) => {
 

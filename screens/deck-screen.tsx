@@ -1,17 +1,17 @@
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
-import { DecksStackParamList } from "types/navigation";
+import { RootStackParamList } from "types/navigation";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { FilledButton } from "components/filled-button";
 import useCards from "hooks/flashcards";
 
 export const DeckScreen = () => {
-  type DeckScreenRouteProp = RouteProp<DecksStackParamList, "Deck">;
-  type DeckScreenNavigationProp = StackNavigationProp<DecksStackParamList, "Deck">;
+  type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
+  type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
   const route = useRoute<DeckScreenRouteProp>();
-  const navigation = useNavigation<DeckScreenNavigationProp>();
+  const navigation = useNavigation<navigationProp>();
 
   const { deck } = route.params;
   const { cards } = useCards(deck.id);
@@ -25,7 +25,12 @@ export const DeckScreen = () => {
       <SafeAreaView className="w-full h-full flex items-center justify-center gap-5">
         <Text className="text-3xl font-bold">{deck.name}</Text>
         <FilledButton text="Review now" onPress={()=>{
-
+          navigation.push('Review',
+            {
+              cards: cards,
+              deckName: deck.name
+            }
+          )
         }} />
         <ScrollView className="w-full h-full">
         <View className="w-full h-full flex items-center justify-center gap-2.5">
