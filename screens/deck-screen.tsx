@@ -17,7 +17,8 @@ export const DeckScreen = () => {
   const { cards } = useCards(deck.id);
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: deck.name });
+    navigation.setOptions({ title: '',
+     });
   }, [navigation, deck.name]);
 
   return (

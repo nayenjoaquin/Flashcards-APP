@@ -27,10 +27,12 @@ export const ReviewScreen = () => {
     const {cards, deckName} = route.params
 
     useLayoutEffect(() => {
-        navigation.setOptions({ title: deckName });
+        navigation.setOptions({ title: deckName,
+            headerBackTitle: ''
+        });
       }, [navigation, deckName]);
     return(
-        <View className="w-full h-full p-10 flex">
+        <View className="w-full h-full p-5 flex">
                 <FlashCard card={cards[index]} next={nextCard}/>
         </View>
     )

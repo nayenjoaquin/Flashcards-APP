@@ -16,7 +16,16 @@ export const FlashCard = ({card, next}: props) =>{
   };
     return(
         <Pressable onPress={flipCard}>
-            <View className={`w-full aspect-[9/16] flex items-center rounded-2xl justify-center bg-${flipped ? 'indigo' : 'blue'}-500`}>
+            <View style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 2,
+                    elevation: 5,
+                }} className={`w-full  aspect-[9/16] flex items-center rounded-2xl justify-center bg-secondary-500`}>
                 {
                     flipped ?
                     <Text className="font-bold text-2xl text-white">
