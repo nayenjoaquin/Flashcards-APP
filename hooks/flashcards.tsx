@@ -8,7 +8,7 @@ const useCards = (did: string) => {
   const [error, setError] = useState<string | null>(null);
 
   // Fetch decks from API
-  const fetchDecks = async () => {
+  const fetchCards = async () => {
     setLoading(true);
     setError(null);
 
@@ -32,11 +32,41 @@ const useCards = (did: string) => {
       }
   };
 
+  const createCard = async(card: NewCard) => {
+    try{
+      const res = await fetch(API_BASE_URL+'/flashcards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        body: JSON.stringify({
+          ...card,
+          deck_id: did
+        })
+      });
+
+      if(!res.ok){
+        const text = await res.text()
+        throw new Error(`Failed to create card: ${text}`);
+      }
+
+      const newCard = await res.json() as Card;
+      setCards(prev=>([
+        newCard,
+        ...prev
+      ]))
+
+    } catch(err:any){
+      console.error(err);
+      
+    }
+  }
+
   useEffect(() => {
-    fetchDecks();
+    fetchCards();
   }, []); // Empty array means it only runs once, similar to componentDidMount
 
-  return { cards, loading, error, fetchDecks };
+  return { cards, loading, error, fetchCards, createCard };
 };
 
 export default useCards;

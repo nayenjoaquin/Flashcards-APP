@@ -4,6 +4,8 @@ type Card = {
     back: string;
 }
 
+type NewCard = Omit<Card, 'id'>
+
 type Deck={
     id: string;
     name: string;

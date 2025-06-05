@@ -13,6 +13,9 @@ import { NavigatorScreenParams } from "@react-navigation/native";
   export type RootStackParamList = {
     Main: undefined;
     Deck: { deck: Deck };
+    NewCard: {
+      onSubmit: (newCard: NewCard)=>void
+    }
     Review: {
       cards: Card[],
       deckName: string

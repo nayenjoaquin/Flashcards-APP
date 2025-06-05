@@ -14,7 +14,7 @@ export const DeckScreen = () => {
   const navigation = useNavigation<navigationProp>();
 
   const { deck } = route.params;
-  const { cards } = useCards(deck.id);
+  const { cards, createCard } = useCards(deck.id);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
@@ -41,10 +41,17 @@ export const DeckScreen = () => {
         </>
       : null}
         {cards.length === 0 ?
-          <View className=" flex grow items-center justify-center">
+          <View className=" w-full flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">
-              No flashcards available in this deck.
+              No cards in this deck.
             </Text>
+            <FilledButton text="Add cards" onPress={()=>{
+              navigation.push('NewCard', {
+                onSubmit: (newCard: NewCard)=>{
+                  createCard(newCard);
+                },
+              })
+            }}/>
           </View>
         :
           <ScrollView className=" w-full">

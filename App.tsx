@@ -5,10 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MainTabNavigator } from 'navigation/main-tab-navigator';
 import { DeckScreen } from 'screens/deck-screen';
-import { ReviewScreen } from 'screens/review';
+import { ReviewScreen } from 'screens/review-screen';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { NewDeckScreen } from 'screens/new-deck-screen';
+import { NewCardScreen } from 'screens/new-card-screen';
 
 
 
@@ -45,7 +45,8 @@ import { NewDeckScreen } from 'screens/new-deck-screen';
               {/* or use Feather: name="x" */}
             </TouchableOpacity>
           ),
-        })} name='Review' component={ReviewScreen}/>  
+        })} name='Review' component={ReviewScreen}/>
+        <stack.Screen name='NewCard' component={NewCardScreen}/>
         </stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>
