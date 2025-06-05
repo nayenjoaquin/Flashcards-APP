@@ -2,6 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Pressable, Text, View } from "react-native";
 import { DecksStackParamList, RootStackParamList } from "types/navigation";
+import newGradient from 'random-gradient';
+import { LinearGradient } from "expo-linear-gradient";
+import { gradient2Colors } from "utils/functions";
 
 interface DeckProps{
     deck: Deck;
@@ -14,6 +17,8 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Deck'>;
 export const DeckCard = ({deck, index}: DeckProps) => {
 
     const navigation = useNavigation<NavigationProp>();
+    const gradient = gradient2Colors(newGradient(deck.id)) as [string, string, ...string[]];
+    
 
     const goToDeck = () =>{
 
@@ -34,8 +39,18 @@ export const DeckCard = ({deck, index}: DeckProps) => {
                     shadowOpacity: 0.25,
                     shadowRadius: 2,
                     elevation: 5,
-                }} className="flex flex-col gap-2.5 p-2.5 bg-white rounded-md">
-                    <View className="aspect-[3/4] bg-neutral-300 w-full"></View>
+                }} className="flex flex-col gap-2.5 p-2.5 bg-white rounded-lg">
+                    <View className="aspect-[3/4] w-full">
+                        <LinearGradient
+                            colors={gradient}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                opacity: .8
+                                
+                            }}
+                        ></LinearGradient>
+                    </View>
                     <Text>{deck.name}</Text>
                 </View>
             </Pressable>

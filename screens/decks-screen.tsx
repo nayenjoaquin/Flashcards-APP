@@ -16,7 +16,7 @@ export const DecksScreen = () => {
     const navigation = useNavigation<NavigationProp>();
     const [newDeck, setNewDeck] = useState(false);
 
-    const {decks, loading, error} = useDecks();
+    const {decks, loading, error, createDeck} = useDecks();
     useLayoutEffect(()=>{
         navigation.setOptions({
             headerRight: ()=>(
@@ -42,7 +42,9 @@ export const DecksScreen = () => {
                     <NewDeckModal
                     onClose={()=>{
                         setNewDeck(false)
-                    }}/>
+                    }}
+                    onSubmit={createDeck}/>
+                    
                 </View>
                 :
                 null
@@ -54,7 +56,7 @@ export const DecksScreen = () => {
                 error ?
                 <Text className="text-3xl font-bold">{error}</Text>
                 : <ScrollView >
-                    <View className="flex flex-row flex-wrap justify-center">
+                    <View className="flex flex-row flex-wrap justify-start p-5">
                         {decks.map((deck: Deck, index: number)=>{
                         return <DeckCard deck={deck} key={deck.id} index={index}/>
                         })}

@@ -32,11 +32,42 @@ const useDecks = () => {
       }
   };
 
+  const createDeck = async (deck: NewDeck)=>{
+    try{
+      const res = await fetch(API_BASE_URL+'/decks', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'Application/json'
+        },
+        body: JSON.stringify({
+          ...deck,
+          user_id: '291db0cc-dafb-4b26-a2cc-bc6e3c054e70'
+        })
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed to create deck: ${errorText}`);
+      }
+
+      const newDeck = await res.json() as Deck
+      setDecks(prev=>([
+        newDeck,
+        ...prev
+      ]));
+    }catch(err: any){
+      console.error(err);
+      
+      
+    }
+}
+  
+
   useEffect(() => {
     fetchDecks();
   }, []); // Empty array means it only runs once, similar to componentDidMount
 
-  return { decks, loading, error, fetchDecks };
+  return { decks, loading, error, fetchDecks, createDeck};
 };
 
 export default useDecks;

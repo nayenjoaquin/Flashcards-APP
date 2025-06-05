@@ -11,3 +11,5 @@ type Deck={
     saved: number;
     visibility: string;
 }
+
+type NewDeck = Omit<Deck, 'id'|'saved'>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FilledButton } from "./filled-button";
@@ -7,10 +7,17 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 interface Props {
   onClose: () => void;
+  onSubmit:(deck: NewDeck)=> void;
 }
 
-export const NewDeckModal = ({ onClose }: Props) => {
+export const NewDeckModal = ({ onClose, onSubmit }: Props) => {
   const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current; // Start off-screen
+  const [newDeck, setNewDeck] = useState<NewDeck>({
+    name: '',
+    description:'This is a new custom deck',
+    visibility: 'private',
+
+  });
 
   useEffect(() => {
     Animated.timing(slideAnim, {
@@ -49,10 +56,19 @@ export const NewDeckModal = ({ onClose }: Props) => {
           Create your own deck and personalize the way you learn.
         </Text>
         <TextInput
+        onChangeText={(text)=>{
+          setNewDeck(prev=>({
+            ...prev,
+            name: text
+          }));
+        }}
           placeholder="Deck name"
           className="w-full text-xl bg-secondary-100 rounded-md p-2.5"
         />
-        <FilledButton text="Create new deck" onPress={() => {}} />
+        <FilledButton text="Create new deck" onPress={async () => {
+          await onSubmit(newDeck);
+          onClose();
+        }} />
       </View>
     </Animated.View>
   );
