@@ -1,6 +1,6 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { FilledButton } from "components/filled-button";
-import { LabeledTextField } from "components/filled-textfield";
+import { LabeledTextField } from "components/labeled-textfield";
 import { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";

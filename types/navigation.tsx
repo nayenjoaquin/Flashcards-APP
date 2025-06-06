@@ -12,7 +12,9 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 
   export type RootStackParamList = {
     Main: undefined;
-    Deck: { deck: Deck };
+    Deck: { deck: Deck,
+      onDelete: (id: string)=>Promise<void>
+     };
     NewCard: {
       onSubmit: (newCard: NewCard)=>void
     }

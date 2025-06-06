@@ -61,13 +61,27 @@ const useDecks = () => {
       
     }
 }
-  
 
-  useEffect(() => {
-    fetchDecks();
-  }, []); // Empty array means it only runs once, similar to componentDidMount
+const deleteDeck= async (id: string) => {
+  try{
+    const res = await fetch(API_BASE_URL+'/decks/'+id, {
+      method: 'DELETE',
+    })
+    
+    if(res.status!=204){
+      const errorText = await res.text();
+      throw new Error(`Failed to delete deck: ${errorText}`)
+    }
 
-  return { decks, loading, error, fetchDecks, createDeck};
+    setDecks(prev => prev.filter(deck => deck.id !== id));
+
+  }catch(err: any){
+    console.error(err);
+    
+  }
+}
+
+  return { decks, loading, error, fetchDecks, createDeck, deleteDeck};
 };
 
 export default useDecks;

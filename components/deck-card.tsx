@@ -9,27 +9,19 @@ import { gradient2Colors } from "utils/functions";
 interface DeckProps{
     deck: Deck;
     index: number;
+    onPressed: ()=>void;
 }
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Deck'>;
 
-export const DeckCard = ({deck, index}: DeckProps) => {
+export const DeckCard = ({deck, index, onPressed}: DeckProps) => {
 
     const navigation = useNavigation<NavigationProp>();
     const gradient = gradient2Colors(newGradient(deck.id)) as [string, string, ...string[]];
-    
-
-    const goToDeck = () =>{
-
-        navigation.navigate('Deck',{
-            deck: deck
-        })
-
-    }
     return(
         <View className={`w-1/2 ${index%2==0 ?'pr-2.5' : 'pl-2.5'} ${index>1 ? 'pt-5' :''}`}>
-            <Pressable onPress={goToDeck}>
+            <Pressable onPress={onPressed}>
                 <View style={{
                     shadowColor: "#000",
                     shadowOffset: {

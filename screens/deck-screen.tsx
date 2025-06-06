@@ -1,10 +1,12 @@
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { FilledButton } from "components/filled-button";
 import useCards from "hooks/flashcards";
+import { Ionicons } from "@expo/vector-icons";
+import useDecks from "hooks/decks";
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -13,8 +15,9 @@ export const DeckScreen = () => {
   const route = useRoute<DeckScreenRouteProp>();
   const navigation = useNavigation<navigationProp>();
 
-  const { deck } = route.params;
+  const { deck, onDelete } = route.params;
   const { cards, createCard } = useCards(deck.id);
+  const {deleteDeck} = useDecks();
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
@@ -67,6 +70,13 @@ export const DeckScreen = () => {
           </View>
           </ScrollView>
         }
+        <TouchableOpacity onPress={async ()=>{
+          await onDelete(deck.id);
+          navigation.goBack();
+        }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
+          <Ionicons color={'red'} name="trash-bin" size={24}/>
+          <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );

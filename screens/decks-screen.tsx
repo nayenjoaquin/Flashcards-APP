@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DeckCard } from "components/deck-card";
 import { NewDeckModal } from "components/new-deck-modal";
 import useDecks from "hooks/decks";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { DecksStackParamList, RootStackParamList} from "types/navigation";
 
@@ -16,7 +16,12 @@ export const DecksScreen = () => {
     const navigation = useNavigation<NavigationProp>();
     const [newDeck, setNewDeck] = useState(false);
 
-    const {decks, loading, error, createDeck} = useDecks();
+    const {decks, loading, error, createDeck, fetchDecks, deleteDeck} = useDecks();
+
+    useEffect(() => {
+    fetchDecks();
+  }, []);
+
     useLayoutEffect(()=>{
         navigation.setOptions({
             headerRight: ()=>(
@@ -58,7 +63,12 @@ export const DecksScreen = () => {
                 : <ScrollView >
                     <View className="flex flex-row flex-wrap justify-start p-5">
                         {decks.map((deck: Deck, index: number)=>{
-                        return <DeckCard deck={deck} key={deck.id} index={index}/>
+                        return <DeckCard onPressed={()=>{
+                            navigation.push('Deck',{
+                                onDelete: deleteDeck,
+                                deck: deck
+                            })
+                        }} deck={deck} key={deck.id} index={index}/>
                         })}
                     </View>
                 </ScrollView>
