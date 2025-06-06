@@ -57,7 +57,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <ScrollView className=" w-full">
+          <ScrollView className=" w-full flex">
             
           <View className=" flex items-center justify-center gap-2.5">
             <Text className="w-full font-semibold">Cards in deck ({cards.length})</Text>
@@ -67,16 +67,16 @@ export const DeckScreen = () => {
                 <Text className="text-gray-600">{card.back}</Text>
               </View>
             ))}
+            <TouchableOpacity onPress={async ()=>{
+              await onDelete(deck.id);
+              navigation.goBack();
+            }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
+              <Ionicons color={'red'} name="trash-bin" size={24}/>
+              <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
+            </TouchableOpacity>
           </View>
           </ScrollView>
         }
-        <TouchableOpacity onPress={async ()=>{
-          await onDelete(deck.id);
-          navigation.goBack();
-        }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
-          <Ionicons color={'red'} name="trash-bin" size={24}/>
-          <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );
