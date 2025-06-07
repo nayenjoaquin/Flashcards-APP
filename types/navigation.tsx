@@ -20,7 +20,8 @@ import { NavigatorScreenParams } from "@react-navigation/native";
     }
     Review: {
       cards: Card[],
-      deckName: string
+      deck: Deck,
+      progress: Record<string, progress>
     };
     new_deck: undefined;
   }

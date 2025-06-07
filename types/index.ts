@@ -15,3 +15,14 @@ type Deck={
 }
 
 type NewDeck = Omit<Deck, 'id'|'saved'>
+
+type progress = {
+    n: number;
+    i: number;
+    ef: number;
+    dueDate: Date;
+}
+
+type DeckProgress = {
+    
+}

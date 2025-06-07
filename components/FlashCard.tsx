@@ -1,21 +1,25 @@
-import { useRef, useState } from "react";
+import { Key, useId, useRef, useState } from "react";
 import { Animated, Pressable, SafeAreaView, Text, View } from "react-native"
 
 interface props {
     card: Card;
-    next: ()=>void;
+    onNext: ()=>void;
+    flipped: boolean;
+    onFlip: ()=> void
 }
 
-export const FlashCard = ({card, next}: props) =>{
-    const flipAnim = useRef(new Animated.Value(0)).current;
-  const [flipped, setFlipped] = useState(false);
-  const flipCard = () => {
-    setFlipped(prev=>!prev);
+export const FlashCard = ({card, onNext, flipped, onFlip}: props) =>{
 
-    if (flipped) next();
-  };
+    const handlePress=()=>{
+        if(flipped){
+            return
+        }
+        onFlip();
+
+    }
+    
     return(
-        <Pressable onPress={flipCard}>
+        <Pressable onPress={handlePress}>
             <View style={{
                     shadowColor: "#000",
                     shadowOffset: {
@@ -25,12 +29,18 @@ export const FlashCard = ({card, next}: props) =>{
                     shadowOpacity: 0.25,
                     shadowRadius: 2,
                     elevation: 5,
-                }} className={`w-full  aspect-[9/16] flex items-center rounded-2xl justify-center bg-secondary-500`}>
+                }} className={`w-full  aspect-[9/16] flex items-center rounded-2xl justify-center bg-secondary-500 `}>
                 {
                     flipped ?
-                    <Text className="font-bold text-2xl text-white">
-                        {card.back}
-                    </Text>
+                    <View className="flex items-center w-full p-5 gap-5">
+                        <Text className="font-bold text-2xl text-white">
+                        {card.front}
+                        </Text>
+                        <View className="w-full border border-secondary-400"/>
+                        <Text className="font-bold text-2xl text-white">
+                            {card.back}
+                        </Text>
+                    </View>
                     :
                     <Text className="font-bold text-2xl text-white">
                         {card.front}

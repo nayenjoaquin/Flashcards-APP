@@ -1,14 +1,19 @@
-import { Button, Pressable, Text } from "react-native";
+import { Button, Pressable, Text, TouchableOpacity } from "react-native";
 
 interface props {
     text: string;
     onPress: () => void;
+    color?: string
 }
 
-export const FilledButton = ({ text, onPress }: props) => {
+export const FilledButton = ({ text, onPress, color }: props) => {
     return (
-        <Pressable onPress={onPress} className="bg-primary-500 flex flex-row justify-center rounded-xl p-5 px-10 active:bg-primary-600">
+        <TouchableOpacity
+        style={{
+            backgroundColor: color ?? '#ff9500'
+        }}
+         onPress={onPress} className='flex flex-row justify-center rounded-xl p-5 px-10'>
             <Text className="text-white font-bold">{text}</Text>
-        </Pressable>
+        </TouchableOpacity>
     );
 }

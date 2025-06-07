@@ -1,5 +1,5 @@
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import type { StackNavigationProp } from "@react-navigation/stack";
@@ -8,6 +8,7 @@ import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import useDecks from "hooks/decks";
 import { FloatingIconButton } from "components/floating-icon-button";
+import { getDeckProgress } from "utils/functions";
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -19,11 +20,28 @@ export const DeckScreen = () => {
   const { deck, onDelete } = route.params;
   const { cards, createCard } = useCards(deck.id);
   const {deleteDeck} = useDecks();
+  const DEFAULT_DECK_PROGRESS = cards.reduce((acc, card)=>{
+          acc[card.id] = {
+              n: 0,
+              i: 0,
+              ef: 2.5,
+              dueDate: new Date()
+          }
+          return acc;
+      }, {} as Record<string, progress>);
+      let deckProgress = DEFAULT_DECK_PROGRESS;
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
      });
   }, [navigation, deck.name]);
+
+  useEffect(()=>{
+        getDeckProgress(deck.id)
+        .then(progress=>{
+            deckProgress = progress;
+        })
+    },[]);
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -45,7 +63,8 @@ export const DeckScreen = () => {
               navigation.push('Review',
                 {
                   cards: cards,
-                  deckName: deck.name
+                  deck: deck,
+                  progress: DEFAULT_DECK_PROGRESS
                 }
               )
             }} />
@@ -64,7 +83,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <ScrollView className=" w-full flex">
+          <ScrollView className=" w-full">
             
           <View className=" flex items-center justify-center gap-2.5">
             <Text className="w-full font-semibold">Cards in deck ({cards.length})</Text>
