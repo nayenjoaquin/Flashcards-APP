@@ -7,6 +7,7 @@ import { FilledButton } from "components/filled-button";
 import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import useDecks from "hooks/decks";
+import { FloatingIconButton } from "components/floating-icon-button";
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -27,6 +28,14 @@ export const DeckScreen = () => {
   return (
     <View className="h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex items-center justify-center gap-2.5">
+        <FloatingIconButton
+        icon="add"
+        onPress={()=>{
+          navigation.push('NewCard',{
+            onSubmit: createCard
+          })
+        }}
+        color="#6260a2"/>
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
         {cards.length>0 ?
         <>
@@ -50,9 +59,7 @@ export const DeckScreen = () => {
             </Text>
             <FilledButton text="Add cards" onPress={()=>{
               navigation.push('NewCard', {
-                onSubmit: (newCard: NewCard)=>{
-                  createCard(newCard);
-                },
+                onSubmit: createCard,
               })
             }}/>
           </View>

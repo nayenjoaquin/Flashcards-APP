@@ -16,7 +16,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
       onDelete: (id: string)=>Promise<void>
      };
     NewCard: {
-      onSubmit: (newCard: NewCard)=>void
+      onSubmit: (newCard: NewCard)=>Promise<void>
     }
     Review: {
       cards: Card[],
