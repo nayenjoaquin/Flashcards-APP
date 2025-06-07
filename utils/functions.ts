@@ -62,14 +62,30 @@ export const saveDeckProgress = async (progress: Record<string,progress>, deck_i
 export const getDeckProgress = async (deck_id: string) => {
     try{
         const progress = await AsyncStorage.getItem(deck_id);
+        
         if (progress==null){
             throw new Error('Progress not found');
         }
         console.log('Progress retrieved succesfully');
         
-        return await JSON.parse(progress);
+        return await JSON.parse(progress) as Record<string, progress>;
     }catch(err:any){
         console.error(err);
+        return null
         
     }
+}
+
+export const DEFAULT_PROGRESS =(cards: Card[])=>{
+    const progress = cards.reduce((acc, card)=>{
+        acc[card.id] = {
+            n: 0,
+            i: 0,
+            ef: 2.5,
+            dueDate: new Date()
+        }
+        return acc;
+    }, {} as Record<string, progress>);
+    return progress
+    
 }

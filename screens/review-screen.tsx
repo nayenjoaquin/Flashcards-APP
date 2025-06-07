@@ -5,7 +5,7 @@ import { FlashCard } from "components/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
-import { getDeckProgress, saveDeckProgress, updateCard } from "utils/functions";
+import { DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "utils/functions";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -18,14 +18,17 @@ export const ReviewScreen = () => {
 
     const {cards, deck, progress} = route.params
 
-    const [deckProgress, setDeckProgress] = useState(progress)
+    const [deckProgress, setDeckProgress] = useState(progress??DEFAULT_PROGRESS(cards))
     const [flipped, setFlipped] = useState(false);
 
     const nextCard = async() =>{
         if(index<cards.length-1){
-            setIndex(prev=>prev+1);
+            setIndex(prev=>{
+                return prev+1}
+            );
         }else{
-            await saveDeckProgress(progress, deck.id)
+            await saveDeckProgress(deckProgress, deck.id);
+            navigation.goBack();
         }
         setFlipped(false);
     }
@@ -49,7 +52,14 @@ export const ReviewScreen = () => {
         }) 
         nextCard();
 
-      }
+    }
+
+    useEffect(()=>{
+        if(deckProgress[cards[index].id].dueDate>new Date()){
+            nextCard();
+        }
+    }, [index])
+
     return(
         <View className="w-full h-full p-5 flex gap-5">
                 <FlashCard card={cards[index]} flipped={flipped} onFlip={()=>setFlipped(true)} onNext={nextCard} key={cards[index].id}/>
