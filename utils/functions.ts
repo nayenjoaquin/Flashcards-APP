@@ -92,6 +92,17 @@ export const getLocal = async (name: string) => {
     }
 }
 
+export const removeLocaL = async (name: string)=>{
+    try{
+        await AsyncStorage.removeItem(name, ()=>{
+            console.log('Item removed succesfully');
+        });
+    } catch(err){
+        console.error(err);
+        
+    }
+}
+
 export const getDeckProgress = async (deck_id: string) => {
     try{
         const progress = await AsyncStorage.getItem(deck_id);

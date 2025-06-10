@@ -1,10 +1,11 @@
 import { API_BASE_URL } from "const/strings";
 import { useState } from "react"
+import { AuthStore } from "utils/atores/auth";
 import { getLocal, saveLocal } from "utils/functions";
 
 export const useAuth = () => {
 
-    const[user, setUser] = useState<User|null>();
+    const auth = AuthStore();
 
     const signIn = async (email: string, password: string, remember: boolean = false) => {
         
@@ -26,7 +27,7 @@ export const useAuth = () => {
             }
 
             const body = await res.json();
-            setUser(body.data);
+            auth.setUser(body.data);
             if(remember){
                 saveLocal('JWT', body.token);
             }
@@ -61,7 +62,7 @@ export const useAuth = () => {
             const body = await res.json();
             
 
-            setUser(body.data);
+            auth.setUser(body.data);
             saveLocal('JWT', body.token);
             return body.data
         }catch(err){
@@ -71,5 +72,5 @@ export const useAuth = () => {
         }
     }
 
-    return {user, signIn, detectUser}
+    return {signIn, detectUser}
 }

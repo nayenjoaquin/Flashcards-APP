@@ -4,9 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenContent } from "components/ScreenContent";
 import { useAuth } from "hooks/auth";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
+import { AuthStore } from "utils/atores/auth";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -15,6 +16,7 @@ export const MainTabNavigator = () => {
     const Tab = createBottomTabNavigator<MainTabParamList>();
     const navigation = useNavigation<navProp>();
     const {detectUser} = useAuth();
+    const auth = AuthStore();
 
 
     useEffect(()=>{
@@ -29,7 +31,9 @@ export const MainTabNavigator = () => {
     return(
         <Tab.Navigator>
         <Tab.Screen name='Home' component={ScreenContent} options={{
-            tabBarIcon: ({color, size, focused})=><Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>,
+            tabBarIcon: ({color, size, focused})=>(
+            <Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>
+            ),
             tabBarActiveTintColor: '#8a8eca',
             tabBarInactiveTintColor: 'gray',
         }}/>

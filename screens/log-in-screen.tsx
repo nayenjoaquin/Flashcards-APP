@@ -19,7 +19,8 @@ export const LogInScreen = () => {
 
     const navigation = useNavigation<navProps>();
 
-    const {user, signIn} = useAuth();
+    const {signIn} = useAuth();
+    
     return(
         <View className="p-5">
             <SafeAreaView className=" flex w-full h-full items-center justify-center">

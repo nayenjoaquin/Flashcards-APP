@@ -5,6 +5,7 @@ import { FilledButton } from './filled-button';
 import { RootStackParamList } from 'types/navigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { AuthStore } from 'utils/atores/auth';
 
 type navigationProps = NativeStackNavigationProp<RootStackParamList, 'Main'>
 
@@ -17,16 +18,12 @@ type ScreenContentProps = {
 export const ScreenContent = () => {
 
   const navigation = useNavigation<navigationProps>();
+  const auth = AuthStore();
+
+
   return (
     <View className={styles.container}>
-      <Text className={styles.title}>Home Screen</Text>
-      <View className={styles.separator} />
-      <EditScreenInfo path={'App.tsx'} />
-      <FilledButton
-      text='Go to login'
-      onPress={()=>{
-        navigation.push('Login');
-      }}/>
+      <Text className=" text-3xl font-semibold">Welcome back {auth.user?.username}!</Text>
     </View>
   );
 };
