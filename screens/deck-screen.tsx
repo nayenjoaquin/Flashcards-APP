@@ -8,7 +8,7 @@ import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import useDecks from "hooks/decks";
 import { FloatingIconButton } from "components/floating-icon-button";
-import { DEFAULT_PROGRESS, getDeckProgress } from "utils/functions";
+import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "utils/functions";
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -44,24 +44,27 @@ export const DeckScreen = () => {
           })
         }}
         color="#6260a2"/>
-        <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
-        {cards.length>0 ?
-        <>
-        <Text className="text-gray-500 w-full ">{deck.description}</Text>
-          <View className="py-5 w-full">
-            <FilledButton text="Review now" onPress={()=>{
-              
-              navigation.push('Review',
-                {
-                  cards: cards,
-                  deck: deck,
-                  progress: progress
-                }
-              )
-            }} />
-          </View>
-        </>
-      : null}
+        <View className="flex">
+          <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
+          {cards.length>0 ?
+          <>
+          <Text className="text-gray-500 w-full ">{deck.description}</Text>
+          <Text className="text-2xl font-semibold w-full text-center">{cardsForReview(progress??DEFAULT_PROGRESS(cards))} cards for review</Text>
+            <View className="py-5 w-full">
+              <FilledButton text="Review now" onPress={()=>{
+                
+                navigation.push('Review',
+                  {
+                    cards: cards,
+                    deck: deck,
+                    progress: progress
+                  }
+                )
+              }} />
+            </View>  
+          </>
+        : null}
+        </View>
         {cards.length === 0 ?
           <View className=" w-full flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">
@@ -84,16 +87,16 @@ export const DeckScreen = () => {
                 <Text className="text-gray-600">{card.back}</Text>
               </View>
             ))}
-            <TouchableOpacity onPress={async ()=>{
-              await onDelete(deck.id);
-              navigation.goBack();
-            }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
-              <Ionicons color={'red'} name="trash-bin" size={24}/>
-              <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
-            </TouchableOpacity>
           </View>
           </ScrollView>
         }
+        <TouchableOpacity onPress={async ()=>{
+          await onDelete(deck.id);
+          navigation.goBack();
+        }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
+          <Ionicons color={'red'} name="trash-bin" size={24}/>
+          <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </View>
   );

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RectButtonWithRefProps } from "react-native-gesture-handler/lib/typescript/components/GestureButtonsProps";
 
 export const gradient2Colors =(gradient: string)=>{
     let colors = gradient.split(',').slice(-2);
@@ -88,4 +89,16 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
     }, {} as Record<string, progress>);
     return progress
     
+}
+
+export const cardsForReview= (progress: Record<string, progress>)=>{
+
+    const keys = Object.keys(progress) as (keyof typeof progress)[];
+    const now = new Date();
+
+    const pastDueCount = keys
+    .map(key => progress[key].dueDate)
+    .filter(dueDate => dueDate <= now).length;
+
+    return pastDueCount;
 }

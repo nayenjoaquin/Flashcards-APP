@@ -5,7 +5,7 @@ import { FlashCard } from "components/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
-import { DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "utils/functions";
+import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "utils/functions";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -18,7 +18,7 @@ export const ReviewScreen = () => {
 
     const {cards, deck, progress} = route.params
 
-    const [deckProgress, setDeckProgress] = useState(progress??DEFAULT_PROGRESS(cards))
+    const [session, setSession] = useState(progress??DEFAULT_PROGRESS(cards))
     const [flipped, setFlipped] = useState(false);
 
     const nextCard = async() =>{
@@ -27,7 +27,7 @@ export const ReviewScreen = () => {
                 return prev+1}
             );
         }else{
-            await saveDeckProgress(deckProgress, deck.id);
+            await saveDeckProgress(session, deck.id);
             navigation.goBack();
         }
         setFlipped(false);
@@ -41,10 +41,10 @@ export const ReviewScreen = () => {
 
       const updateProgress = (q:number)=>{
         const update =updateCard({
-            ...deckProgress[cards[index].id],
+            ...session[cards[index].id],
             q: q
         })
-        setDeckProgress(prev=>{
+        setSession(prev=>{
             prev[cards[index].id]=update;
             console.log(prev[cards[index].id]);
             
@@ -55,10 +55,19 @@ export const ReviewScreen = () => {
     }
 
     useEffect(()=>{
-        if(deckProgress[cards[index].id].dueDate>new Date()){
+        if(session[cards[index].id].dueDate>new Date()){
             nextCard();
         }
     }, [index])
+    useEffect(()=>{
+        if(cardsForReview(session)==0){
+            console.error('NO CARDS FOR REVIEW');
+            
+            saveDeckProgress(session, deck.id).then(()=>{
+                navigation.goBack();
+            })
+        }
+    },[session])
 
     return(
         <View className="w-full h-full p-5 flex gap-5">
