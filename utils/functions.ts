@@ -60,6 +60,38 @@ export const saveDeckProgress = async (progress: Record<string,progress>, deck_i
     }
 }
 
+export const saveLocal = async (name: string, item: Object) => {
+    
+    try{
+        await AsyncStorage.setItem(name, JSON.stringify(item));
+         if (item==null){
+            throw new Error('Failed to save Item');
+        }
+        console.log('Item saved succesfully');
+
+    }catch(err){
+        console.error(err);
+        return null   
+    }
+}
+
+export const getLocal = async (name: string) => {
+    try{
+        const item = await AsyncStorage.getItem(name);
+        
+        if (item==null){
+            throw new Error('Item not found');
+        }
+        console.log('Item retrieved succesfully');
+        
+        return await JSON.parse(item);
+    }catch(err:any){
+        console.error(err);
+        return null
+        
+    }
+}
+
 export const getDeckProgress = async (deck_id: string) => {
     try{
         const progress = await AsyncStorage.getItem(deck_id);

@@ -9,10 +9,7 @@ import { ReviewScreen } from 'screens/review-screen';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NewCardScreen } from 'screens/new-card-screen';
-
-
-
-
+import { LogInScreen } from 'screens/log-in-screen';
 
   export default function App() {
 
@@ -47,6 +44,7 @@ import { NewCardScreen } from 'screens/new-card-screen';
           ),
         })} name='Review' component={ReviewScreen}/>
         <stack.Screen name='NewCard' component={NewCardScreen}/>
+        <stack.Screen name='Login' component={LogInScreen}/>
         </stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

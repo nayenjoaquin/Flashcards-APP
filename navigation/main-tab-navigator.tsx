@@ -1,12 +1,31 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenContent } from "components/ScreenContent";
+import { useAuth } from "hooks/auth";
+import { useEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
-import { MainTabParamList } from "types/navigation";
+import { MainTabParamList, RootStackParamList } from "types/navigation";
+
+type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
 export const MainTabNavigator = () => {
 
     const Tab = createBottomTabNavigator<MainTabParamList>();
+    const navigation = useNavigation<navProp>();
+    const {detectUser} = useAuth();
+
+
+    useEffect(()=>{
+        detectUser().then(user=>{
+            if(!user){
+                navigation.push('Login');
+            }
+            
+        })
+    }, [])
+
     return(
         <Tab.Navigator>
         <Tab.Screen name='Home' component={ScreenContent} options={{

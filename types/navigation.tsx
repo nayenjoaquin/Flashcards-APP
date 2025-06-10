@@ -23,5 +23,6 @@ import { NavigatorScreenParams } from "@react-navigation/native";
       deck: Deck,
       progress: Record<string, progress>|null
     };
+    Login: undefined;
     new_deck: undefined;
   }

@@ -44,12 +44,13 @@ export const DeckScreen = () => {
           })
         }}
         color="#6260a2"/>
-        <View className="flex">
+        <View className="flex items-start w-full bg-white p-5 rounded-xl">
           <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
           {cards.length>0 ?
           <>
           <Text className="text-gray-500 w-full ">{deck.description}</Text>
-          <Text className="text-2xl font-semibold w-full text-center">{cardsForReview(progress??DEFAULT_PROGRESS(cards))} cards for review</Text>
+          <Text className="text-5xl font-semibold w-full text-center mt-5">{cardsForReview(progress??DEFAULT_PROGRESS(cards))}</Text>
+          <Text className="text-md font-semibold w-full text-center">cards for review</Text>
             <View className="py-5 w-full">
               <FilledButton text="Review now" onPress={()=>{
                 
