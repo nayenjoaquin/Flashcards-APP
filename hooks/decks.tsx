@@ -1,11 +1,13 @@
 // hooks/useDecks.ts
 import { API_BASE_URL } from 'const/strings';
 import { useState, useEffect } from 'react';
+import { AuthStore } from 'utils/atores/auth';
 
 const useDecks = () => {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const {user} = AuthStore();
 
   // Fetch decks from API
   const fetchDecks = async () => {
@@ -41,7 +43,7 @@ const useDecks = () => {
         },
         body: JSON.stringify({
           ...deck,
-          user_id: '717a2b95-5f8a-4a68-897b-eabb3e31f02a'
+          user_id: user?.password
         })
       })
 
