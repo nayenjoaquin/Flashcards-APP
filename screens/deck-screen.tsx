@@ -8,7 +8,9 @@ import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import useDecks from "hooks/decks";
 import { FloatingIconButton } from "components/floating-icon-button";
-import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "utils/functions";
+import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, countNewCards, countReviewedCards, countMasteredCards } from "utils/functions";
+import { jsiConfigureProps } from "react-native-reanimated/lib/typescript/core";
+import { DeckProgressBoard } from "components/deck-progress-board";
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -44,13 +46,13 @@ export const DeckScreen = () => {
           })
         }}
         color="#6260a2"/>
-        <View className="flex items-start w-full bg-white p-5 rounded-xl">
-          <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
-          {cards.length>0 ?
-          <>
+        <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
           <Text className="text-gray-500 w-full ">{deck.description}</Text>
-          <Text className="text-5xl font-semibold w-full text-center mt-5">{cardsForReview(progress??DEFAULT_PROGRESS(cards))}</Text>
+        {cards.length>0 ?
+        <View className="flex items-start w-full bg-white p-5 py-10 rounded-xl">
+          <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(progress??DEFAULT_PROGRESS(cards))}</Text>
           <Text className="text-md font-semibold w-full text-center">cards for review</Text>
+          <DeckProgressBoard progress={progress??DEFAULT_PROGRESS(cards)}/>
             <View className="py-5 w-full">
               <FilledButton text="Review now" onPress={()=>{
                 
@@ -62,10 +64,9 @@ export const DeckScreen = () => {
                   }
                 )
               }} />
-            </View>  
-          </>
-        : null}
+            </View>
         </View>
+        :null}
         {cards.length === 0 ?
           <View className=" w-full flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">

@@ -44,6 +44,8 @@ export const ReviewScreen = () => {
             ...session[cards[index].id],
             q: q
         })
+        console.log(update);
+        
         setSession(prev=>{
             prev[cards[index].id]=update;
             console.log(prev[cards[index].id]);
@@ -59,15 +61,15 @@ export const ReviewScreen = () => {
             nextCard();
         }
     }, [index])
-    useEffect(()=>{
-        if(cardsForReview(session)==0){
-            console.error('NO CARDS FOR REVIEW');
+    // useEffect(()=>{
+    //     if(cardsForReview(session)==0){
+    //         console.error('NO CARDS FOR REVIEW');
             
-            saveDeckProgress(session, deck.id).then(()=>{
-                navigation.goBack();
-            })
-        }
-    },[session])
+    //         saveDeckProgress(session, deck.id).then(()=>{
+    //             navigation.goBack();
+    //         })
+    //     }
+    // },[session])
 
     return(
         <View className="w-full h-full p-5 flex gap-5">

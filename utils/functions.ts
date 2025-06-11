@@ -143,5 +143,23 @@ export const cardsForReview= (progress: Record<string, progress>)=>{
     .map(key => progress[key].dueDate)
     .filter(dueDate => dueDate <= now).length;
 
-    return pastDueCount;
+    return pastDueCount
+}
+
+
+export const countNewCards = (progress: Record<string, progress>) => {
+    const keys = Object.keys(progress);
+
+    return keys.map(key=>progress[key]).filter(i=>i.i==0).length
+}
+export const countReviewedCards = (progress: Record<string, progress>) => {
+    const keys = Object.keys(progress);
+
+    return keys.map(key=>progress[key]).filter(i=>i.i>0 && i.n<5).length
+}
+
+export const countMasteredCards = (progress: Record<string, progress>) => {
+    const keys = Object.keys(progress);
+
+    return keys.map(key=>progress[key]).filter(i=>i.n>=5).length
 }
