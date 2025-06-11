@@ -21,6 +21,7 @@ export const DeckProgressBoard = ({progress}: props) => {
                     <Ionicons name="albums" color='#a1a8d8' size={16}/>
                 </View>
             </View>
+            <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
                 {countReviewedCards(progress)}
@@ -32,6 +33,7 @@ export const DeckProgressBoard = ({progress}: props) => {
                     <Ionicons name="checkmark-circle" color='#109010' size={16}/>
                 </View>
             </View>
+            <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
                 {countMasteredCards(progress)}
@@ -40,7 +42,7 @@ export const DeckProgressBoard = ({progress}: props) => {
                     <Text className="text-sm font-semibold flex">
                         Mastered
                     </Text>
-                    <Ionicons name="checkmark-circle" color='blue' size={16}/>
+                    <Ionicons name="checkmark-done-circle" color='blue' size={16}/>
                 </View>
             </View>
             </View>

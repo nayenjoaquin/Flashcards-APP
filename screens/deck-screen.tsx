@@ -1,35 +1,22 @@
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useLayoutEffect } from "react";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import type { StackNavigationProp } from "@react-navigation/stack";
-import { FilledButton } from "components/filled-button";
+import { FilledButton } from "components/buttons/filled-button";
 import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
-import { FloatingIconButton } from "components/floating-icon-button";
+import { FloatingIconButton } from "components/buttons/floating-icon-button";
 import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "shared/utils";
-import { DeckProgressBoard } from "components/deck-progress-board";
-import { create } from "zustand";
+import { DeckProgressBoard } from "components/layout/deck-progress-board";
+import { progressStore } from "shared/stores/progress";
+import { DeckCardsList } from "components/layout/deck-cards-list";
 
-interface storeProps{
-  progress: Record<string, progress> | undefined;
-  setProgress: (progress: Record<string, progress> | null)=>void
-}
-
-export const progressStore = create<storeProps>(set=>({
-  progress : undefined,
-  setProgress: (progress)=>set(prev=>{
-    if(!progress){
-      return prev
-    }else{
-      return {progress};
-    }
-  })
-}));
+type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
+  type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
 export const DeckScreen = () => {
-  type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
-  type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
+  
 
   const route = useRoute<DeckScreenRouteProp>();
   const navigation = useNavigation<navigationProp>();
@@ -94,18 +81,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <ScrollView className=" w-full">
-            
-          <View className=" flex items-center justify-center gap-2.5">
-            <Text className="w-full font-semibold">Cards in deck ({cards.length})</Text>
-            {cards.map((card) => (
-              <View key={card.id} className="p-2.5 w-full flex flex-col gap-0 border border-gray-200 bg-white rounded-lg">
-                <Text className="text-md font-semibold">{card.front}</Text>
-                <Text className="text-gray-600">{card.back}</Text>
-              </View>
-            ))}
-          </View>
-          </ScrollView>
+          <DeckCardsList cards={cards}/>
         }
         <TouchableOpacity onPress={async ()=>{
           await onDelete(deck.id);

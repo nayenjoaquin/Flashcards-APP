@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "const/strings";
+import { API_BASE_URL } from "shared/const/strings";
 import { useState } from "react"
 import { AuthStore } from "shared/stores/auth";
 import { getLocal, saveLocal } from "shared/utils";

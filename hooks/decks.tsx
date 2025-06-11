@@ -1,5 +1,5 @@
 // hooks/useDecks.ts
-import { API_BASE_URL } from 'const/strings';
+import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
 import { AuthStore } from 'shared/stores/auth';
 

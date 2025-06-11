@@ -1,7 +1,4 @@
 import { Text, View } from 'react-native';
-
-import { EditScreenInfo } from './EditScreenInfo';
-import { FilledButton } from './filled-button';
 import { RootStackParamList } from 'types/navigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';

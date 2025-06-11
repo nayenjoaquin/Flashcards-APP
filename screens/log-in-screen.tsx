@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FilledButton } from "components/filled-button";
-import { LabeledCheckBox } from "components/labeled-checkbox";
-import { LabeledTextField } from "components/labeled-textfield";
+import { FilledButton } from "components/buttons/filled-button";
+import { LabeledCheckBox } from "components/inputs/labeled-checkbox";
+import { LabeledTextField } from "components/inputs/labeled-textfield";
 import { useAuth } from "hooks/auth";
 import { useState } from "react"
 import { SafeAreaView, Text, View } from "react-native"

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenContent } from "components/ScreenContent";
 import { useAuth } from "hooks/auth";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
 import { AuthStore } from "shared/stores/auth";

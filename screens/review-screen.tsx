@@ -1,12 +1,11 @@
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FilledButton } from "components/filled-button";
-import { FlashCard } from "components/FlashCard";
+import { FilledButton } from "components/buttons/filled-button";
+import { FlashCard } from "components/layout/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { View } from "react-native";
 import { RootStackParamList } from "types/navigation";
-import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "shared/utils";
-import { progressStore } from "./deck-screen";
+import { cardsForReview, saveDeckProgress, updateCard } from "shared/utils";
+import { progressStore } from "shared/stores/progress";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -37,6 +36,8 @@ export const ReviewScreen = () => {
         setFlipped(false);
     }
 
+
+
     useLayoutEffect(() => {
         navigation.setOptions({ title: deck.name,
             headerBackTitle: ''
@@ -60,21 +61,15 @@ export const ReviewScreen = () => {
 
     }
 
-    // useEffect(()=>{
-    //     if(session[cards[index].id].dueDate>new Date()){
-    //         nextCard();
-    //     }
-    // }, [index])
-
-    // useEffect(()=>{
-    //     if(cardsForReview(session)==0){
-    //         console.error('NO CARDS FOR REVIEW');
+    useEffect(()=>{
+        if(cardsForReview(session)==0){
+            console.error('NO CARDS FOR REVIEW');
             
-    //         saveDeckProgress(session, deck.id).then(()=>{
-    //             navigation.goBack();
-    //         })
-    //     }
-    // },[session])
+            saveDeckProgress(session, deck.id).then(()=>{
+                navigation.goBack();
+            })
+        }
+    },[session])
 
     return(
         <View className="w-full h-full p-5 flex gap-5">

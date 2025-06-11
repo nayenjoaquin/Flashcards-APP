@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FilledButton } from "./filled-button";
+import { FilledButton } from "../buttons/filled-button";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
