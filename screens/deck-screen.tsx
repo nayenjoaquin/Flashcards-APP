@@ -6,11 +6,26 @@ import type { StackNavigationProp } from "@react-navigation/stack";
 import { FilledButton } from "components/filled-button";
 import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
-import useDecks from "hooks/decks";
 import { FloatingIconButton } from "components/floating-icon-button";
-import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, countNewCards, countReviewedCards, countMasteredCards } from "utils/functions";
-import { jsiConfigureProps } from "react-native-reanimated/lib/typescript/core";
+import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "shared/utils";
 import { DeckProgressBoard } from "components/deck-progress-board";
+import { create } from "zustand";
+
+interface storeProps{
+  progress: Record<string, progress> | undefined;
+  setProgress: (progress: Record<string, progress> | null)=>void
+}
+
+export const progressStore = create<storeProps>(set=>({
+  progress : undefined,
+  setProgress: (progress)=>set(prev=>{
+    if(!progress){
+      return prev
+    }else{
+      return {progress};
+    }
+  })
+}));
 
 export const DeckScreen = () => {
   type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -21,7 +36,7 @@ export const DeckScreen = () => {
 
   const { deck, onDelete } = route.params;
   const { cards, createCard } = useCards(deck.id);
-  const [progress, setProgress] = useState<Record<string, progress>|null>(null);
+  const {progress, setProgress} = progressStore();
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
@@ -31,7 +46,7 @@ export const DeckScreen = () => {
   useEffect(()=>{
         getDeckProgress(deck.id)
         .then(progress=>{
-          setProgress(prev=>progress??prev)
+          setProgress(progress)
         })
     },[]);
 
@@ -60,7 +75,7 @@ export const DeckScreen = () => {
                   {
                     cards: cards,
                     deck: deck,
-                    progress: progress
+                    progress: progress?? DEFAULT_PROGRESS(cards)
                   }
                 )
               }} />

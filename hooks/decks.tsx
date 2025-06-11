@@ -1,7 +1,7 @@
 // hooks/useDecks.ts
 import { API_BASE_URL } from 'const/strings';
 import { useState, useEffect } from 'react';
-import { AuthStore } from 'utils/atores/auth';
+import { AuthStore } from 'shared/stores/auth';
 
 const useDecks = () => {
   const [decks, setDecks] = useState<Deck[]>([]);

@@ -7,7 +7,7 @@ import { useAuth } from "hooks/auth";
 import { useEffect, useLayoutEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
-import { AuthStore } from "utils/atores/auth";
+import { AuthStore } from "shared/stores/auth";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 

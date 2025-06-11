@@ -1,4 +1,4 @@
-import { removeLocaL } from "utils/functions";
+import { removeLocaL } from "shared/utils";
 import { create } from "zustand";
 
 type AuthState = {

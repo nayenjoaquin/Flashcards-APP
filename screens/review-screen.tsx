@@ -5,7 +5,8 @@ import { FlashCard } from "components/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
-import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "utils/functions";
+import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress, saveDeckProgress, updateCard } from "shared/utils";
+import { progressStore } from "./deck-screen";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -18,7 +19,9 @@ export const ReviewScreen = () => {
 
     const {cards, deck, progress} = route.params
 
-    const [session, setSession] = useState(progress??DEFAULT_PROGRESS(cards))
+    const {setProgress} = progressStore();
+
+    const [session, setSession] = useState(progress)
     const [flipped, setFlipped] = useState(false);
 
     const nextCard = async() =>{
@@ -28,6 +31,7 @@ export const ReviewScreen = () => {
             );
         }else{
             await saveDeckProgress(session, deck.id);
+            setProgress(session)
             navigation.goBack();
         }
         setFlipped(false);
@@ -56,11 +60,12 @@ export const ReviewScreen = () => {
 
     }
 
-    useEffect(()=>{
-        if(session[cards[index].id].dueDate>new Date()){
-            nextCard();
-        }
-    }, [index])
+    // useEffect(()=>{
+    //     if(session[cards[index].id].dueDate>new Date()){
+    //         nextCard();
+    //     }
+    // }, [index])
+
     // useEffect(()=>{
     //     if(cardsForReview(session)==0){
     //         console.error('NO CARDS FOR REVIEW');

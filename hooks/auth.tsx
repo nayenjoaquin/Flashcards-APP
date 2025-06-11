@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "const/strings";
 import { useState } from "react"
-import { AuthStore } from "utils/atores/auth";
-import { getLocal, saveLocal } from "utils/functions";
+import { AuthStore } from "shared/stores/auth";
+import { getLocal, saveLocal } from "shared/utils";
 
 export const useAuth = () => {
 

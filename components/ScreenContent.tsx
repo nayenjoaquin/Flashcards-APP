@@ -5,7 +5,7 @@ import { FilledButton } from './filled-button';
 import { RootStackParamList } from 'types/navigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { AuthStore } from 'utils/atores/auth';
+import { AuthStore } from 'shared/stores/auth';
 
 type navigationProps = NativeStackNavigationProp<RootStackParamList, 'Main'>
 
