@@ -68,19 +68,19 @@ export const cardsForReview= (progress: Record<string, progress>)=>{
 }
 
 
-export const countNewCards = (progress: Record<string, progress>) => {
+export const countNewCards = (progress: Record<string, progress>, cards: Card[]) => {
     const keys = Object.keys(progress);
 
-    return keys.map(key=>progress[key]).filter(i=>i.i==0).length
+    return cards.filter(card=>!keys.includes(card.id)||progress[card.id].i==0).length
 }
-export const countReviewedCards = (progress: Record<string, progress>) => {
+export const countReviewedCards = (progress: Record<string, progress>, cards: Card[]) => {
     const keys = Object.keys(progress);
 
-    return keys.map(key=>progress[key]).filter(i=>i.i>0 && i.n<5).length
+    return cards.filter(card=>keys.includes(card.id)&&progress[card.id].i>0 && progress[card.id].n<5).length
 }
 
-export const countMasteredCards = (progress: Record<string, progress>) => {
+export const countMasteredCards = (progress: Record<string, progress>, cards: Card[]) => {
     const keys = Object.keys(progress);
 
-    return keys.map(key=>progress[key]).filter(i=>i.n>=5).length
+    return cards.filter(card=>keys.includes(card.id)&&progress[card.id].n>=5).length
 }
