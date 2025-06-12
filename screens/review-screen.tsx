@@ -49,11 +49,9 @@ export const ReviewScreen = () => {
             ...session[cards[index].id],
             q: q
         })
-        console.log(update);
         
         setSession(prev=>{
             prev[cards[index].id]=update;
-            console.log(prev[cards[index].id]);
             
             return prev;
         }) 
@@ -80,14 +78,17 @@ export const ReviewScreen = () => {
                     <FilledButton
                     text="Wrong"
                     color="red"
+                    grow
                     onPress={()=>updateProgress(0)}/>
                     <FilledButton
                     text="Good"
                     color="green"
+                    grow
                     onPress={()=>updateProgress(1)}/>
                     <FilledButton
                     text="Perfect"
                     color="blue"
+                    grow
                     onPress={()=>updateProgress(2)}/>
                     </View>
                     : null

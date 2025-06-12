@@ -8,6 +8,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
   export type MainTabParamList = {
     Home: undefined;
     Decks: undefined;
+    Settings: undefined;
   };
 
   export type RootStackParamList = {

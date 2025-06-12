@@ -14,7 +14,7 @@ export const LogInScreen = () => {
     const [fields, setFields] = useState({
         email: '',
         password: '',
-        remember: false,
+        remember: true,
     });
 
     const navigation = useNavigation<navProps>();
@@ -54,12 +54,19 @@ export const LogInScreen = () => {
                         .then((user)=>{
                             if(user){
                                 navigation.push('Main');
+                            }else{
+                                setFields({
+                                    email: '',
+                                    password:'',
+                                    remember: true
+                                })
                             }
                         })
                     }}/>
 
                     <LabeledCheckBox
                     label="remember me?"
+                    initial= {fields.remember}
                     onChange={(value)=>{
                         setFields(prev=>({
                             ...prev,

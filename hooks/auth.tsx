@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "shared/const/strings";
 import { useState } from "react"
 import { AuthStore } from "shared/stores/auth";
-import { getLocal, saveLocal } from "shared/utils";
+import { getLocal, removeLocaL, saveLocal } from "shared/utils";
 
 export const useAuth = () => {
 
@@ -72,5 +72,10 @@ export const useAuth = () => {
         }
     }
 
-    return {signIn, detectUser}
+    const signOut = async () => {
+        auth.setUser(null);
+        await removeLocaL('JWT')
+    }
+
+    return {signIn, detectUser, user: auth.user, signOut}
 }
