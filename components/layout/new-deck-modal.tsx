@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { FilledButton } from "../buttons/filled-button";
+import { LabeledCheckBox } from "components/inputs/labeled-checkbox";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
@@ -64,6 +65,10 @@ export const NewDeckModal = ({ onClose, onSubmit }: Props) => {
         }}
           placeholder="Deck name"
           className="w-full text-xl bg-secondary-100 rounded-md p-2.5"
+        />
+        <LabeledCheckBox
+        label="Spaced repetition"
+        onChange={()=>{}}
         />
         <FilledButton text="Create new deck" onPress={async () => {
           await onSubmit(newDeck);

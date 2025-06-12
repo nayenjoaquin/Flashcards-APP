@@ -12,7 +12,9 @@ interface props {
 export const LabeledCheckBox = ({label, inverted, onChange, initial=false}: props) => {
     const [checked, setChecked] = useState(initial);
     return(
-        <View className="flex flex-row items-center gap-2.5">
+        <View style={{
+            flexDirection: inverted ? 'row-reverse' : "row",
+        }} className="flex items-center gap-2.5">
             <Text>
                 {label}
             </Text>
