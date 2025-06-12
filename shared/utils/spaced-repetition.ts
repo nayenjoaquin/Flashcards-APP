@@ -60,12 +60,9 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
 export const cardsForReview= (progress: Record<string, progress>)=>{
 
     const keys = Object.keys(progress) as (keyof typeof progress)[];
-    console.log('ITEMS IN PROGRESS: ', keys.length);
 
     const pastDueCount = keys.filter(key=>progress[key].dueDate<Date.now()&&progress[key].i!=0).length;
-    console.log('PAST DUE COUNT: ', pastDueCount);
     const newCards = countNewCards(progress);
-    console.log('NEW CARDS: ', newCards);
 
     return pastDueCount + Math.min(NEW_CARDS_PER_SESSION, newCards);
 

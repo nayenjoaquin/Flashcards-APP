@@ -67,18 +67,11 @@ export const ReviewScreen = () => {
       }, [navigation, deck.name]);
 
       useEffect(()=>{
-        if (session[cards[index].id].i==0 && newCount>=NEW_CARDS_PER_SESSION){
+        if ((session[cards[index].id].i==0 && newCount>=NEW_CARDS_PER_SESSION)||session[cards[index].id].dueDate>Date.now()){
             nextCard();
         }
+
       }, [index])
-
-
-    useEffect(()=>{
-        if(cardsForReview(session)==0){
-            console.error('NO CARDS FOR REVIEW');
-            navigation.goBack();
-        }
-    },[session])
 
     return(
         <View className="w-full h-full p-5 flex gap-5">

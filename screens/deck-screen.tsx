@@ -13,7 +13,8 @@ import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "hooks/decks";
 import { getLocal } from "shared/utils/common";
-import { DEFAULT_PROGRESS } from "shared/utils/spaced-repetition";
+import { cardsForReview, DEFAULT_PROGRESS } from "shared/utils/spaced-repetition";
+import { LinearGradient } from "expo-linear-gradient";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -49,7 +50,7 @@ export const DeckScreen = () => {
 
   return (
     <View className="h-full flex items-center justify-center p-5">
-      <SafeAreaView className="w-full h-full flex items-center justify-center gap-2.5">
+      <SafeAreaView className="w-full h-full flex flex-col items-center justify-center gap-2.5">
         <FloatingIconButton
           icon="add"
           onPress={()=>{
@@ -65,6 +66,11 @@ export const DeckScreen = () => {
         <DeckViewHeader
         cards={cards}
           onReview={()=>{
+            if(cardsForReview(progress)==0){
+              console.error('NO CARDS FOR REVIEW');
+              
+              return
+            }
             navigation.push('Review',
                 {
                 cards: cards,

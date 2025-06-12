@@ -46,3 +46,17 @@ export const removeLocaL = async (name: string)=>{
         
     }
 }
+
+export const  daysLeft =(dueDate: number) => {
+  const today = new Date();
+  const date = new Date(dueDate);
+
+  // Reset time to midnight for both dates
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  const diffTime = date.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays;
+}
