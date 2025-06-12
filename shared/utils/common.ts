@@ -1,6 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RectButtonWithRefProps } from "react-native-gesture-handler/lib/typescript/components/GestureButtonsProps";
-
 export const gradient2Colors =(gradient: string)=>{
     let colors = gradient.split(',').slice(-2);
     return [colors[0].slice(1), colors[1].slice(1, -1)]
@@ -13,7 +11,7 @@ export const saveLocal = async (name: string, item: Object) => {
          if (item==null){
             throw new Error('Failed to save Item');
         }
-        console.log('Item saved succesfully');
+        console.log(name+' saved succesfully');
 
     }catch(err){
         console.error(err);
@@ -28,7 +26,7 @@ export const getLocal = async (name: string) => {
         if (item==null){
             throw new Error('Item not found');
         }
-        console.log('Item retrieved succesfully');
+        console.log(name+' retrieved succesfully');
         
         return await JSON.parse(item);
     }catch(err:any){
@@ -41,7 +39,7 @@ export const getLocal = async (name: string) => {
 export const removeLocaL = async (name: string)=>{
     try{
         await AsyncStorage.removeItem(name, ()=>{
-            console.log('Item removed succesfully');
+            console.log(name+' removed succesfully');
         });
     } catch(err){
         console.error(err);

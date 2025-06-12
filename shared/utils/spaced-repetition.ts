@@ -55,7 +55,7 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
     
 }
 
-export const cardsForReview= (progress: Record<string, progress>)=>{
+export const cardsForReview= (cards: Card[], progress: Record<string, progress>)=>{
 
     const keys = Object.keys(progress) as (keyof typeof progress)[];
     const now = new Date();
@@ -64,7 +64,10 @@ export const cardsForReview= (progress: Record<string, progress>)=>{
     .map(key => progress[key].dueDate)
     .filter(dueDate => dueDate <= now).length;
 
-    return pastDueCount
+    const newCards = countNewCards(progress, cards);
+
+    return pastDueCount + Math.min(20, newCards);
+
 }
 
 
