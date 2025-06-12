@@ -36,11 +36,16 @@ export const DeckScreen = () => {
   }, [navigation, deck.name]);
 
   useEffect(()=>{
+    const progressINIT = DEFAULT_PROGRESS(cards);
         getLocal(deck.id)
         .then(progress=>{
-          setProgress(progress)
+          const combinedProgress = {
+            ...progressINIT,
+            ...progress,
+          }
+          setProgress(combinedProgress);
         })
-    },[]);
+    },[cards]);
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -64,7 +69,7 @@ export const DeckScreen = () => {
                 {
                 cards: cards,
                 deck: deck,
-                progress: progress?? DEFAULT_PROGRESS(cards)
+                progress: progress
                 }
             )
           }}

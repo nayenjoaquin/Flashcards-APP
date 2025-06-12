@@ -1,3 +1,5 @@
+import { NEW_CARDS_PER_SESSION } from "shared/const/values";
+
 interface props{
     q: number;
     n: number;
@@ -9,7 +11,7 @@ export const updateCard = ({q, n, i, ef}: props)=>{
         i: i,
         n: n,
         ef: ef,
-        dueDate: new Date()
+        dueDate: Date.now()
     }
 
     if(q>=1){
@@ -36,7 +38,7 @@ export const updateCard = ({q, n, i, ef}: props)=>{
         progress.ef=Math.max(1.3, Math.round((ef-0.2)*100)/100)
         
     }
-    progress.dueDate = new Date(progress.dueDate.getTime() + (progress.i*86400000));
+    progress.dueDate = Date.now() + (progress.i*86400000);
 
     return progress;
 }
@@ -47,7 +49,7 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
             n: 0,
             i: 0,
             ef: 2.5,
-            dueDate: new Date()
+            dueDate: Date.now()
         }
         return acc;
     }, {} as Record<string, progress>);
@@ -55,35 +57,34 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
     
 }
 
-export const cardsForReview= (cards: Card[], progress: Record<string, progress>)=>{
+export const cardsForReview= (progress: Record<string, progress>)=>{
 
     const keys = Object.keys(progress) as (keyof typeof progress)[];
-    const now = new Date();
+    console.log('ITEMS IN PROGRESS: ', keys.length);
 
-    const pastDueCount = keys
-    .map(key => progress[key].dueDate)
-    .filter(dueDate => dueDate <= now).length;
+    const pastDueCount = keys.filter(key=>progress[key].dueDate<Date.now()&&progress[key].i!=0).length;
+    console.log('PAST DUE COUNT: ', pastDueCount);
+    const newCards = countNewCards(progress);
+    console.log('NEW CARDS: ', newCards);
 
-    const newCards = countNewCards(progress, cards);
-
-    return pastDueCount + Math.min(20, newCards);
+    return pastDueCount + Math.min(NEW_CARDS_PER_SESSION, newCards);
 
 }
 
 
-export const countNewCards = (progress: Record<string, progress>, cards: Card[]) => {
+export const countNewCards = (progress: Record<string, progress>) => {
     const keys = Object.keys(progress);
 
-    return cards.filter(card=>!keys.includes(card.id)||progress[card.id].i==0).length
+    return keys.filter(key=>progress[key].i==0).length
 }
-export const countReviewedCards = (progress: Record<string, progress>, cards: Card[]) => {
+export const countReviewedCards = (progress: Record<string, progress>) => {
     const keys = Object.keys(progress);
 
-    return cards.filter(card=>keys.includes(card.id)&&progress[card.id].i>0 && progress[card.id].n<5).length
+    return keys.filter(key=>progress[key].i>0 && progress[key].n<5).length
 }
 
-export const countMasteredCards = (progress: Record<string, progress>, cards: Card[]) => {
+export const countMasteredCards = (progress: Record<string, progress>) => {
     const keys = Object.keys(progress);
 
-    return cards.filter(card=>keys.includes(card.id)&&progress[card.id].n>=5).length
+    return keys.filter(key=>progress[key].n>=5).length
 }

@@ -7,6 +7,7 @@ import { RootStackParamList } from "types/navigation";
 import { cardsForReview, updateCard } from "shared/utils/spaced-repetition";
 import { progressStore } from "shared/stores/progress";
 import { saveLocal } from "shared/utils/common";
+import { NEW_CARDS_PER_SESSION } from "shared/const/values";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -16,27 +17,47 @@ export const ReviewScreen = () => {
     const route  = useRoute<routeProp>();
     const navigation = useNavigation<navigationProp>();
     const [index, setIndex] = useState(0);
+    const [newCount, setNewCount] = useState(0);
+    const {progress} = progressStore();
 
-    const {cards, deck, progress} = route.params
+    const {cards, deck} = route.params;
 
     const {setProgress} = progressStore();
 
     const [session, setSession] = useState(progress)
     const [flipped, setFlipped] = useState(false);
 
-    const nextCard = async() =>{
-        if(index<cards.length-1){
-            setIndex(prev=>{
-                return prev+1}
-            );
-        }else{
-            await saveLocal(deck.id, session);
+    const finishSession = async() => {
+        await saveLocal(deck.id, session);
             setProgress(session)
             navigation.goBack();
+    }
+
+    const nextCard = async() =>{
+        if(index>=cards.length-1){
+            finishSession();
+            return;
         }
+        setIndex(prev=>prev+1)
         setFlipped(false);
     }
 
+    const updateProgress = (q:number)=>{
+        if(session[cards[index].id].i==0){
+            setNewCount(prev=>prev+1);
+        }
+        const update =updateCard({
+            ...session[cards[index].id],
+            q: q
+        })
+        
+        setSession(prev=>{
+            prev[cards[index].id]=update;
+            return prev;
+        }) 
+        nextCard();
+
+    }
 
 
     useLayoutEffect(() => {
@@ -45,20 +66,12 @@ export const ReviewScreen = () => {
         });
       }, [navigation, deck.name]);
 
-      const updateProgress = (q:number)=>{
-        const update =updateCard({
-            ...session[cards[index].id],
-            q: q
-        })
-        
-        setSession(prev=>{
-            prev[cards[index].id]=update;
-            
-            return prev;
-        }) 
-        nextCard();
+      useEffect(()=>{
+        if (session[cards[index].id].i==0 && newCount>=NEW_CARDS_PER_SESSION){
+            nextCard();
+        }
+      }, [index])
 
-    }
 
     useEffect(()=>{
         if(cardsForReview(session)==0){

@@ -16,7 +16,7 @@ export const DeckCardsList = ({cards} : props) => {
           <View className=" flex items-center justify-center gap-2.5">
             <Text className="w-full font-semibold">Cards in deck ({cards.length})</Text>
             {cards.map((card) => (
-              <CardsListItem card={card} selected={selected.includes(card)}selecting={selecting} onTap={
+              <CardsListItem key={card.id} card={card} selected={selected.includes(card)}selecting={selecting} onTap={
                 !selecting ?
                     ()=>{}
                 : !selected.includes(card) ?

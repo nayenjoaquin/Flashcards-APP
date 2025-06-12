@@ -20,7 +20,7 @@ type progress = {
     n: number;
     i: number;
     ef: number;
-    dueDate: Date;
+    dueDate: number;
 }
 
 type DeckProgress = {
