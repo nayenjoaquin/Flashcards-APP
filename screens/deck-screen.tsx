@@ -11,6 +11,8 @@ import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "shared/utils"
 import { DeckProgressBoard } from "components/layout/deck-progress-board";
 import { progressStore } from "shared/stores/progress";
 import { DeckCardsList } from "components/layout/deck-cards-list";
+import { DeckViewHeader } from "components/layout/deck-screen-header";
+import useDecks from "hooks/decks";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -21,9 +23,11 @@ export const DeckScreen = () => {
   const route = useRoute<DeckScreenRouteProp>();
   const navigation = useNavigation<navigationProp>();
 
-  const { deck, onDelete } = route.params;
-  const { cards, createCard } = useCards(deck.id);
+  const { deck } = route.params;
+  const { cards, createCard, } = useCards(deck.id);
   const {progress, setProgress} = progressStore();
+  const {deleteDeck} = useDecks();
+
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
@@ -41,33 +45,29 @@ export const DeckScreen = () => {
     <View className="h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex items-center justify-center gap-2.5">
         <FloatingIconButton
-        icon="add"
-        onPress={()=>{
-          navigation.push('NewCard',{
-            onSubmit: createCard
-          })
-        }}
-        color="#6260a2"/>
+          icon="add"
+          onPress={()=>{
+            navigation.push('NewCard',{
+              onSubmit: createCard
+            })
+          }}
+          color="#6260a2"
+        />
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
-          <Text className="text-gray-500 w-full ">{deck.description}</Text>
+        <Text className="text-gray-500 w-full ">{deck.description}</Text>
         {cards.length>0 ?
-        <View className="flex items-start w-full bg-white p-5 py-10 rounded-xl">
-          <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(progress??DEFAULT_PROGRESS(cards))}</Text>
-          <Text className="text-md font-semibold w-full text-center">cards for review</Text>
-          <DeckProgressBoard progress={progress??DEFAULT_PROGRESS(cards)}/>
-            <View className="py-5 w-full">
-              <FilledButton text="Review now" onPress={()=>{
-                
-                navigation.push('Review',
-                  {
-                    cards: cards,
-                    deck: deck,
-                    progress: progress?? DEFAULT_PROGRESS(cards)
-                  }
-                )
-              }} />
-            </View>
-        </View>
+        <DeckViewHeader
+        cards={cards}
+          onReview={()=>{
+            navigation.push('Review',
+                {
+                cards: cards,
+                deck: deck,
+                progress: progress?? DEFAULT_PROGRESS(cards)
+                }
+            )
+          }}
+        />
         :null}
         {cards.length === 0 ?
           <View className=" w-full flex grow items-center justify-center gap-5">
@@ -84,7 +84,7 @@ export const DeckScreen = () => {
           <DeckCardsList cards={cards}/>
         }
         <TouchableOpacity onPress={async ()=>{
-          await onDelete(deck.id);
+          await deleteDeck(deck.id);
           navigation.goBack();
         }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
           <Ionicons color={'red'} name="trash-bin" size={24}/>

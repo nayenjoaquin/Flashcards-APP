@@ -65,7 +65,6 @@ export const DecksScreen = () => {
                         {decks.map((deck: Deck, index: number)=>{
                         return <DeckCard onPressed={()=>{
                             navigation.push('Deck',{
-                                onDelete: deleteDeck,
                                 deck: deck
                             })
                         }} deck={deck} key={deck.id} index={index}/>

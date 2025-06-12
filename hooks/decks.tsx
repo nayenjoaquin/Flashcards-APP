@@ -2,9 +2,10 @@
 import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
 import { AuthStore } from 'shared/stores/auth';
+import { decksStore } from 'shared/stores/decks';
 
 const useDecks = () => {
-  const [decks, setDecks] = useState<Deck[]>([]);
+  const {decks, setDecks} = decksStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {user} = AuthStore();
@@ -43,7 +44,7 @@ const useDecks = () => {
         },
         body: JSON.stringify({
           ...deck,
-          user_id: user?.password
+          user_id: user?.id
         })
       })
 
@@ -53,10 +54,10 @@ const useDecks = () => {
       }
 
       const newDeck = await res.json() as Deck
-      setDecks(prev=>([
+      setDecks([
         newDeck,
-        ...prev
-      ]));
+        ...decks
+      ]);
     }catch(err: any){
       console.error(err);
       
@@ -75,7 +76,7 @@ const deleteDeck= async (id: string) => {
       throw new Error(`Failed to delete deck: ${errorText}`)
     }
 
-    setDecks(prev => prev.filter(deck => deck.id !== id));
+    setDecks(decks.filter(deck => deck.id !== id));
 
   }catch(err: any){
     console.error(err);
