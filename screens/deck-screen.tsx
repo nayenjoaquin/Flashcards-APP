@@ -7,12 +7,13 @@ import { FilledButton } from "components/buttons/filled-button";
 import useCards from "hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import { FloatingIconButton } from "components/buttons/floating-icon-button";
-import { cardsForReview, DEFAULT_PROGRESS, getDeckProgress } from "shared/utils";
 import { DeckProgressBoard } from "components/layout/deck-progress-board";
 import { progressStore } from "shared/stores/progress";
 import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "hooks/decks";
+import { getLocal } from "shared/utils/common";
+import { DEFAULT_PROGRESS } from "shared/utils/spaced-repetition";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -35,7 +36,7 @@ export const DeckScreen = () => {
   }, [navigation, deck.name]);
 
   useEffect(()=>{
-        getDeckProgress(deck.id)
+        getLocal(deck.id)
         .then(progress=>{
           setProgress(progress)
         })

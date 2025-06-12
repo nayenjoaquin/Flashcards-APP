@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "shared/const/strings";
 import { useState } from "react"
 import { AuthStore } from "shared/stores/auth";
-import { getLocal, removeLocaL, saveLocal } from "shared/utils";
+import { getLocal, removeLocaL, saveLocal } from "shared/utils/common";
 
 export const useAuth = () => {
 

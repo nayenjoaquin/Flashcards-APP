@@ -4,7 +4,7 @@ import { Pressable, Text, View } from "react-native";
 import { DecksStackParamList, RootStackParamList } from "types/navigation";
 import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
-import { gradient2Colors } from "shared/utils";
+import { gradient2Colors } from "shared/utils/common";
 
 interface DeckProps{
     deck: Deck;

@@ -4,8 +4,9 @@ import { FlashCard } from "components/layout/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
 import { RootStackParamList } from "types/navigation";
-import { cardsForReview, saveDeckProgress, updateCard } from "shared/utils";
+import { cardsForReview, updateCard } from "shared/utils/spaced-repetition";
 import { progressStore } from "shared/stores/progress";
+import { saveLocal } from "shared/utils/common";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -29,7 +30,7 @@ export const ReviewScreen = () => {
                 return prev+1}
             );
         }else{
-            await saveDeckProgress(session, deck.id);
+            await saveLocal(deck.id, session);
             setProgress(session)
             navigation.goBack();
         }
@@ -62,10 +63,7 @@ export const ReviewScreen = () => {
     useEffect(()=>{
         if(cardsForReview(session)==0){
             console.error('NO CARDS FOR REVIEW');
-            
-            saveDeckProgress(session, deck.id).then(()=>{
-                navigation.goBack();
-            })
+            navigation.goBack();
         }
     },[session])
 
