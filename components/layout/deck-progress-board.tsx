@@ -14,7 +14,7 @@ export const DeckProgressBoard = ({progress, cards}: props) => {
         <View className="flex flex-row w-full justify-between gap-5 mt-5">
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countNewCards(progress, cards)}
+                {countNewCards(progress)}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">
@@ -26,7 +26,7 @@ export const DeckProgressBoard = ({progress, cards}: props) => {
             <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countReviewedCards(progress, cards)}
+                {countReviewedCards(progress)}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">
@@ -38,7 +38,7 @@ export const DeckProgressBoard = ({progress, cards}: props) => {
             <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countMasteredCards(progress, cards)}
+                {countMasteredCards(progress)}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">

@@ -1,12 +1,15 @@
 import { create } from "zustand";
 
 interface storeProps{
-  progress: Record<string, progress>;
-  setProgress: (progress: Record<string, progress> | null)=>void
+  progress: DeckProgress;
+  setProgress: (progress: DeckProgress | null)=>void
 }
 
 export const progressStore = create<storeProps>(set=>({
-  progress : {},
+  progress : {
+    progress: {},
+    lastReviewed: new Date()
+  },
   setProgress: (progress)=>set(prev=>{
     if(!progress){
       return prev

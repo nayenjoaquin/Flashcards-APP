@@ -24,7 +24,8 @@ type progress = {
 }
 
 type DeckProgress = {
-    
+    progress: Record<string, progress>
+    lastReviewed?: Date;
 }
 type User = {
     id: string;

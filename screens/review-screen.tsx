@@ -18,19 +18,21 @@ export const ReviewScreen = () => {
     const navigation = useNavigation<navigationProp>();
     const [index, setIndex] = useState(0);
     const [newCount, setNewCount] = useState(0);
-    const {progress} = progressStore();
-
-    const {cards, deck} = route.params;
+    const {cards, deck, progress} = route.params;
 
     const {setProgress} = progressStore();
 
-    const [session, setSession] = useState(progress)
+    const [session, setSession] = useState(progress.progress)
     const [flipped, setFlipped] = useState(false);
 
     const finishSession = async() => {
-        await saveLocal(deck.id, session);
-            setProgress(session)
-            navigation.goBack();
+        const newProgress: DeckProgress = {
+            progress: session,
+            lastReviewed: new Date()
+        }
+        await saveLocal(deck.id, newProgress);
+        setProgress(newProgress);
+        navigation.goBack();
     }
 
     const nextCard = async() =>{

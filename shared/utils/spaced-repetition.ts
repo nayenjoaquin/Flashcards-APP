@@ -68,6 +68,20 @@ export const cardsForReview= (progress: Record<string, progress>)=>{
 
 }
 
+export const readyForReview = (progress: DeckProgress) =>{
+    
+    if(progress.lastReviewed==undefined){
+        return true;
+    }
+    const today = Date.now();
+    const lastReviewed = new Date(progress.lastReviewed).getTime();
+    const diff = today - lastReviewed;
+    
+
+    return diff > 24*60*60*1000
+
+}
+
 
 export const countNewCards = (progress: Record<string, progress>) => {
     const keys = Object.keys(progress);

@@ -9,6 +9,7 @@ import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
 import { AuthStore } from "shared/stores/auth";
 import { SettingsScreen } from "screens/settings-screen";
+import { HomeScreen } from "screens/home-screen";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -34,7 +35,7 @@ export const MainTabNavigator = () => {
 
     return(
         <Tab.Navigator>
-        <Tab.Screen name='Home' component={ScreenContent} options={{
+        <Tab.Screen name='Home' component={HomeScreen} options={{
             tabBarIcon: ({color, size, focused})=>(
             <Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>
             ),

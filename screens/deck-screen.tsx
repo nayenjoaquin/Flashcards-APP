@@ -13,7 +13,7 @@ import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "hooks/decks";
 import { getLocal } from "shared/utils/common";
-import { cardsForReview, DEFAULT_PROGRESS } from "shared/utils/spaced-repetition";
+import { cardsForReview, DEFAULT_PROGRESS, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -37,7 +37,9 @@ export const DeckScreen = () => {
   }, [navigation, deck.name]);
 
   useEffect(()=>{
-    const progressINIT = DEFAULT_PROGRESS(cards);
+    const progressINIT = {
+      progress: DEFAULT_PROGRESS(cards)
+    };
         getLocal(deck.id)
         .then(progress=>{
           const combinedProgress = {
@@ -66,10 +68,13 @@ export const DeckScreen = () => {
         <DeckViewHeader
         cards={cards}
           onReview={()=>{
-            if(cardsForReview(progress)==0){
+            if(!readyForReview(progress)){
+              console.error('The deck can only be reviewed once every 24 hours');
+              return;
+            }
+            if(cardsForReview(progress.progress)==0){
               console.error('NO CARDS FOR REVIEW');
-              
-              return
+              return;
             }
             navigation.push('Review',
                 {
