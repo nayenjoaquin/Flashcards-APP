@@ -2,12 +2,13 @@ import { API_BASE_URL } from "shared/const/strings";
 import { useState } from "react"
 import { AuthStore } from "shared/stores/auth";
 import { getLocal, removeLocaL, saveLocal } from "shared/utils/common";
+import { addWhitelistedNativeProps } from "react-native-reanimated/lib/typescript/ConfigHelper";
 
 export const useAuth = () => {
 
     const auth = AuthStore();
 
-    const signIn = async (email: string, password: string, remember: boolean = false) => {
+    const signIn = async (email: string, password: string) => {
         
         try{
             const res = await fetch(API_BASE_URL+'/users/sign-in', {
@@ -28,12 +29,41 @@ export const useAuth = () => {
 
             const body = await res.json();
             auth.setUser(body.data);
-            if(remember){
-                saveLocal('JWT', body.token);
-            }
+            saveLocal('JWT', body.token);
             return body.data;
         }catch(err){
             console.error('Failed to sign in:', err);
+            
+        }
+    }
+
+    const signUp = async(email: string, password: string, username: string) =>{
+        try{
+            const res = await fetch(API_BASE_URL+'/users/sign-up',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'Application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    username,
+                    password
+                })
+            });
+
+            if(!res.ok){
+                const errorText = await res.text();
+                throw new Error(errorText);
+            }
+
+            const body = await res.json();
+
+            auth.setUser(body.data as User)
+            saveLocal('JWT', body.token);
+            return body.data
+        }catch(err){
+            console.error("Couldn't register new user: ", err);
+            return null
             
         }
     }
@@ -77,5 +107,5 @@ export const useAuth = () => {
         await removeLocaL('JWT')
     }
 
-    return {signIn, detectUser, user: auth.user, signOut}
+    return {signIn, detectUser, user: auth.user, signOut, signUp}
 }

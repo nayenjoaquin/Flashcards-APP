@@ -29,7 +29,7 @@ export const LabeledTextField = ({onChange, placeholder, value, label, secret}: 
                     <TouchableOpacity className="flex justify-center items-center" onPress={()=>{
                         setObscure(prev=>!prev);
                     }}>
-                        <Ionicons className="absolute right-5" name={obscure ? 'eye':'eye-off'} size={32}/>
+                        <Ionicons className="absolute right-5" name={obscure ? 'eye-off':'eye'} size={32}/>
                     </TouchableOpacity>
                     : null}
                 </View>

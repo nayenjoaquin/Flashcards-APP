@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NewCardScreen } from 'screens/new-card-screen';
 import { LogInScreen } from 'screens/log-in-screen';
+import { RegisterScreen } from 'screens/register-screen';
 
   export default function App() {
 
@@ -45,6 +46,7 @@ import { LogInScreen } from 'screens/log-in-screen';
         })} name='Review' component={ReviewScreen}/>
         <stack.Screen name='NewCard' component={NewCardScreen}/>
         <stack.Screen name='Login' component={LogInScreen}/>
+        <stack.Screen name='Register' component={RegisterScreen}/>
         </stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

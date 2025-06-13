@@ -8,24 +8,26 @@ import { useState } from "react"
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
 
-type navProps = NativeStackNavigationProp<RootStackParamList,'Login'>
+type navProps = NativeStackNavigationProp<RootStackParamList,'Register'>
 
-export const LogInScreen = () => {
+export const RegisterScreen = () => {
     const [fields, setFields] = useState({
         email: '',
+        username: '',
         password: '',
+        passwordConfirmation: ''
     });
 
     const navigation = useNavigation<navProps>();
 
-    const {signIn} = useAuth();
+    const {signUp} = useAuth();
     
     return(
         <View className="p-5">
             <SafeAreaView className=" flex w-full h-full items-center justify-center">
                 <View className="w-full flex items-center gap-5 p-5 rounded-xl bg-white">
                     <Text className="text-2xl font-medium mb-5">
-                        Welcome back!
+                        Create an account
                     </Text>
                     <LabeledTextField
                     label="email"
@@ -37,6 +39,15 @@ export const LogInScreen = () => {
                     value={fields.email}
                     />
                     <LabeledTextField
+                    label="username"
+                    onChange={(text)=>setFields(prev=>({
+                        ...prev,
+                        username: text
+                    }))}
+                    placeholder="username"
+                    value={fields.username}
+                    />
+                    <LabeledTextField
                     label="password"
                     onChange={(text)=>setFields(prev=>({
                         ...prev,
@@ -46,10 +57,24 @@ export const LogInScreen = () => {
                     secret
                     value={fields.password}
                     />
+                    <LabeledTextField
+                    label="Confirm password"
+                    onChange={(text)=>setFields(prev=>({
+                        ...prev,
+                        passwordConfirmation: text
+                    }))}
+                    placeholder="password"
+                    secret
+                    value={fields.passwordConfirmation}
+                    />
                     <FilledButton
-                    text="Sign In"
+                    text="Sign Up"
                     onPress={async ()=>{
-                        signIn(fields.email, fields.password)
+                        if(fields.password!=fields.passwordConfirmation){
+                            console.error("Passwords don't match");
+                            return;
+                        }
+                        signUp(fields.email, fields.password, fields.username)
                         .then((user)=>{
                             if(user){
                                 navigation.push('Main');
@@ -57,16 +82,18 @@ export const LogInScreen = () => {
                                 setFields({
                                     email: '',
                                     password:'',
+                                    username: '',
+                                    passwordConfirmation: ''
                                 })
                             }
                         })
                     }}/>w
                     <View className="flxe flex-row">
-                        <Text>Don't have an account?</Text>
+                        <Text>Have an account already?</Text>
                         <TouchableOpacity onPress={()=>{
-                            navigation.push('Register');
+                            navigation.goBack();
                         }}>
-                            <Text className="text-primary-500 font-semibold"> Sign up</Text>
+                            <Text className="text-primary-500 font-semibold"> Sign in</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

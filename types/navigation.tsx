@@ -23,5 +23,6 @@ import { NavigatorScreenParams } from "@react-navigation/native";
       progress: Record<string, progress>
     };
     Login: undefined;
+    Register: undefined;
     new_deck: undefined;
   }
