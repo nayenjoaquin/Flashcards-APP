@@ -31,8 +31,8 @@ export const ReviewScreen = () => {
             lastReviewed: new Date()
         }
         await saveLocal(deck.id, newProgress);
-        setProgress(newProgress);
         navigation.goBack();
+        setProgress(newProgress);
     }
 
     const nextCard = async() =>{

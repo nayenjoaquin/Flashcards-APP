@@ -1,4 +1,4 @@
-import { NEW_CARDS_PER_SESSION } from "shared/const/values";
+import { NEW_CARDS_PER_SESSION, REVIEW_COOLDOWN } from "shared/const/values";
 
 interface props{
     q: number;
@@ -78,7 +78,7 @@ export const readyForReview = (progress: DeckProgress) =>{
     const diff = today - lastReviewed;
     
 
-    return diff > 24*60*60*1000
+    return diff > REVIEW_COOLDOWN;
 
 }
 
