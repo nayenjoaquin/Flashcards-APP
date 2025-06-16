@@ -20,7 +20,7 @@ export const DecksScreen = () => {
 
     useEffect(() => {
     fetchDecks();
-  }, []);
+    }, []);
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -62,7 +62,7 @@ export const DecksScreen = () => {
                 <Text className="text-3xl font-bold">{error}</Text>
                 : <ScrollView >
                     <View className="flex flex-row flex-wrap justify-start p-5">
-                        {decks.map((deck: Deck, index: number)=>{
+                        {decks?.map((deck: Deck, index: number)=>{
                         return <DeckCard onPressed={()=>{
                             navigation.push('Deck',{
                                 deck: deck

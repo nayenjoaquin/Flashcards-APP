@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 interface storeProps{
-  decks: Deck[];
-  setDecks: (decks: Deck[])=>void;
+  myDecks: Deck[];
+  setMyDecks: (decks: Deck[])=>void;
 }
 
 export const decksStore = create<storeProps>(set=>({
-  decks : [],
-  setDecks: (decks)=>set({decks}),
+  myDecks: [],
+  setMyDecks: (decks)=>set({myDecks: decks}),
   }));

@@ -14,6 +14,8 @@ interface props {
 export const CardsListItem = ({card, selected=false, selecting = false, onTap}: props) => {
 
     const {progress} = progressStore();
+
+    const reviewIn = daysLeft(progress.progress[card.id]?.dueDate);
     return(
         <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
             <View className="flex-1">
@@ -21,7 +23,7 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap}: 
                 <Text className="text-gray-600">{card.back}</Text>
             </View>
             <View className="flex flex-row grow gap-5 items-center justify-end">
-                <Text className="text-gray-400">Next review in {daysLeft(progress.progress[card.id]?.dueDate)} days</Text>
+                <Text className="text-gray-400">Next review in {reviewIn>=0 ? reviewIn : 0} days</Text>
                 <TouchableOpacity onPress={onTap}>
                     {!selecting ?
                         <Ionicons name="ellipsis-vertical" size={24}/>

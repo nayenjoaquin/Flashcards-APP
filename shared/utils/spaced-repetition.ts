@@ -61,8 +61,12 @@ export const cardsForReview= (progress: Record<string, progress>)=>{
 
     const keys = Object.keys(progress) as (keyof typeof progress)[];
 
-    const pastDueCount = keys.filter(key=>progress[key].dueDate<Date.now()&&progress[key].i!=0).length;
+    const pastDueCount = keys.filter(key=>progress[key].dueDate<=Date.now()&&progress[key].i!=0).length;
     const newCards = countNewCards(progress);
+    const total = pastDueCount + newCards;
+
+    console.log(`Cards for review: ${total} (Past due: ${pastDueCount}, New cards: ${newCards})`);
+    
 
     return pastDueCount + Math.min(NEW_CARDS_PER_SESSION, newCards);
 
@@ -98,4 +102,9 @@ export const countMasteredCards = (progress: Record<string, progress>) => {
     const keys = Object.keys(progress);
 
     return keys.filter(key=>progress[key].n>=5).length
+}
+
+export const getReviewedCardsCount = (session: Session | null) => {
+    if (!session) return 0;
+    return session.wrong + session.good + session.perfect;
 }

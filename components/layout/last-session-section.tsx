@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FilledButton } from "components/buttons/filled-button";
 import appTheme from "shared/const/app-theme";
+import { getReviewedCardsCount } from "shared/utils/spaced-repetition";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -30,21 +31,21 @@ export const LastSessionSection = () => {
     }, []);
 
     return(
-        <View className="flex w-full justify-center items-start gap-2.5">
+        <View className="flex w-full justify-center items-start gap-2.5 ">
             <Text className="text-2xl font-semibold">Last session</Text>
             { lastDeck ? (
-                <View className="flex flex-row items-start gap-5">
+                <View className="flex w-full flex-row items-center gap-5 bg-white p-5 rounded-2xl">
                     <DeckCard deck={lastDeck} onPressed={()=>{
                         navigation.navigate('Deck', { deck: lastDeck });
                     }}
                     index={1}
                     />
-                    <View className="flex grow w-full flex-col justify-center items-start gap-5">
+                    <View className="flex-1 flex-col justify-center items-start gap-5">
                         <View className="flex flex-row items-center gap-2">
                             <Text className="text-xl italic text-gray-400 flex flex-row">{daysAgo(lastSession?.reviewedOn??Date.now())} days ago</Text>
                             <Ionicons  name="time-outline" size={16} color={"#9CA3AF"}/>
                         </View>
-                        <Text className="text-xl">{lastSession?.good??0 + (lastSession?.wrong??0)+ (lastSession?.perfect??0)} cards reviewed</Text>
+                        <Text className="text-xl">{getReviewedCardsCount(lastSession)} cards reviewed</Text>
                         <Text className="text-xl">Wrong: {lastSession?.wrong??0} </Text>
                         <Text className="text-xl">Good: {lastSession?.good??0}</Text>
                         <Text className="text-xl">Perfect: {lastSession?.perfect??0}</Text>
