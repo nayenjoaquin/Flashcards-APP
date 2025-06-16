@@ -29,7 +29,6 @@ export const MainTabNavigator = () => {
                     routes:[{name:'Login'}]
                 })
             }
-            
         })
     }, [])
 

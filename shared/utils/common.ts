@@ -60,3 +60,17 @@ export const  daysLeft =(dueDate: number) => {
 
   return diffDays;
 }
+
+export const daysAgo = (pastDate: number) => {
+  const today = new Date();
+  const date = new Date(pastDate);
+
+  // Reset time to midnight for both dates
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  const diffTime = today.getTime() - date.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays;
+}

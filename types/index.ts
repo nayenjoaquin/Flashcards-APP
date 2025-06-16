@@ -23,6 +23,14 @@ type progress = {
     dueDate: number;
 }
 
+type Session = {
+    deckId: string;
+    wrong: number;
+    good: number;
+    perfect: number;
+    reviewedOn: number;
+}
+
 type DeckProgress = {
     progress: Record<string, progress>
     lastReviewed?: Date;

@@ -19,6 +19,11 @@ export const ReviewScreen = () => {
     const [index, setIndex] = useState(0);
     const [newCount, setNewCount] = useState(0);
     const {cards, deck, progress} = route.params;
+    const [results, setResults] = useState({
+        wrong: 0,
+        good: 0,
+        perfect: 0
+    })
 
     const {setProgress} = progressStore();
 
@@ -31,6 +36,13 @@ export const ReviewScreen = () => {
             lastReviewed: new Date()
         }
         await saveLocal(deck.id, newProgress);
+        await saveLocal('LAST_SESSION', {
+            deckId: deck.id,
+            wrong: results.wrong,
+            good: results.good,
+            perfect: results.perfect,
+            reviewedOn: Date.now()
+        } as Session);
         navigation.goBack();
         setProgress(newProgress);
     }
@@ -52,6 +64,15 @@ export const ReviewScreen = () => {
             ...session[cards[index].id],
             q: q
         })
+        setResults(prev=>{
+            if(q==0){
+                return {...prev, wrong: prev.wrong+1}
+            }else if(q==1){
+                return {...prev, good: prev.good+1}
+            }else{
+                return {...prev, perfect: prev.perfect+1}
+            }
+        });
         
         setSession(prev=>{
             prev[cards[index].id]=update;
