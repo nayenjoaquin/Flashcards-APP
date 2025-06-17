@@ -44,7 +44,7 @@ export const HomeScreen = () => {
                                 myDecks.map((deck) => (
                                         <DeckTile onTap={()=>{
                                             navigation.navigate('Deck', { deck });
-                                        }} deck={deck}/>
+                                        }} deck={deck} key={deck.id}/>
                                 ))
                             )}
                         </View>

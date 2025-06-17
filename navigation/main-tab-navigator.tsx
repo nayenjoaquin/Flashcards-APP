@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
 import { AuthStore } from "shared/stores/auth";
-import { SettingsScreen } from "screens/settings-screen";
+import { ProfileScreen } from "screens/profile-screen";
 import { HomeScreen } from "screens/home-screen";
 import { ExploreScreen } from "screens/explore-screen";
 
@@ -72,12 +72,12 @@ export const MainTabNavigator = () => {
         }}
         />
         <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
             tabBarIcon: ({color, size, focused})=>(
                 <Ionicons
-                name={focused ? 'settings' : 'settings-outline'}
+                name={focused ? 'person' : 'person-outline'}
                 size={size}
                 color={color}
                 />

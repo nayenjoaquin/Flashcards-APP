@@ -78,6 +78,15 @@ const useDecks = () => {
         throw new Error(`Failed to save deck: ${errorText}`);
       }
       setMyDecks([deck, ...myDecks]);
+      setDecks(prev=>{
+        const updatedDecks = prev?.map(d =>{
+          if(d.id === deck.id){
+            return {...d, saved: d.saved + 1};
+          }
+          return d;
+        });
+        return updatedDecks;
+      })
     } catch(err: any){
       console.error('Error saving deck:', err);
     }
@@ -97,6 +106,15 @@ const useDecks = () => {
         throw new Error(`Failed to forget deck: ${errorText}`);
       }
       setMyDecks(myDecks.filter(d => d.id !== deck.id));
+      setDecks(prev=>{
+        const updatedDecks = prev?.map(d =>{
+          if(d.id === deck.id){
+            return {...d, saved: d.saved - 1};
+          }
+          return d;
+        });
+        return updatedDecks;
+      });
     } catch(err: any){
       console.error('Error forgetting deck:', err);
     }

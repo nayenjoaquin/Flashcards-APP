@@ -9,7 +9,7 @@ import { NavigatorScreenParams } from "@react-navigation/native";
     Home: undefined;
     Decks: undefined;
     Explore: undefined
-    Settings: undefined;
+    Profile: undefined;
   };
 
   export type RootStackParamList = {
