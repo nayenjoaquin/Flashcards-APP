@@ -8,7 +8,6 @@ interface storeProps{
 export const progressStore = create<storeProps>(set=>({
   progress : {
     progress: {},
-    lastReviewed: new Date()
   },
   setProgress: (progress)=>set(prev=>{
     if(!progress){

@@ -84,3 +84,11 @@ export const formatSavedCount = (count: number) => {
     return (count / 1000000).toFixed(1) + 'M';
   }
 }
+export function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array]; // Copy to avoid mutating original
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap
+  }
+  return shuffled;
+}

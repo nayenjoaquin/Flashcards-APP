@@ -2,7 +2,7 @@ import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navig
 import { FilledButton } from "components/buttons/filled-button";
 import { FlashCard } from "components/layout/FlashCard";
 import { useEffect, useId, useLayoutEffect, useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import { cardsForReview, updateCard } from "shared/utils/spaced-repetition";
 import { progressStore } from "shared/stores/progress";
@@ -17,7 +17,6 @@ export const ReviewScreen = () => {
     const route  = useRoute<routeProp>();
     const navigation = useNavigation<navigationProp>();
     const [index, setIndex] = useState(0);
-    const [newCount, setNewCount] = useState(0);
     const {cards, deck, progress} = route.params;
     const [results, setResults] = useState({
         wrong: 0,
@@ -27,14 +26,16 @@ export const ReviewScreen = () => {
 
     const {setProgress} = progressStore();
 
-    const [session, setSession] = useState(progress.progress)
+    const [session, setSession] = useState<Record<string, progress>>(progress.progress)
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async() => {
+    const finishSession = async(session: Record<string, progress>) => {
         const newProgress: DeckProgress = {
             progress: session,
-            lastReviewed: new Date()
+            lastReviewed: Date.now()
         }
+        console.log('FINAL SESSION PROGRESS: ', session);
+        
         await saveLocal(deck.id, newProgress);
         await saveLocal('LAST_SESSION', {
             deckId: deck.id,
@@ -43,27 +44,21 @@ export const ReviewScreen = () => {
             perfect: results.perfect,
             reviewedOn: Date.now()
         } as Session);
-        navigation.goBack();
         setProgress(newProgress);
+        navigation.goBack();
     }
 
     const nextCard = async() =>{
-        if(index>=cards.length-1){
-            finishSession();
-            return;
-        }
         setIndex(prev=>prev+1)
         setFlipped(false);
     }
 
     const updateProgress = (q:number)=>{
-        if(session[cards[index].id].i==0){
-            setNewCount(prev=>prev+1);
-        }
         const update =updateCard({
             ...session[cards[index].id],
             q: q
         })
+        console.log(cards[index].id+': ', update);
         setResults(prev=>{
             if(q==0){
                 return {...prev, wrong: prev.wrong+1}
@@ -73,12 +68,15 @@ export const ReviewScreen = () => {
                 return {...prev, perfect: prev.perfect+1}
             }
         });
-        
         setSession(prev=>{
             prev[cards[index].id]=update;
-            return prev;
-        }) 
-        nextCard();
+            if(index+1==cards.length){
+                finishSession(prev);
+            }else{
+                nextCard();
+            }
+            return {...prev};
+        })
 
     }
 
@@ -89,15 +87,9 @@ export const ReviewScreen = () => {
         });
       }, [navigation, deck.name]);
 
-      useEffect(()=>{
-        if ((session[cards[index].id].i==0 && newCount>=NEW_CARDS_PER_SESSION)||session[cards[index].id].dueDate>Date.now()){
-            nextCard();
-        }
-
-      }, [index])
-
     return(
-        <View className="w-full h-full p-5 flex gap-5">
+        <View className="w-full h-full p-5 items-center flex gap-5">
+                <Text className="text-xl">{index + 1} / {cards.length}</Text>
                 <FlashCard card={cards[index]} flipped={flipped} onFlip={()=>setFlipped(true)} onNext={nextCard} key={cards[index].id}/>
                 {
                     flipped?

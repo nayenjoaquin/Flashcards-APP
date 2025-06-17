@@ -1,4 +1,5 @@
 import { NEW_CARDS_PER_SESSION, REVIEW_COOLDOWN } from "shared/const/values";
+import { shuffleArray } from "./common";
 
 interface props{
     q: number;
@@ -57,19 +58,24 @@ export const DEFAULT_PROGRESS =(cards: Card[])=>{
     
 }
 
-export const cardsForReview= (progress: Record<string, progress>)=>{
+export const cardsForReview= (progress: Record<string, progress>, cards: Card[])=>{
 
-    const keys = Object.keys(progress) as (keyof typeof progress)[];
+    const pastDue = cards.filter(card=>{
+        const cardProgress = progress[card.id];
+        return cardProgress.i > 0 && cardProgress.dueDate <= Date.now();
+    });
+    let newCards = cards.filter(card=>{
+        const cardProgress = progress[card.id];
+        return cardProgress.i == 0 || Object.keys(progress).includes(card.id) == false;
+    });
 
-    const pastDueCount = keys.filter(key=>progress[key].dueDate<=Date.now()&&progress[key].i!=0).length;
-    const newCards = countNewCards(progress);
-    const total = pastDueCount + newCards;
+    if (newCards.length > NEW_CARDS_PER_SESSION) {
+        newCards = newCards.slice(0, NEW_CARDS_PER_SESSION);
+    }
 
-    console.log(`Cards for review: ${total} (Past due: ${pastDueCount}, New cards: ${newCards})`);
-    
+    const total = pastDue.length +  Math.min(NEW_CARDS_PER_SESSION, newCards.length);
 
-    return pastDueCount + Math.min(NEW_CARDS_PER_SESSION, newCards);
-
+    return shuffleArray([...pastDue, ...newCards]);
 }
 
 export const readyForReview = (progress: DeckProgress) =>{
@@ -108,3 +114,4 @@ export const getReviewedCardsCount = (session: Session | null) => {
     if (!session) return 0;
     return session.wrong + session.good + session.perfect;
 }
+

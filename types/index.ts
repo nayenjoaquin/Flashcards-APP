@@ -35,7 +35,7 @@ type Session = {
 
 type DeckProgress = {
     progress: Record<string, progress>
-    lastReviewed?: Date;
+    lastReviewed?: number;
 }
 type User = {
     id: string;

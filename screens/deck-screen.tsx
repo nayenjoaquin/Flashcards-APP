@@ -68,17 +68,17 @@ export const DeckScreen = () => {
         <DeckViewHeader
         cards={cards}
           onReview={()=>{
-            // if(!readyForReview(progress)){
-            //   console.error('The deck can only be reviewed once every 24 hours');
-            //   return;
-            // }
-            // if(cardsForReview(progress.progress)==0){
-            //   console.error('NO CARDS FOR REVIEW');
-            //   return;
-            // }
+            if(!readyForReview(progress)){
+              console.error('The deck can only be reviewed once every 8 hours');
+              return;
+            }
+            if(cardsForReview(progress.progress, cards).length === 0){
+              console.error('NO CARDS FOR REVIEW');
+              return;
+            }
             navigation.push('Review',
                 {
-                cards: cards,
+                cards: cardsForReview(progress.progress, cards),
                 deck: deck,
                 progress: progress
                 }
