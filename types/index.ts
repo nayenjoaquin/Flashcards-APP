@@ -12,6 +12,8 @@ type Deck={
     description: string;
     saved: number;
     visibility: string;
+    owner: string;
+    created_at: Date;
 }
 
 type NewDeck = Omit<Deck, 'id'|'saved'>

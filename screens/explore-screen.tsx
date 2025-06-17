@@ -5,7 +5,7 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 
 export const ExploreScreen = () => {
 
-  const {decks, fetchDecks} = useDecks();
+  const {decks, myDecks, fetchDecks, saveDeck, removeSavedDeck} = useDecks();
 
   useEffect(()=>{
     fetchDecks();
@@ -23,7 +23,9 @@ export const ExploreScreen = () => {
                 key={deck.id}
                 deck={deck}
                 onTap={() => {}}
-                saved={false}
+                onSave={saveDeck}
+                onRemove={removeSavedDeck}
+                saved={myDecks.some(myDeck => myDeck.id === deck.id)}
               />
             ))}
           </View>

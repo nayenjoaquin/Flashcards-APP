@@ -61,6 +61,46 @@ const useDecks = () => {
       return null;
     }
   };
+  
+  const saveDeck = async (deck: Deck) => {
+    try{
+      const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getLocal('JWT')}`,
+        },
+        body: JSON.stringify(deck),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed to save deck: ${errorText}`);
+      }
+      setMyDecks([deck, ...myDecks]);
+    } catch(err: any){
+      console.error('Error saving deck:', err);
+    }
+  };
+
+  const removeSavedDeck = async (deck: Deck) => {
+    try{
+      const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getLocal('JWT')}`,
+        },
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed to forget deck: ${errorText}`);
+      }
+      setMyDecks(myDecks.filter(d => d.id !== deck.id));
+    } catch(err: any){
+      console.error('Error forgetting deck:', err);
+    }
+  };
 
   const getSavedDecks = async () => {
     setLoading(true);
@@ -135,7 +175,7 @@ const deleteDeck= async (id: string) => {
   }
 }
 
-  return { decks, myDecks, loading, error, fetchDecks, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { decks, myDecks, removeSavedDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;
