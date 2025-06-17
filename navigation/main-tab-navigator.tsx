@@ -10,6 +10,7 @@ import { MainTabParamList, RootStackParamList } from "types/navigation";
 import { AuthStore } from "shared/stores/auth";
 import { SettingsScreen } from "screens/settings-screen";
 import { HomeScreen } from "screens/home-screen";
+import { ExploreScreen } from "screens/explore-screen";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -55,6 +56,21 @@ export const MainTabNavigator = () => {
             tabBarInactiveTintColor: 'gray',
         }}
         /> 
+        <Tab.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+            tabBarIcon: ({color, size, focused})=>(
+                <Ionicons
+                name={focused ? 'search' : 'search'}
+                size={size}
+                color={color}
+                />
+            ),
+            tabBarActiveTintColor: '#8a8eca',
+            tabBarInactiveTintColor: 'gray',
+        }}
+        />
         <Tab.Screen
         name="Settings"
         component={SettingsScreen}
