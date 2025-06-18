@@ -3,6 +3,7 @@ import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions } from "r
 import { Ionicons } from "@expo/vector-icons";
 import { FilledButton } from "../buttons/filled-button";
 import { LabeledCheckBox } from "components/inputs/labeled-checkbox";
+import { NewDeck } from "types";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 

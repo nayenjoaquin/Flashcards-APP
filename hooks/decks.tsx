@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { AuthStore } from 'shared/stores/auth';
 import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
+import { Deck, NewDeck } from 'types';
 
 const useDecks = () => {
   const {myDecks, setMyDecks} = decksStore();

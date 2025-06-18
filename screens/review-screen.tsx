@@ -8,6 +8,7 @@ import { cardsForReview, updateCard } from "shared/utils/spaced-repetition";
 import { progressStore } from "shared/stores/progress";
 import { saveLocal } from "shared/utils/common";
 import { NEW_CARDS_PER_SESSION } from "shared/const/values";
+import { DeckProgress, Progress, Session } from "types";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -26,10 +27,10 @@ export const ReviewScreen = () => {
 
     const {setProgress} = progressStore();
 
-    const [session, setSession] = useState<Record<string, progress>>(progress.progress)
+    const [session, setSession] = useState<Record<string, Progress>>(progress.progress)
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async(session: Record<string, progress>) => {
+    const finishSession = async(session: Record<string, Progress>) => {
         const newProgress: DeckProgress = {
             progress: session,
             lastReviewed: Date.now()

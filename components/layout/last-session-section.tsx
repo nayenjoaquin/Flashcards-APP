@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FilledButton } from "components/buttons/filled-button";
 import appTheme from "shared/const/app-theme";
 import { getReviewedCardsCount } from "shared/utils/spaced-repetition";
+import { Deck, Session } from "types";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 

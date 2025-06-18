@@ -3,6 +3,7 @@ import { DeckProgressBoard } from "./deck-progress-board"
 import { FilledButton } from "components/buttons/filled-button"
 import { cardsForReview, DEFAULT_PROGRESS } from "shared/utils/spaced-repetition"
 import { progressStore } from "shared/stores/progress"
+import { Card } from "types"
 
 interface props {
     onReview: ()=>void;

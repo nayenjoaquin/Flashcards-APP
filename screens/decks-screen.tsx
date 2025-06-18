@@ -6,6 +6,7 @@ import { NewDeckModal } from "components/layout/new-deck-modal";
 import useDecks from "hooks/decks";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native"
+import { Deck } from "types";
 import { DecksStackParamList, RootStackParamList} from "types/navigation";
 
 

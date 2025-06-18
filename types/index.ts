@@ -1,12 +1,12 @@
-type Card = {
+export type Card = {
     id: string;
     front: string;
     back: string;
 }
 
-type NewCard = Omit<Card, 'id'>
+export type NewCard = Omit<Card, 'id'>
 
-type Deck={
+export type Deck={
     id: string;
     name: string;
     description: string;
@@ -16,16 +16,20 @@ type Deck={
     created_at: Date;
 }
 
-type NewDeck = Omit<Deck, 'id'|'saved'>
+export type NewDeck = {
+    name: string;
+    description: string;
+    visibility: string;
+}
 
-type progress = {
+export type Progress = {
     n: number;
     i: number;
     ef: number;
     dueDate: number;
 }
 
-type Session = {
+export type Session = {
     deckId: string;
     wrong: number;
     good: number;
@@ -33,11 +37,11 @@ type Session = {
     reviewedOn: number;
 }
 
-type DeckProgress = {
-    progress: Record<string, progress>
+export type DeckProgress = {
+    progress: Record<string, Progress>
     lastReviewed?: number;
 }
-type User = {
+export type User = {
     id: string;
     created_at: Date;
     updated_at: Date;

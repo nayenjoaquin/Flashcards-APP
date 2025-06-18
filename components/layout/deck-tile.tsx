@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-na
 import { gradient2Colors } from "shared/utils/common";
 import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
+import { Deck } from "types";
 
 interface props {
     deck: Deck;

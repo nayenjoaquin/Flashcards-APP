@@ -7,6 +7,7 @@ import useDecks from "hooks/decks";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native"
 import { getLocal } from "shared/utils/common";
+import { Deck, Session } from "types";
 import { RootStackParamList } from "types/navigation";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;

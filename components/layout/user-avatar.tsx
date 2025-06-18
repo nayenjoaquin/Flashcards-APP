@@ -1,4 +1,5 @@
 import { Image, View } from "react-native";
+import { User } from "types";
 
 interface props {
     user: User;

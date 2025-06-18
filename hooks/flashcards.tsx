@@ -1,6 +1,7 @@
 // hooks/useDecks.ts
 import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
+import { Card, NewCard } from 'types';
 
 const useCards = (did: string) => {
   const [cards, setCards] = useState<Card[]>([]);

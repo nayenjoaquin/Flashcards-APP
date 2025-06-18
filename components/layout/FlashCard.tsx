@@ -1,5 +1,6 @@
 import { Key, useId, useRef, useState } from "react";
 import { Animated, Pressable, SafeAreaView, Text, View } from "react-native"
+import { Card } from "types";
 
 interface props {
     card: Card;

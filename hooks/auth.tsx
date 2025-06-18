@@ -3,6 +3,7 @@ import { useState } from "react"
 import { AuthStore } from "shared/stores/auth";
 import { getLocal, removeLocaL, saveLocal } from "shared/utils/common";
 import { addWhitelistedNativeProps } from "react-native-reanimated/lib/typescript/ConfigHelper";
+import { User } from "types";
 
 export const useAuth = () => {
 

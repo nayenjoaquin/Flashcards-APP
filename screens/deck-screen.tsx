@@ -15,6 +15,7 @@ import useDecks from "hooks/decks";
 import { getLocal } from "shared/utils/common";
 import { cardsForReview, DEFAULT_PROGRESS, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
+import { AuthStore } from "shared/stores/auth";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -29,6 +30,7 @@ export const DeckScreen = () => {
   const { cards, createCard, } = useCards(deck.id);
   const {progress, setProgress} = progressStore();
   const {deleteDeck} = useDecks();
+  const {user} = AuthStore();
 
 
   useLayoutEffect(() => {
@@ -40,7 +42,7 @@ export const DeckScreen = () => {
     const progressINIT = {
       progress: DEFAULT_PROGRESS(cards)
     };
-        getLocal(deck.id)
+        getLocal(user?.id+deck.id)
         .then(progress=>{
           const combinedProgress = {
             ...progressINIT,

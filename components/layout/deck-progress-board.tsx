@@ -1,9 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { countMasteredCards, countNewCards, countReviewedCards } from "shared/utils/spaced-repetition";
+import { Card, Progress } from "types";
 
 interface props{
-    progress: Record<string, progress>;
+    progress: Record<string, Progress>;
     cards: Card[];
 
 }

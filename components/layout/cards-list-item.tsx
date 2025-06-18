@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import AppTheme from '../../shared/const/app-theme';
 import { progressStore } from "shared/stores/progress";
 import { daysLeft } from "shared/utils/common";
+import { Card } from "types";
 
 interface props {
     card: Card;

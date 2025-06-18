@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { AuthStore } from 'shared/stores/auth';
 import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
+import { Deck, NewDeck } from 'types';
 
 const useMyDecks = () => {
-  const {decks, setDecks} = decksStore();
+  const {myDecks, setMyDecks} = decksStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {user} = AuthStore();
@@ -27,7 +28,7 @@ const useMyDecks = () => {
         if (!res.ok) throw new Error('Failed to fetch decks');
   
         const json = await res.json();
-        setDecks(json);
+        setMyDecks(json);
       } catch (err: any) {
         console.log('ERROR: ', err)
         setError(err.message || 'Unknown error');
@@ -79,7 +80,7 @@ const useMyDecks = () => {
         throw new Error(errorText);
       }
       const json = await res.json();
-      setDecks(json);
+      setMyDecks(json);
       setLoading(false);
       return json;
     }catch(err: any){
@@ -107,9 +108,9 @@ const useMyDecks = () => {
       }
 
       const newDeck = await res.json() as Deck
-      setDecks([
+      setMyDecks([
         newDeck,
-        ...decks
+        ...myDecks
       ]);
     }catch(err: any){
       console.error(err);
@@ -129,7 +130,7 @@ const deleteDeck= async (id: string) => {
       throw new Error(`Failed to delete deck: ${errorText}`)
     }
 
-    setDecks(decks.filter(deck => deck.id !== id));
+    setMyDecks(myDecks.filter(deck => deck.id !== id));
 
   }catch(err: any){
     console.error(err);
@@ -137,7 +138,7 @@ const deleteDeck= async (id: string) => {
   }
 }
 
-  return { decks, loading, error, fetchDecks, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { myDecks, loading, error, fetchDecks, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useMyDecks;

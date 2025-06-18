@@ -5,6 +5,7 @@ import { DecksStackParamList, RootStackParamList } from "types/navigation";
 import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
 import { gradient2Colors } from "shared/utils/common";
+import { Deck } from "types";
 
 interface DeckProps{
     deck: Deck;

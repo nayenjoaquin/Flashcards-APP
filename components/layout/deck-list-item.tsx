@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { formatSavedCount } from "shared/utils/common";
+import { Deck } from "types";
 
 interface props {
     deck: Deck;
