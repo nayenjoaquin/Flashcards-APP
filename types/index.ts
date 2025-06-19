@@ -22,12 +22,14 @@ export type NewDeck = {
     visibility: string;
 }
 
-export type Progress = {
+export type ProgressItem = {
     n: number;
     i: number;
     ef: number;
-    dueDate: number;
+    due_date: Date;
+    reviewed_at: Date;
 }
+export type Progress = Record<string, ProgressItem>
 
 export type Session = {
     deckId: string;
@@ -38,8 +40,8 @@ export type Session = {
 }
 
 export type DeckProgress = {
-    progress: Record<string, Progress>
-    lastReviewed?: number;
+    progress: Progress
+    lastReviewed?: Date;
 }
 export type User = {
     id: string;

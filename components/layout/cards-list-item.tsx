@@ -16,7 +16,7 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap}: 
 
     const {progress} = progressStore();
 
-    const reviewIn = daysLeft(progress.progress[card.id]?.dueDate);
+    const reviewIn = daysLeft(progress.progress[card.id]?.due_date);
     return(
         <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
             <View className="flex-1">

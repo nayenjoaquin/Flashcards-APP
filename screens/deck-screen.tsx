@@ -16,6 +16,8 @@ import { getLocal } from "shared/utils/common";
 import { cardsForReview, DEFAULT_PROGRESS, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthStore } from "shared/stores/auth";
+import { useProgress } from "hooks/progress";
+import { DeckProgress, Progress } from "types";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -28,7 +30,7 @@ export const DeckScreen = () => {
 
   const { deck } = route.params;
   const { cards, createCard, } = useCards(deck.id);
-  const {progress, setProgress} = progressStore();
+  const {getProgress, progress, setProgress} = useProgress();
   const {deleteDeck} = useDecks();
   const {user} = AuthStore();
 
@@ -39,18 +41,29 @@ export const DeckScreen = () => {
   }, [navigation, deck.name]);
 
   useEffect(()=>{
-    const progressINIT = {
-      progress: DEFAULT_PROGRESS(cards)
-    };
-        getLocal(user?.id+deck.id)
-        .then(progress=>{
-          const combinedProgress = {
-            ...progressINIT,
-            ...progress,
-          }
-          setProgress(combinedProgress);
-        })
-    },[cards]);
+    getProgress(deck.id, cards);
+    },[]);
+
+  useEffect(()=>{
+    const init = DEFAULT_PROGRESS(cards);
+    getProgress(deck.id, cards)
+    .then(retrieved=>{
+      if(!retrieved){
+        return
+      }
+      const combined: Progress= {
+          ...init,
+          ...retrieved
+        };
+      console.log('INIT: ', init);
+      console.log('RETRIEVED: ', retrieved);
+      console.log('COMBINED: ', combined);
+      
+      setProgress({
+        progress: combined,
+      });
+    });
+  }, [cards])
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -74,7 +87,7 @@ export const DeckScreen = () => {
               console.error('The deck can only be reviewed once every 8 hours');
               return;
             }
-            if(cardsForReview(progress.progress, cards).length === 0){
+            if(cardsForReview(progress?.progress, cards).length === 0){
               console.error('NO CARDS FOR REVIEW');
               return;
             }

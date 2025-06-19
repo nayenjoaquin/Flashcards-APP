@@ -27,13 +27,13 @@ export const ReviewScreen = () => {
 
     const {setProgress} = progressStore();
 
-    const [session, setSession] = useState<Record<string, Progress>>(progress.progress)
+    const [session, setSession] = useState<Progress>(progress.progress)
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async(session: Record<string, Progress>) => {
+    const finishSession = async(session: Progress) => {
         const newProgress: DeckProgress = {
             progress: session,
-            lastReviewed: Date.now()
+            lastReviewed: new Date()
         }
         console.log('FINAL SESSION PROGRESS: ', session);
         
