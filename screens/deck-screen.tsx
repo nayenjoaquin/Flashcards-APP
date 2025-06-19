@@ -12,8 +12,8 @@ import { progressStore } from "shared/stores/progress";
 import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "hooks/decks";
-import { getLocal } from "shared/utils/common";
-import { cardsForReview, DEFAULT_PROGRESS, readyForReview } from "shared/utils/spaced-repetition";
+import { getLocal, shuffleArray } from "shared/utils/common";
+import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthStore } from "shared/stores/auth";
 import { useProgress } from "hooks/progress";
@@ -30,7 +30,7 @@ export const DeckScreen = () => {
 
   const { deck } = route.params;
   const { cards, createCard, } = useCards(deck.id);
-  const {getProgress, progress, setProgress} = useProgress();
+  const {getProgress, progress, saveProgress} = useProgress();
   const {deleteDeck} = useDecks();
   const {user} = AuthStore();
 
@@ -41,29 +41,8 @@ export const DeckScreen = () => {
   }, [navigation, deck.name]);
 
   useEffect(()=>{
-    getProgress(deck.id, cards);
-    },[]);
-
-  useEffect(()=>{
-    const init = DEFAULT_PROGRESS(cards);
-    getProgress(deck.id, cards)
-    .then(retrieved=>{
-      if(!retrieved){
-        return
-      }
-      const combined: Progress= {
-          ...init,
-          ...retrieved
-        };
-      console.log('INIT: ', init);
-      console.log('RETRIEVED: ', retrieved);
-      console.log('COMBINED: ', combined);
-      
-      setProgress({
-        progress: combined,
-      });
-    });
-  }, [cards])
+    getProgress(deck.id);
+    },[cards]);
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -83,19 +62,25 @@ export const DeckScreen = () => {
         <DeckViewHeader
         cards={cards}
           onReview={()=>{
-            if(!readyForReview(progress)){
-              console.error('The deck can only be reviewed once every 8 hours');
+            if(!progress){
+              navigation.push('Review',{
+                cards: shuffleArray(cards),
+                deck: deck,
+                })
               return;
             }
-            if(cardsForReview(progress?.progress, cards).length === 0){
+            // if(!readyForReview(progress.lastReviewed!)){
+            //   console.error('The deck can only be reviewed once every 8 hours');
+            //   return;
+            // }
+            if(cardsForReview(cards, progress?.progress).length === 0){
               console.error('NO CARDS FOR REVIEW');
               return;
             }
             navigation.push('Review',
                 {
-                cards: cardsForReview(progress.progress, cards),
+                cards: cardsForReview(cards, progress?.progress),
                 deck: deck,
-                progress: progress
                 }
             )
           }}

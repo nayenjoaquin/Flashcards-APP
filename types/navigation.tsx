@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
+import { Card, Deck, DeckProgress, NewCard, Progress } from "types";
 
 
   export type DecksStackParamList = {
@@ -21,7 +22,6 @@ import { NavigatorScreenParams } from "@react-navigation/native";
     Review: {
       cards: Card[],
       deck: Deck,
-      progress: DeckProgress
     };
     Login: undefined;
     Register: undefined;

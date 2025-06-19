@@ -2,14 +2,12 @@ import { DeckProgress } from "types";
 import { create } from "zustand";
 
 interface storeProps{
-  progress: DeckProgress;
-  setProgress: (progress: DeckProgress)=>void
+  progress: DeckProgress | null;
+  setProgress: (progress: DeckProgress|null)=>void
 }
 
 export const progressStore = create<storeProps>(set=>({
-  progress : {
-    progress: {},
-  },
+  progress : null,
   setProgress: (progress)=>set(prev=>(
     {progress}
   ))

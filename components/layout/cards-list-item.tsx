@@ -4,6 +4,7 @@ import AppTheme from '../../shared/const/app-theme';
 import { progressStore } from "shared/stores/progress";
 import { daysLeft } from "shared/utils/common";
 import { Card } from "types";
+import { useEffect } from "react";
 
 interface props {
     card: Card;
@@ -15,8 +16,7 @@ interface props {
 export const CardsListItem = ({card, selected=false, selecting = false, onTap}: props) => {
 
     const {progress} = progressStore();
-
-    const reviewIn = daysLeft(progress.progress[card.id]?.due_date);
+    const reviewIn = !progress ? 0 : progress.progress[card.id] ? daysLeft(progress.progress[card.id].due_date) : 0
     return(
         <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
             <View className="flex-1">

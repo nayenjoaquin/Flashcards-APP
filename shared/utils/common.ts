@@ -48,7 +48,6 @@ export const removeLocaL = async (name: string)=>{
 }
 
 export const  daysLeft =(dueDate: Date) => {
-  console.log('DUE DATE: ', dueDate);
   
   const today = new Date();
 

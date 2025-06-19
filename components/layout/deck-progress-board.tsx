@@ -1,21 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { countMasteredCards, countNewCards, countReviewedCards } from "shared/utils/spaced-repetition";
-import { Card, Progress } from "types";
+import { Card, DeckProgress, Progress } from "types";
 
 interface props{
-    progress: Record<string, Progress>;
+    progress: DeckProgress | null;
     cards: Card[];
 
 }
 
 export const DeckProgressBoard = ({progress, cards}: props) => {
     
+    
     return(
         <View className="flex flex-row w-full justify-between gap-5 mt-5">
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countNewCards(progress)}
+                {progress ?countNewCards(progress?.progress, cards) : cards.length}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">
@@ -27,7 +28,7 @@ export const DeckProgressBoard = ({progress, cards}: props) => {
             <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countReviewedCards(progress)}
+                {progress ? countReviewedCards(progress?.progress) : 0}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">
@@ -39,7 +40,7 @@ export const DeckProgressBoard = ({progress, cards}: props) => {
             <View className="h-full border-l border-gray-400"></View>
             <View className="flex items-center w-20">
                 <Text className="font-semibold">
-                {countMasteredCards(progress)}
+                {progress ? countMasteredCards(progress?.progress) : 0}
                 </Text>
                 <View className="flex flex-row items-center gap-0.5">
                     <Text className="text-sm font-semibold flex">

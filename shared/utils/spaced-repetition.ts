@@ -8,7 +8,7 @@ interface props{
     i: number;
     ef: number;
 }
-export const updateCard = ({q, n, i, ef}: props)=>{
+export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
     const progress={
         i: i,
         n: n,
@@ -46,22 +46,11 @@ export const updateCard = ({q, n, i, ef}: props)=>{
     return progress;
 }
 
-export const DEFAULT_PROGRESS =(cards: Card[]): Progress=>{
-    const progress = cards.reduce((acc, card)=>{
-        acc[card.id] = {
-            n: 0,
-            i: 0,
-            ef: 2.5,
-            due_date: new Date(),
-            reviewed_at: new Date()
-        }
-        return acc;
-    }, {} as Progress);
-    return progress
-    
-}
 
-export const cardsForReview= (progress: Progress, cards: Card[])=>{
+export const cardsForReview= (cards: Card[], progress?: Progress)=>{
+    if(!progress){
+        return shuffleArray(cards).slice(NEW_CARDS_PER_SESSION);
+    }
 
     const pastDue = cards.filter(card=>{
         const cardProgress = progress[card.id];
@@ -73,7 +62,7 @@ export const cardsForReview= (progress: Progress, cards: Card[])=>{
     });
 
     if (newCards.length > NEW_CARDS_PER_SESSION) {
-        newCards = newCards.slice(0, NEW_CARDS_PER_SESSION);
+        newCards = shuffleArray(newCards).slice(0, NEW_CARDS_PER_SESSION);
     }
 
     const total = pastDue.length +  Math.min(NEW_CARDS_PER_SESSION, newCards.length);
@@ -81,13 +70,9 @@ export const cardsForReview= (progress: Progress, cards: Card[])=>{
     return shuffleArray([...pastDue, ...newCards]);
 }
 
-export const readyForReview = (progress: DeckProgress) =>{
-    
-    if(progress.lastReviewed==undefined){
-        return true;
-    }
+export const readyForReview = (date: Date) =>{
     const today = Date.now();
-    const lastReviewed = new Date(progress.lastReviewed).getTime();
+    const lastReviewed = date.getTime();
     const diff = today - lastReviewed;
     
 
@@ -96,16 +81,12 @@ export const readyForReview = (progress: DeckProgress) =>{
 }
 
 
-export const countNewCards = (progress: Progress) => {
+export const countNewCards = (progress: Progress, cards: Card[]) => {
     const keys = Object.keys(progress);
-    const newCards=keys.filter(key=>progress[key].i==0)
-    
-    return newCards.length
+    return cards.filter(card=>!keys.includes(card.id)).length
 }
 export const countReviewedCards = (progress: Progress) => {
-    
     const keys = Object.keys(progress);
-
     return keys.filter(key=>progress[key].i>0 && progress[key].n<5).length
 }
 
