@@ -33,7 +33,7 @@ const useCards = (did: string) => {
       }
   };
 
-  const createCard = async(card: NewCard) => {
+  const createCard = async(card: NewCard): Promise<boolean> => {
     try{
       const res = await fetch(API_BASE_URL+'/flashcards', {
         method: 'POST',
@@ -56,9 +56,11 @@ const useCards = (did: string) => {
         newCard,
         ...prev
       ]))
+      return true;
 
     } catch(err:any){
       console.error(err);
+      return false;
       
     }
   }

@@ -11,10 +11,8 @@ export const saveLocal = async (name: string, item: Object) => {
          if (item==null){
             throw new Error('Failed to save Item');
         }
-        console.log(name+' saved succesfully');
 
     }catch(err){
-        console.error(err);
         return null   
     }
 }
@@ -26,11 +24,9 @@ export const getLocal = async (name: string) => {
         if (item==null){
             throw new Error('Item not found');
         }
-        console.log(name+' retrieved succesfully');
         
         return await JSON.parse(item);
     }catch(err:any){
-        console.error(err);
         return null
         
     }
@@ -39,10 +35,8 @@ export const getLocal = async (name: string) => {
 export const removeLocaL = async (name: string)=>{
     try{
         await AsyncStorage.removeItem(name, ()=>{
-            console.log(name+' removed succesfully');
         });
     } catch(err){
-        console.error(err);
         
     }
 }

@@ -49,12 +49,14 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
 
 export const cardsForReview= (cards: Card[], progress?: Progress)=>{
     if(!progress){
-        return shuffleArray(cards).slice(NEW_CARDS_PER_SESSION);
+        const processed =shuffleArray(cards).slice(0,NEW_CARDS_PER_SESSION);
+        
+        return processed;
     }
 
     const pastDue = cards.filter(card=>{
         const cardProgress = progress[card.id];
-        return cardProgress?.i > 0 && cardProgress.due_date <= new Date();
+        return cardProgress?.i > 0 && (cardProgress.due_date <= new Date());
     });
     let newCards = cards.filter(card=>{
         const cardProgress = progress[card.id];

@@ -17,7 +17,7 @@ import { Card, Deck, DeckProgress, NewCard, Progress } from "types";
     Main: undefined;
     Deck: { deck: Deck};
     NewCard: {
-      onSubmit: (newCard: NewCard)=>Promise<void>
+      onSubmit: (newCard: NewCard)=>Promise<boolean>
     }
     Review: {
       cards: Card[],

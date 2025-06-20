@@ -4,6 +4,7 @@ import { LabeledTextField } from "components/inputs/labeled-textfield";
 import { useState } from "react";
 import { SafeAreaView, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { NewCard } from "types";
 import { RootStackParamList } from "types/navigation"
 
 
@@ -44,10 +45,11 @@ export const NewCardScreen = () => {
                 ></LabeledTextField>
                 <FilledButton
                 onPress={()=>{
-                    onSubmit(card);
-                    setCard({
-                        front: '',
-                        back: ''
+                    onSubmit(card).then(success=>{
+                        if(success) setCard({
+                            front: '',
+                            back: ''
+                        })
                     })
                 }}
                 text="Add card"/>

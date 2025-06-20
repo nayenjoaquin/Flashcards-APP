@@ -55,7 +55,6 @@ export const useProgress = () =>{
             })
             
         }catch(err){
-            console.error('Failed fetching deck progress: ',err);
             setProgress(null);
             
         }
@@ -70,7 +69,12 @@ export const useProgress = () =>{
                     "Content-Type": "Application/json",
                     "Authorization": "Bearer "+ await getLocal('JWT')
                 },
-                body: JSON.stringify(progress)
+                body: JSON.stringify({
+                    i: progress.i,
+                    n: progress.n,
+                    ef: progress.ef,
+                    due_date: progress.due_date
+                })
             });
             if(!res.ok){
                 throw new Error(await res.text());
@@ -78,6 +82,7 @@ export const useProgress = () =>{
 
             return true;
         }catch(err){
+            
             console.error('Failed to save progress: ',progress, err);
         }
     }
