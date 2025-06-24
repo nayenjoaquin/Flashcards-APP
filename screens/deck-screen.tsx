@@ -64,19 +64,19 @@ export const DeckScreen = () => {
           onReview={()=>{
             if(!progress){
               navigation.push('Review',{
-                cards: shuffleArray(cards),
+                cards: shuffleArray(cards).slice(0,20),
                 deck: deck,
                 })
               return;
             }
-            // if(!readyForReview(progress.lastReviewed!)){
-            //   console.error('The deck can only be reviewed once every 8 hours');
-            //   return;
-            // }
-            // if(cardsForReview(cards, progress?.progress).length === 0){
-            //   console.error('NO CARDS FOR REVIEW');
-            //   return;
-            // }
+            if(!readyForReview(progress.lastReviewed!)){
+              console.error('The deck can only be reviewed once every 8 hours');
+              return;
+            }
+            if(cardsForReview(cards, progress?.progress).length === 0){
+              console.error('NO CARDS FOR REVIEW');
+              return;
+            }
             navigation.push('Review',
                 {
                 cards: cardsForReview(cards, progress?.progress),

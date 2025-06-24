@@ -88,7 +88,6 @@ export const useProgress = () =>{
     }
 
     const saveProgress = async(deck_id: string, progress: Progress) => {
-        console.log('UPDATING PROGRESS: ', progress);
         
         const cardIds = Object.keys(progress);
 
@@ -96,7 +95,10 @@ export const useProgress = () =>{
             const success = await updateCardProgress(id, progress[id]);
         });
 
-        getProgress(deck_id)
+        setProgress({
+            progress,
+            lastReviewed: new Date()
+        })
     }
 
     return {getProgress, progress, saveProgress}
