@@ -194,7 +194,29 @@ const deleteDeck= async (id: string) => {
   }
 }
 
-  return { decks, myDecks, removeSavedDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+const searchDeck = async (search: string) => {
+  try{
+    const res = await fetch(API_BASE_URL+'/decks?search='+search, {
+      method: 'GET',
+
+    })
+
+    if (!res.ok){
+      throw new Error('failed to search decks: ' + await res.text())
+    }
+
+    const fetchedDecks = await res.json() as Deck[]
+    setDecks(fetchedDecks)
+    
+
+  }catch(err){
+    console.error(err);
+    setDecks([])
+    
+  }
+}
+
+  return { decks, myDecks, removeSavedDeck, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;

@@ -1,11 +1,14 @@
+import { FilledTextField } from "components/inputs/filled-textfield ";
+import { LabeledTextField } from "components/inputs/labeled-textfield";
 import { DeckListItem } from "components/layout/deck-list-item";
 import useDecks from "hooks/decks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 
 export const ExploreScreen = () => {
 
-  const {decks, myDecks, fetchDecks, saveDeck, removeSavedDeck} = useDecks();
+  const {decks, myDecks, fetchDecks, saveDeck, removeSavedDeck, searchDeck} = useDecks();
+  const [search, setSearch] = useState('');
 
   useEffect(()=>{
     fetchDecks();
@@ -16,6 +19,14 @@ export const ExploreScreen = () => {
         <Text className="text-2xl font-bold">
           Find new Decks
         </Text>
+        <FilledTextField
+         onChange={async(text)=>{
+          setSearch(text);
+          await searchDeck(text);
+        }}
+         placeholder="Search by deck name..."
+         value={search}
+         />
         <ScrollView className="w-full h-full">
           <View className="flex h-full w-full flex-col gap-2.5">
             {decks?.map(deck => (
