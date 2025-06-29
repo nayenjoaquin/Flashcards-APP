@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenContent } from "components/ScreenContent";
-import { useAuth } from "hooks/auth";
+import { useAuth } from "shared/hooks/auth";
 import { useEffect } from "react";
 import { DecksScreen } from "screens/decks-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";

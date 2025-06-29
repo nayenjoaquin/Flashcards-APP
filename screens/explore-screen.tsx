@@ -1,7 +1,7 @@
 import { FilledTextField } from "components/inputs/filled-textfield ";
 import { LabeledTextField } from "components/inputs/labeled-textfield";
 import { DeckListItem } from "components/layout/deck-list-item";
-import useDecks from "hooks/decks";
+import useDecks from "shared/hooks/decks";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 

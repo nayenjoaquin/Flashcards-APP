@@ -11,6 +11,7 @@ export const saveLocal = async (name: string, item: Object) => {
          if (item==null){
             throw new Error('Failed to save Item');
         }
+        return item
 
     }catch(err){
         return null   
@@ -55,19 +56,28 @@ export const  daysLeft =(dueDate: Date) => {
   return diffDays;
 }
 
-export const daysAgo = (pastDate: number) => {
-  const today = new Date();
-  const date = new Date(pastDate);
-
-  // Reset time to midnight for both dates
-  today.setHours(0, 0, 0, 0);
-  date.setHours(0, 0, 0, 0);
-
-  const diffTime = today.getTime() - date.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  return diffDays;
+export const timeAgo = (pastDate: number): string => {
+  const now = Date.now();
+  const diff = now-pastDate;
+  console.log('diff: ', diff);
+  if(diff<1000){
+    return 'just now'
+  }else if(diff<1000*60){
+    const seconds = Math.round(diff/1000)
+    return seconds + ' seconds ago'
+  }else if(diff<1000*60*60){
+     const minutes = Math.round(diff/(1000*60))
+    return minutes + ' minutes ago'
+  }else if(diff<1000*60*60*24){
+     const hours = Math.round(diff/(1000*60*60))
+     
+    return hours + ' hours ago'
+  }else{
+     const days = Math.round(diff/(1000*60*60*24))
+    return days + ' days ago'
+  }
 }
+
 
 export const formatSavedCount = (count: number) => {
   if (count < 1000) {

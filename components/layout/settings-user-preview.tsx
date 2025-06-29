@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FilledButton } from "components/buttons/filled-button";
-import { useAuth } from "hooks/auth";
+import { useAuth } from "shared/hooks/auth";
 import { Text, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
 import appTheme from "../../shared/const/app-theme";

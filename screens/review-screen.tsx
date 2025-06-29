@@ -9,10 +9,14 @@ import { progressStore } from "shared/stores/progress";
 import { saveLocal } from "shared/utils/common";
 import { NEW_CARDS_PER_SESSION } from "shared/const/values";
 import { DeckProgress, Progress, Session } from "types";
-import { useProgress } from "hooks/progress";
+import { useProgress } from "shared/hooks/progress";
+import { useAuth } from "shared/hooks/auth";
+import { useSession } from "shared/hooks/last-session";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
+
+type Results = {wrong: number,good: number,perfect: number}
 
 export const ReviewScreen = () => {
 
@@ -21,6 +25,8 @@ export const ReviewScreen = () => {
     const [index, setIndex] = useState(0);
     const {progress, saveProgress} = useProgress();
     const {cards, deck} = route.params;
+    const {user} = useAuth();
+    const {saveSession} = useSession();
     
     const [results, setResults] = useState({
         wrong: 0,
@@ -31,15 +37,18 @@ export const ReviewScreen = () => {
     const [sessionProgress, setSessionProgress] = useState<Progress>(progress?.progress??{})
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async(session: Progress) => {
-        await saveLocal('LAST_SESSION', {
+    const finishSession = async(progress: Progress, results: Results) => {
+        const session = {
             deckId: deck.id,
             wrong: results.wrong,
             good: results.good,
             perfect: results.perfect,
             reviewedOn: Date.now()
-        } as Session);
-        await saveProgress(deck.id, session)
+        } as Session
+        await saveProgress(deck.id, progress)
+        console.log('aftersaving progress');
+        
+        await saveSession(session, user?.id)
         navigation.goBack();
     }
 
@@ -48,29 +57,28 @@ export const ReviewScreen = () => {
         setFlipped(false);
     }
 
-    const updateProgress = (q:number)=>{
-        const update =updateCard({
+    const review = (q:number)=>{
+        const cardUpdate =updateCard({
             ...sessionProgress[cards[index].id],
             q: q
-        })
-        setResults(prev=>{
-            if(q==0){
-                return {...prev, wrong: prev.wrong+1}
-            }else if(q==1){
-                return {...prev, good: prev.good+1}
-            }else{
-                return {...prev, perfect: prev.perfect+1}
-            }
         });
         setSessionProgress(prev=>{
-            prev[cards[index].id]=update;
-            if(index+1==cards.length){
-                finishSession(prev);
-            }else{
-                nextCard();
-            }
-            return {...prev};
+            prev[cards[index].id]=cardUpdate;
+            return prev;
         })
+        let newResults;
+        if(q==0){
+            newResults = {...results, wrong: results.wrong+1}
+        }else if(q==1){
+            newResults = {...results, good: results.good+1}
+        }else{
+            newResults = {...results, perfect: results.perfect+1}
+        }
+        setResults(newResults);
+
+        if(index==cards.length-1){
+            finishSession(sessionProgress, newResults);
+        }else nextCard();
 
     }
 
@@ -93,17 +101,17 @@ export const ReviewScreen = () => {
                     text="Wrong"
                     color="red"
                     grow
-                    onPress={()=>updateProgress(0)}/>
+                    onPress={()=>review(0)}/>
                     <FilledButton
                     text="Good"
                     color="green"
                     grow
-                    onPress={()=>updateProgress(1)}/>
+                    onPress={()=>review(1)}/>
                     <FilledButton
                     text="Perfect"
                     color="blue"
                     grow
-                    onPress={()=>updateProgress(2)}/>
+                    onPress={()=>review(2)}/>
                     </View>
                     : null
                 }

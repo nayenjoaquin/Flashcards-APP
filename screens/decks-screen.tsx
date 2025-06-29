@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DeckCard } from "components/layout/deck-card";
 import { NewDeckModal } from "components/layout/new-deck-modal";
-import useDecks from "hooks/decks";
+import useDecks from "shared/hooks/decks";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { Deck } from "types";
