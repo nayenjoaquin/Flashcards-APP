@@ -32,12 +32,14 @@ export type ProgressItem = {
 export type Progress = Record<string, ProgressItem>
 
 export type Session = {
-    deckId: string;
+    deck_id: string;
     wrong: number;
     good: number;
     perfect: number;
-    reviewedOn: number;
+    created_at: number;
+    duration: number;
 }
+
 
 export type DeckProgress = {
     progress: Progress
@@ -50,4 +52,5 @@ export type User = {
     username: string;
     email: string;
     password: string;
+    token: string;
 }

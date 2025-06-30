@@ -25,10 +25,10 @@ export const LastSessionSection = () => {
 
     useEffect(() => {
         
-        getLastSession(user?.id).then((session) => {
+        getLastSession(user?.token).then((session) => {
             if (session) {
                 setLastSession(session);
-                getDeckbyId(session.deckId).then((deck) => {
+                getDeckbyId(session.deck_id).then((deck) => {
                     setLastDeck(deck);
                 });
             }
@@ -49,7 +49,7 @@ export const LastSessionSection = () => {
                     />
                     <View className="flex-1 flex-col justify-center items-start gap-5">
                         <View className="flex flex-row items-center gap-2">
-                            <Text className="text-xl italic text-gray-400 flex flex-row">{timeAgo(lastSession?.reviewedOn??Date.now())}</Text>
+                            <Text className="text-xl italic text-gray-400 flex flex-row">{timeAgo(lastSession.created_at)}</Text>
                             <Ionicons  name="time-outline" size={16} color={"#9CA3AF"}/>
                         </View>
                         <Text className="text-xl">{getReviewedCardsCount(lastSession)} cards reviewed</Text>

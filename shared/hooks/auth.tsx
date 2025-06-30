@@ -59,7 +59,7 @@ export const useAuth = () => {
 
             const body = await res.json();
 
-            auth.setUser(body.data as User)
+            auth.setUser({...body['data'], token: body['token']} as User)
             saveLocal('JWT', body.token);
             return body.data
         }catch(err){
@@ -93,7 +93,10 @@ export const useAuth = () => {
             const body = await res.json();
             
 
-            auth.setUser(body.data);
+            auth.setUser({
+                ...body.data,
+                token: body.token
+            });
             saveLocal('JWT', body.token);
             return body.data
         }catch(err){

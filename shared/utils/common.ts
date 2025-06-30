@@ -57,9 +57,9 @@ export const  daysLeft =(dueDate: Date) => {
 }
 
 export const timeAgo = (pastDate: number): string => {
+  
   const now = Date.now();
   const diff = now-pastDate;
-  console.log('diff: ', diff);
   if(diff<1000){
     return 'just now'
   }else if(diff<1000*60){
