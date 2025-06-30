@@ -27,6 +27,7 @@ export const ReviewScreen = () => {
     const {cards, deck} = route.params;
     const {user} = useAuth();
     const {saveSession} = useSession();
+    const start = Date.now()
     
     const [results, setResults] = useState({
         wrong: 0,
@@ -39,16 +40,16 @@ export const ReviewScreen = () => {
 
     const finishSession = async(progress: Progress, results: Results) => {
         const session = {
-            deckId: deck.id,
+            deck_id: deck.id,
             wrong: results.wrong,
             good: results.good,
             perfect: results.perfect,
-            reviewedOn: Date.now()
+            created_at: Date.now(),
+            duration: Date.now() - start
         } as Session
         await saveProgress(deck.id, progress)
-        console.log('aftersaving progress');
         
-        await saveSession(session, user?.id)
+        await saveSession(session, user?.token)
         navigation.goBack();
     }
 

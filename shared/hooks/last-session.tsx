@@ -31,17 +31,30 @@ export const useSession = ()=>{
         }
     }
 
-    const saveSession = async( session: Session, user_id?: string): Promise<boolean> => {
-        
-        if(!user_id){
-            return false;
-        }
-        const res = await saveLocal(user_id+' - LAST SESSION', session)
-        if(!res){
+    const saveSession = async( session: Session, token?: string): Promise<boolean> => {
+        try{
+            const {deck_id, wrong, good, perfect, duration} = session
+            const res = await fetch(API_BASE_URL+'/session', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'Application/json',
+                    "Authorization": 'Bearer '+ (token ?? await getLocal('JWT'))
+                },
+                body: JSON.stringify({deck_id, wrong, good, perfect, duration})
+            })
+
+            if(!res.ok){
+                throw new Error('Failed to save session to API: '+ await res.text())
+            }
+
+            const body = await res.json();
+
+            return true
+        }catch(err){
+            console.error(err);
             return false
+            
         }
-        setLastSession(session);
-        return true;
 
     }
 
