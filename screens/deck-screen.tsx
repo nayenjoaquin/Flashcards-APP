@@ -47,6 +47,7 @@ export const DeckScreen = () => {
   return (
     <View className="h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex flex-col items-center justify-center gap-2.5">
+        {deck.user_id == user?.id ?
         <FloatingIconButton
           icon="add"
           onPress={()=>{
@@ -56,6 +57,7 @@ export const DeckScreen = () => {
           }}
           color="#6260a2"
         />
+        :null}
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
         <Text className="text-gray-500 w-full ">{deck.description}</Text>
         {cards.length>0 ?
@@ -69,10 +71,10 @@ export const DeckScreen = () => {
                 })
               return;
             }
-            // if(!readyForReview(progress.lastReviewed!)){
-            //   console.error('The deck can only be reviewed once every 8 hours');
-            //   return;
-            // }
+            if(!readyForReview(progress.lastReviewed!)){
+              console.error('The deck can only be reviewed once every 8 hours');
+              return;
+            }
             if(cardsForReview(cards, progress?.progress).length === 0){
               console.error('NO CARDS FOR REVIEW');
               return;
@@ -100,6 +102,7 @@ export const DeckScreen = () => {
         :
           <DeckCardsList cards={cards}/>
         }
+        { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{
           await deleteDeck(deck.id);
           navigation.goBack();
@@ -107,6 +110,8 @@ export const DeckScreen = () => {
           <Ionicons color={'red'} name="trash-bin" size={24}/>
           <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
         </TouchableOpacity>
+        : null
+        }
       </SafeAreaView>
     </View>
   );

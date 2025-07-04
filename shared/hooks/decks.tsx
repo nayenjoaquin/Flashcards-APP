@@ -166,8 +166,8 @@ const useDecks = () => {
         throw new Error(`Failed to create deck: ${errorText}`);
       }
 
-      const newDeck = await res.json() as Deck
-      setMyDecks([newDeck, ...myDecks]);
+      const newDeck = await res.json() as Deck;
+      await saveDeck(newDeck);
     }catch(err: any){
       console.error(err);
       

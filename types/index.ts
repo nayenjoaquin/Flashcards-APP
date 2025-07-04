@@ -13,6 +13,7 @@ export type Deck={
     saved: number;
     visibility: string;
     owner: string;
+    user_id: string;
     created_at: Date;
 }
 
