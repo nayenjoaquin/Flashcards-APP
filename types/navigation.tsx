@@ -8,7 +8,7 @@ import { Card, Deck, DeckProgress, NewCard, Progress } from "types";
   
   export type MainTabParamList = {
     Home: undefined;
-    Decks: undefined;
+    Library: undefined;
     Explore: undefined
     Profile: undefined;
   };

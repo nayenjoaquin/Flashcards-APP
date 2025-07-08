@@ -13,7 +13,7 @@ type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
 export const HomeScreen = () => {
 
-    const {decks, myDecks, loading: loadingDecks, error, getSavedDecks, getDeckbyId} = useDecks();
+    const {decks, savedDecks, loading: loadingDecks, error, getSavedDecks, getDeckbyId} = useDecks();
     const navigation = useNavigation<navProp>();
 
     useEffect(()=>{
@@ -32,7 +32,7 @@ export const HomeScreen = () => {
                             ) : error ? (
                                 <Text className="text-red-500">{error}</Text>
                             ) : (
-                                myDecks.map((deck) => (
+                                savedDecks.map((deck) => (
                                         <DeckTile onTap={()=>{
                                             navigation.navigate('Deck', { deck });
                                         }} deck={deck} key={deck.id}/>

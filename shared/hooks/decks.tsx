@@ -7,7 +7,7 @@ import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck } from 'types';
 
 const useDecks = () => {
-  const {myDecks, setMyDecks} = decksStore();
+  const {savedDecks, setSavedDecks} = decksStore();
   const [decks, setDecks] = useState<Deck[]|undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +78,7 @@ const useDecks = () => {
         const errorText = await res.text();
         throw new Error(`Failed to save deck: ${errorText}`);
       }
-      setMyDecks([deck, ...myDecks]);
+      setSavedDecks([deck, ...savedDecks]);
       setDecks(prev=>{
         const updatedDecks = prev?.map(d =>{
           if(d.id === deck.id){
@@ -106,7 +106,7 @@ const useDecks = () => {
         const errorText = await res.text();
         throw new Error(`Failed to forget deck: ${errorText}`);
       }
-      setMyDecks(myDecks.filter(d => d.id !== deck.id));
+      setSavedDecks(savedDecks.filter(d => d.id !== deck.id));
       setDecks(prev=>{
         const updatedDecks = prev?.map(d =>{
           if(d.id === deck.id){
@@ -139,7 +139,7 @@ const useDecks = () => {
         throw new Error(errorText);
       }
       const json = await res.json();
-      setMyDecks(json);
+      setSavedDecks(json);
       setLoading(false);
       return json;
     }catch(err: any){
@@ -186,7 +186,7 @@ const deleteDeck= async (id: string) => {
       throw new Error(`Failed to delete deck: ${errorText}`)
     }
 
-    setMyDecks(myDecks.filter(deck => deck.id !== id));
+    setSavedDecks(savedDecks.filter(deck => deck.id !== id));
 
   }catch(err: any){
     console.error(err);
@@ -216,7 +216,7 @@ const searchDeck = async (search: string) => {
   }
 }
 
-  return { decks, myDecks, removeSavedDeck, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { decks, savedDecks, removeSavedDeck, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;

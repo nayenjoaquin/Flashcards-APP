@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenContent } from "components/ScreenContent";
 import { useAuth } from "shared/hooks/auth";
 import { useEffect } from "react";
-import { DecksScreen } from "screens/decks-screen";
+import { LibraryScreen } from "screens/library-screen";
 import { MainTabParamList, RootStackParamList } from "types/navigation";
 import { AuthStore } from "shared/stores/auth";
 import { ProfileScreen } from "screens/profile-screen";
@@ -43,8 +43,8 @@ export const MainTabNavigator = () => {
             tabBarInactiveTintColor: 'gray',
         }}/>
         <Tab.Screen
-            name="Decks"
-            component={DecksScreen}
+            name="Library"
+            component={LibraryScreen}
             options={{ title: 'Library',
                 headerTitle: 'My Decks',
             tabBarIcon: ({ color, size, focused }) => {

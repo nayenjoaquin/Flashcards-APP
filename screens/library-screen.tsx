@@ -13,11 +13,11 @@ import { DecksStackParamList, RootStackParamList} from "types/navigation";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Deck'>;
 
-export const DecksScreen = () => {
+export const LibraryScreen = () => {
     const navigation = useNavigation<NavigationProp>();
     const [newDeck, setNewDeck] = useState(false);
 
-    const {myDecks, loading, error, createDeck, fetchDecks, deleteDeck} = useDecks();
+    const {savedDecks, loading, error, createDeck, fetchDecks, deleteDeck} = useDecks();
 
     useEffect(() => {
     fetchDecks();
@@ -63,7 +63,7 @@ export const DecksScreen = () => {
                 <Text className="text-3xl font-bold">{error}</Text>
                 : <ScrollView >
                     <View className="flex flex-row flex-wrap justify-start p-5">
-                        {myDecks?.map((deck: Deck, index: number)=>{
+                        {savedDecks?.map((deck: Deck, index: number)=>{
                         return <DeckCard onPressed={()=>{
                             navigation.push('Deck',{
                                 deck: deck
