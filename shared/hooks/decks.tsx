@@ -216,7 +216,7 @@ const searchDeck = async (search: string) => {
   }
 }
 
-  return { decks, savedDecks, removeSavedDeck, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { decks, savedDecks, removeSavedDeck, setDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;

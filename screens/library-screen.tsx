@@ -8,6 +8,8 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { Deck } from "types";
 import { DecksStackParamList, RootStackParamList} from "types/navigation";
+import { filter, FilterBar } from "components/layout/filter-bar";
+import { useAuth } from "shared/hooks/auth";
 
 
 
@@ -16,12 +18,25 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Deck'>;
 export const LibraryScreen = () => {
     const navigation = useNavigation<NavigationProp>();
     const [newDeck, setNewDeck] = useState(false);
+    const {user} = useAuth()
+    const [filteredDecks, setFilteredDecks] = useState<Deck[]>([]);
 
-    const {savedDecks, loading, error, createDeck, fetchDecks, deleteDeck} = useDecks();
+    const {savedDecks, loading, error, createDeck, fetchDecks, setDecks} = useDecks();
+
+    const filters: filter[] = [
+        {
+            name: 'My decks',
+            onApply: ()=>setFilteredDecks(savedDecks.filter(deck=>deck.user_id==user?.id)),
+            onRemove: ()=>setFilteredDecks(savedDecks)
+        }
+    ]
 
     useEffect(() => {
     fetchDecks();
     }, []);
+    useEffect(()=>{
+        setFilteredDecks(savedDecks);
+    }, [savedDecks])
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -37,7 +52,7 @@ export const LibraryScreen = () => {
 
 
     return(
-        <View className="w-full flex flex-col bg-neutral-100">
+        <View className="w-full p-5 gap-5 flex flex-col bg-neutral-100">
             {
                 newDeck?
                 <View className=" z-10 h-full w-full absolute flex justify-end">
@@ -55,6 +70,7 @@ export const LibraryScreen = () => {
                 :
                 null
             }
+            <FilterBar filters={filters}/>
             {
                 loading ?
                 <View className="h-full flex w-full items-center justify-center"><ActivityIndicator size="large"/></View>
@@ -62,8 +78,8 @@ export const LibraryScreen = () => {
                 error ?
                 <Text className="text-3xl font-bold">{error}</Text>
                 : <ScrollView >
-                    <View className="flex flex-row flex-wrap justify-start p-5">
-                        {savedDecks?.map((deck: Deck, index: number)=>{
+                    <View className="flex flex-row flex-wrap justify-start">
+                        {filteredDecks?.map((deck: Deck, index: number)=>{
                         return <DeckCard onPressed={()=>{
                             navigation.push('Deck',{
                                 deck: deck
