@@ -26,7 +26,7 @@ export const useSession = ()=>{
             
             return {...body, created_at: new Date(body.created_at).getTime()} as Session
         }catch(err){
-            console.error('Failed to retrieve last session from API');
+            console.log('Failed to retrieve last session from API');
             return null
         }
     }
@@ -51,7 +51,7 @@ export const useSession = ()=>{
 
             return true
         }catch(err){
-            console.error(err);
+            console.log('Error to save deck session: ', err);
             return false
             
         }

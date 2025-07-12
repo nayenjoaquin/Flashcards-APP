@@ -83,7 +83,7 @@ export const useProgress = () =>{
             return true;
         }catch(err){
             
-            console.error('Failed to save progress: ',progress, err);
+            console.log('Failed to save progress: ',progress, err);
         }
     }
 

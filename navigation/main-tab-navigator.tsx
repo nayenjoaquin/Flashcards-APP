@@ -46,7 +46,7 @@ export const MainTabNavigator = () => {
             name="Library"
             component={LibraryScreen}
             options={{ title: 'Library',
-                headerTitle: 'My Decks',
+                headerTitle: 'Saved Decks',
             tabBarIcon: ({ color, size, focused }) => {
             const iconName = focused ? 'albums' : 'albums-outline';
         

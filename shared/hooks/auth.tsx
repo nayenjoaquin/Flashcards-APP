@@ -33,7 +33,7 @@ export const useAuth = () => {
             saveLocal('JWT', body.token);
             return body.data;
         }catch(err){
-            console.error('Failed to sign in:', err);
+            console.log('Failed to sign in:', err);
             
         }
     }
@@ -63,7 +63,7 @@ export const useAuth = () => {
             saveLocal('JWT', body.token);
             return body.data
         }catch(err){
-            console.error("Couldn't register new user: ", err);
+            console.log("Couldn't register new user: ", err);
             return null
             
         }
@@ -100,7 +100,7 @@ export const useAuth = () => {
             saveLocal('JWT', body.token);
             return body.data
         }catch(err){
-            console.error('Failed to verify user: ',err);
+            console.log('Failed to verify user: ',err);
             return null;
             
         }

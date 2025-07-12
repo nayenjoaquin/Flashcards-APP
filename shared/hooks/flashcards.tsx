@@ -59,7 +59,7 @@ const useCards = (did: string) => {
       return true;
 
     } catch(err:any){
-      console.error(err);
+      console.log('Error creating flashcard: ', err);
       return false;
       
     }

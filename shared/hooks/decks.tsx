@@ -56,7 +56,7 @@ const useDecks = () => {
       setLoading(false);
       return json;
     } catch (err: any) {
-      console.error('Error fetching deck by ID:', err);
+      console.log('Error fetching deck by ID:', err);
       setError(err.message || 'Unknown error');
       setLoading(false);
       return null;
@@ -89,7 +89,7 @@ const useDecks = () => {
         return updatedDecks;
       })
     } catch(err: any){
-      console.error('Error saving deck:', err);
+      console.log('Error saving deck:', err);
     }
   };
 
@@ -117,7 +117,7 @@ const useDecks = () => {
         return updatedDecks;
       });
     } catch(err: any){
-      console.error('Error forgetting deck:', err);
+      console.log('Error forgetting deck:', err);
     }
   };
 
@@ -143,7 +143,7 @@ const useDecks = () => {
       setLoading(false);
       return json;
     }catch(err: any){
-      console.error('Error fetching saved decks:', err);
+      console.log('Error fetching saved decks:', err);
       setError(err.message || 'Unknown error');
     }
   }
@@ -169,7 +169,7 @@ const useDecks = () => {
       const newDeck = await res.json() as Deck;
       await saveDeck(newDeck);
     }catch(err: any){
-      console.error(err);
+      console.log('Error creating deck: ', err);
       
       
     }
@@ -189,7 +189,7 @@ const deleteDeck= async (id: string) => {
     setSavedDecks(savedDecks.filter(deck => deck.id !== id));
 
   }catch(err: any){
-    console.error(err);
+    console.log('Error deleting deck: ', err);
     
   }
 }
@@ -210,7 +210,7 @@ const searchDeck = async (search: string) => {
     
 
   }catch(err){
-    console.error(err);
+    console.log('Error searching decks: ', err);
     setDecks([])
     
   }
