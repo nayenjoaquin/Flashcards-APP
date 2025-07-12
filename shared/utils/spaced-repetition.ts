@@ -1,6 +1,6 @@
 import { NEW_CARDS_PER_SESSION, REVIEW_COOLDOWN } from "shared/const/values";
 import { shuffleArray } from "./common";
-import { Card, DeckProgress, Progress, ProgressItem, Session } from "types";
+import { Card, DeckProgress, Progress , ProgressMap, Session } from "types";
 
 interface props{
     q: number;
@@ -47,7 +47,7 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
 }
 
 
-export const cardsForReview= (cards: Card[], progress?: Progress)=>{
+export const cardsForReview= (cards: Card[], progress?: ProgressMap)=>{
     if(!progress){
         const processed =shuffleArray(cards).slice(0,NEW_CARDS_PER_SESSION);
         
@@ -83,16 +83,16 @@ export const readyForReview = (date: Date) =>{
 }
 
 
-export const countNewCards = (progress: Progress, cards: Card[]) => {
+export const countNewCards = (progress: ProgressMap, cards: Card[]) => {
     const keys = Object.keys(progress);
     return cards.filter(card=>!keys.includes(card.id)).length
 }
-export const countReviewedCards = (progress: Progress) => {
+export const countReviewedCards = (progress: ProgressMap) => {
     const keys = Object.keys(progress);
     return keys.filter(key=>progress[key].i>0 && progress[key].n<5).length
 }
 
-export const countMasteredCards = (progress: Progress) => {
+export const countMasteredCards = (progress: ProgressMap) => {
     const keys = Object.keys(progress);
 
     return keys.filter(key=>progress[key].n>=5).length

@@ -2,7 +2,7 @@ import { API_BASE_URL } from "shared/const/strings"
 import { AuthStore } from "shared/stores/auth"
 import { progressStore } from "shared/stores/progress"
 import { getLocal } from "shared/utils/common"
-import { Card, DeckProgress, Progress, ProgressItem } from "types"
+import { Card, DeckProgress, Progress, ProgressMap } from "types"
 
 export const useProgress = () =>{
 
@@ -37,7 +37,7 @@ export const useProgress = () =>{
                 throw new Error('No progress retrieved from api');
             }
             
-            let newProgress: Progress = {};
+            let newProgress: ProgressMap = {};
 
             body.forEach(item=>{
                 const {card_id, ...progress} = item
@@ -60,7 +60,7 @@ export const useProgress = () =>{
         }
     }
 
-    const updateCardProgress = async (card_id: string, progress: ProgressItem) => {
+    const updateCardProgress = async (card_id: string, progress: Progress) => {
         
         try{
             const res = await fetch(API_BASE_URL+'/progress/'+card_id, {
@@ -87,7 +87,7 @@ export const useProgress = () =>{
         }
     }
 
-    const saveProgress = async(deck_id: string, progress: Progress) => {
+    const saveProgress = async(deck_id: string, progress: ProgressMap) => {
         
         const cardIds = Object.keys(progress);
 

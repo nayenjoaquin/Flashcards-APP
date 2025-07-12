@@ -23,14 +23,14 @@ export type NewDeck = {
     visibility: string;
 }
 
-export type ProgressItem = {
+export type Progress = {
     n: number;
     i: number;
     ef: number;
     due_date: Date;
     reviewed_at: Date;
 }
-export type Progress = Record<string, ProgressItem>
+export type ProgressMap = Record<string, Progress>
 
 export type Session = {
     deck_id: string;
@@ -43,7 +43,7 @@ export type Session = {
 
 
 export type DeckProgress = {
-    progress: Progress
+    progress: ProgressMap
     lastReviewed?: Date;
 }
 export type User = {

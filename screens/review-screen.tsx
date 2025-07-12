@@ -8,7 +8,7 @@ import { updateCard } from "shared/utils/spaced-repetition";
 import { progressStore } from "shared/stores/progress";
 import { saveLocal } from "shared/utils/common";
 import { NEW_CARDS_PER_SESSION } from "shared/const/values";
-import { DeckProgress, Progress, Session } from "types";
+import { DeckProgress, Progress, ProgressMap, Session } from "types";
 import { useProgress } from "shared/hooks/progress";
 import { useAuth } from "shared/hooks/auth";
 import { useSession } from "shared/hooks/last-session";
@@ -35,10 +35,10 @@ export const ReviewScreen = () => {
         perfect: 0
     })
 
-    const [sessionProgress, setSessionProgress] = useState<Progress>(progress?.progress??{})
+    const [sessionProgress, setSessionProgress] = useState<ProgressMap>(progress?.progress??{})
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async(progress: Progress, results: Results) => {
+    const finishSession = async(progress: ProgressMap, results: Results) => {
         const session = {
             deck_id: deck.id,
             wrong: results.wrong,
