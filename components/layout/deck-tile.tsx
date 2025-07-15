@@ -3,6 +3,7 @@ import { gradient2Colors } from "shared/utils/common";
 import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
 import { Deck } from "types";
+import { cardsForReview } from "shared/utils/spaced-repetition";
 
 interface props {
     deck: Deck;
@@ -25,9 +26,9 @@ const gradient = gradient2Colors(newGradient(deck.id)) as [string, string, ...st
                         }}
                     />
                 </View>
-                <View>
+                <View className="flex flex-col justify-center items-start gap-2.5">
                     <Text className="text-lg font-semibold">{deck.name}</Text>
-                    <Text className="text-gray-500">{deck.description}</Text>
+                    <Text className="text-gray-500">Cards for review:  {10}</Text>
                 </View>
             </View>
         </TouchableOpacity>

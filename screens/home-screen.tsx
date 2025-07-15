@@ -8,6 +8,7 @@ import useDecks from "shared/hooks/decks";
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
+import { ForReviewSection } from "components/layout/for-review-section";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -23,26 +24,32 @@ export const HomeScreen = () => {
     return(
         <View className="p-5">
             <SafeAreaView className="flex w-full h-full items-center justify-center gap-5">
-                <View className="flex w-full justify-center items-start gap-2.5">
-                    <Text className="text-2xl font-semibold">Your saved decks</Text>
-                    <ScrollView horizontal className="bg w-full">
-                        <View className=" flex flex-row items-center gap-5">
-                            {loadingDecks ? (
-                                <Text className="text-white">Loading...</Text>
-                            ) : error ? (
-                                <Text className="text-red-500">{error}</Text>
-                            ) : (
-                                savedDecks.map((deck) => (
-                                        <DeckTile onTap={()=>{
-                                            navigation.navigate('Deck', { deck });
-                                        }} deck={deck} key={deck.id}/>
-                                ))
-                            )}
+                <ScrollView className="w-full">
+                    <View className="flex w-full justify-center items-start gap-10">
+                        {/* saved decks scroll bar */}
+                        <View className="flex w-full justify-center items-start gap-2.5">
+                            <Text className="text-2xl font-semibold">Your saved decks</Text>
+                            <ScrollView horizontal className="bg w-full">
+                                <View className=" flex flex-row items-center gap-5">
+                                    {loadingDecks ? (
+                                        <Text className="text-white">Loading...</Text>
+                                    ) : error ? (
+                                        <Text className="text-red-500">{error}</Text>
+                                    ) : (
+                                        savedDecks.map((deck) => (
+                                                <DeckTile onTap={()=>{
+                                                    navigation.navigate('Deck', { deck });
+                                                }} deck={deck} key={deck.id}/>
+                                        ))
+                                    )}
+                                </View>
+                            </ScrollView>
                         </View>
-                    </ScrollView>
-                </View>
-                <LastSessionSection />
-            </SafeAreaView>
-        </View>
-    )
+                        <LastSessionSection/>
+                        <ForReviewSection savedDecks={savedDecks} />
+                    </View>
+            </ScrollView>
+        </SafeAreaView>
+    </View>
+    );
 }

@@ -38,7 +38,7 @@ export const LastSessionSection = () => {
         return null
     }
     return(
-        <View className="flex w-full justify-center items-start gap-2.5 ">
+        <View className="flexjustify-center items-start gap-2.5 ">
             <Text className="text-2xl font-semibold">Last session</Text>
             { lastDeck ? (
                 <View className="flex w-full flex-row items-center gap-5 bg-white p-5 rounded-2xl border border-gray-200">
@@ -47,7 +47,7 @@ export const LastSessionSection = () => {
                     }}
                     index={1}
                     />
-                    <View className="flex-1 flex-col justify-center items-start gap-5">
+                    <View className="flex-1 flex-col justify-center items-start gap-2.5">
                         <View className="flex flex-row items-center gap-2">
                             <Text className="text-xl italic text-gray-400 flex flex-row">{timeAgo(lastSession.created_at)}</Text>
                             <Ionicons  name="time-outline" size={16} color={"#9CA3AF"}/>
