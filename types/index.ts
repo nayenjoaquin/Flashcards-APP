@@ -17,6 +17,7 @@ export type Deck={
     created_at: Date;
     cards: Card[];
     progress: ProgressMap|null;
+    last_reviewed_at: Date|null;
 }
 
 export type NewDeck = {

@@ -1,6 +1,6 @@
 import { NEW_CARDS_PER_SESSION, REVIEW_COOLDOWN } from "shared/const/values";
 import { shuffleArray } from "./common";
-import { Card, DeckProgress, Progress , ProgressMap, Session } from "types";
+import { Card, Progress , ProgressMap, Session } from "types";
 
 interface props{
     q: number;
