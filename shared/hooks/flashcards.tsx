@@ -3,13 +3,13 @@ import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
 import { Card, NewCard } from 'types';
 
-const useCards = (did: string) => {
+const useCards = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch decks from API
-  const fetchCards = async () => {
+  const fetchCards = async (did: string) => {
     setLoading(true);
     setError(null);
 
@@ -33,7 +33,7 @@ const useCards = (did: string) => {
       }
   };
 
-  const createCard = async(card: NewCard): Promise<boolean> => {
+  const createCard = async(card: NewCard, did: string): Promise<boolean> => {
     try{
       const res = await fetch(API_BASE_URL+'/flashcards', {
         method: 'POST',
@@ -64,10 +64,6 @@ const useCards = (did: string) => {
       
     }
   }
-
-  useEffect(() => {
-    fetchCards();
-  }, []); // Empty array means it only runs once, similar to componentDidMount
 
   return { cards, loading, error, fetchCards, createCard };
 };

@@ -23,6 +23,7 @@ const useDecks = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${await getLocal('JWT')}`,
           },
         });
   
@@ -46,6 +47,7 @@ const useDecks = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getLocal('JWT')}`,
         },
       });
       if (!res.ok) {

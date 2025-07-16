@@ -49,13 +49,18 @@ export const useProgress = () =>{
             })
             const reviewDates = body.map(item=>new Date(item.reviewed_at));
             const lastReviewed = new Date(Math.max(...reviewDates.map(date=>date.getTime())));
-            setProgress({
+            const deckProgress: DeckProgress = {
                 progress: newProgress,
                 lastReviewed
-            })
+            }
+            setProgress(deckProgress);
+            return deckProgress;
             
         }catch(err){
             setProgress(null);
+            return null;
+            console.log('Failed to get progress: ', err);
+            
             
         }
     }

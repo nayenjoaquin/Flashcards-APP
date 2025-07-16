@@ -15,6 +15,8 @@ export type Deck={
     owner: string;
     user_id: string;
     created_at: Date;
+    cards: Card[];
+    progress: ProgressMap|null;
 }
 
 export type NewDeck = {

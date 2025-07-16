@@ -17,7 +17,7 @@ import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthStore } from "shared/stores/auth";
 import { useProgress } from "shared/hooks/progress";
-import { DeckProgress, Progress } from "types";
+import { Card, DeckProgress, NewCard, Progress } from "types";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -29,7 +29,7 @@ export const DeckScreen = () => {
   const navigation = useNavigation<navigationProp>();
 
   const { deck } = route.params;
-  const { cards, createCard, } = useCards(deck.id);
+  const { cards, createCard, fetchCards } = useCards();
   const {getProgress, progress, saveProgress} = useProgress();
   const {deleteDeck} = useDecks();
   const {user} = AuthStore();
@@ -39,6 +39,10 @@ export const DeckScreen = () => {
     navigation.setOptions({ title: '',
      });
   }, [navigation, deck.name]);
+
+  useEffect(() => {
+    fetchCards(deck.id);
+  }, [deck.id]);
 
   useEffect(()=>{
     getProgress(deck.id);
@@ -52,7 +56,9 @@ export const DeckScreen = () => {
           icon="add"
           onPress={()=>{
             navigation.push('NewCard',{
-              onSubmit: createCard
+              onSubmit: async (card: NewCard)=>{
+                return await createCard(card, deck.id);
+              },
             })
           }}
           color="#6260a2"
@@ -95,12 +101,14 @@ export const DeckScreen = () => {
             </Text>
             <FilledButton text="Add cards" onPress={()=>{
               navigation.push('NewCard', {
-                onSubmit: createCard,
+                onSubmit: async (card: NewCard)=>{
+                  return await createCard(card, deck.id);
+                },
               })
             }}/>
           </View>
         :
-          <DeckCardsList cards={cards}/>
+          <DeckCardsList cards={deck.cards}/>
         }
         { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{

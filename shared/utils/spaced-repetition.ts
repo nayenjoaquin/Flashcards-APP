@@ -47,7 +47,7 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
 }
 
 
-export const cardsForReview= (cards: Card[], progress?: ProgressMap)=>{
+export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=>{
     if(!progress){
         const processed =shuffleArray(cards).slice(0,NEW_CARDS_PER_SESSION);
         
@@ -103,3 +103,7 @@ export const getReviewedCardsCount = (session: Session | null) => {
     return session.wrong + session.good + session.perfect;
 }
 
+export const getLastReviewed = (progress: ProgressMap | null) => {
+    if (!progress) return null;
+    return Object.values(progress).map(p => p.reviewed_at).sort((a, b) => b.getTime() - a.getTime())[0];
+}
