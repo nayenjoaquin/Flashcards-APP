@@ -43,12 +43,6 @@ export type Session = {
     created_at: number;
     duration: number;
 }
-
-
-export type DeckProgress = {
-    progress: ProgressMap
-    lastReviewed?: Date;
-}
 export type User = {
     id: string;
     created_at: Date;
