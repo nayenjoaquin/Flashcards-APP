@@ -5,7 +5,6 @@ import { useEffect, useId, useLayoutEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import { updateCard } from "shared/utils/spaced-repetition";
-import { progressStore } from "shared/stores/progress";
 import { saveLocal } from "shared/utils/common";
 import { NEW_CARDS_PER_SESSION } from "shared/const/values";
 import { Progress, ProgressMap, Session } from "types";

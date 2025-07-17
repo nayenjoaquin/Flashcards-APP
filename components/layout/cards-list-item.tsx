@@ -1,22 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
 import AppTheme from '../../shared/const/app-theme';
-import { progressStore } from "shared/stores/progress";
 import { daysLeft } from "shared/utils/common";
-import { Card } from "types";
+import { Card, Progress } from "types";
 import { useEffect } from "react";
 
 interface props {
     card: Card;
+    progress: Progress|null;
     selected?: boolean;
     selecting?: boolean;
     onTap: ()=>void;
 }
 
-export const CardsListItem = ({card, selected=false, selecting = false, onTap}: props) => {
-
-    const {progress} = progressStore();
-    const reviewIn = !progress ? 0 : progress.progress[card.id] ? daysLeft(progress.progress[card.id].due_date) : 0
+export const CardsListItem = ({card, selected=false, selecting = false, onTap, progress}: props) => {
+    const reviewIn = !progress ? 0 : progress ? daysLeft(progress.due_date) : 0
     return(
         <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
             <View className="flex-1">

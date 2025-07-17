@@ -4,14 +4,22 @@ import { useState, useEffect } from 'react';
 import { AuthStore } from 'shared/stores/auth';
 import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
-import { Deck, NewDeck } from 'types';
+import { Deck, NewDeck, ProgressMap } from 'types';
 
 const useDecks = () => {
-  const {savedDecks, setSavedDecks} = decksStore();
+  const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
   const [decks, setDecks] = useState<Deck[]|undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const {user} = AuthStore();
+
+  const initCurrentDeck = async (deck: Deck) => {
+    setCurrentDeck(deck);
+  };
+
+  const updateDeckProgress = (progress: ProgressMap) => {
+
+  }
 
   // Fetch decks from API
   const fetchDecks = async () => {
@@ -229,7 +237,7 @@ const updateDecks = async (deck: Deck) => {
   setSavedDecks(savedDecks.map(d => d.id === deck.id ? deck : d));
 }
 
-  return { decks, savedDecks, removeSavedDeck, setDecks, updateDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { currentDeck, setCurrentDeck, initCurrentDeck, decks, savedDecks, removeSavedDeck, setDecks, updateDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;

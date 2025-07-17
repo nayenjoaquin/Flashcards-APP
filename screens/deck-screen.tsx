@@ -8,7 +8,6 @@ import useCards from "shared/hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import { FloatingIconButton } from "components/buttons/floating-icon-button";
 import { DeckProgressBoard } from "components/layout/deck-progress-board";
-import { progressStore } from "shared/stores/progress";
 import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "shared/hooks/decks";
@@ -29,13 +28,12 @@ export const DeckScreen = () => {
   const navigation = useNavigation<navigationProp>();
 
   const { deck } = route.params;
-  const [deckState, setDeckState] = useState<Deck>(deck);
   const {createCard } = useCards();
-  const {deleteDeck} = useDecks();
+  const {currentDeck, setCurrentDeck, deleteDeck, initCurrentDeck} = useDecks();
   const {user} = AuthStore();
 
   const onReviewFinished = (deck: Deck) => {
-    setDeckState({
+    setCurrentDeck({
       ...deck,
       last_reviewed_at: new Date()
     });
@@ -46,6 +44,9 @@ export const DeckScreen = () => {
     navigation.setOptions({ title: '',
      });
   }, [navigation, deck.name]);
+  useEffect(() => {
+    initCurrentDeck(deck);
+  }, [deck]);
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -67,19 +68,19 @@ export const DeckScreen = () => {
         <Text className="text-gray-500 w-full ">{deck.description}</Text>
         {deck.cards.length>0 ?
         <DeckViewHeader
-        deck={deckState}
+        deck={currentDeck??deck}
           onReview={()=>{
-            const cards = cardsForReview(deck.cards, deckState.progress);
+            const cards = cardsForReview(deck.cards, currentDeck!.progress);
 
-            if(!deckState.progress){
+            if(!currentDeck!.progress){
               navigation.push('Review',{
                 cards: shuffleArray(cards).slice(0,20),
-                deck: deck,
+                deck: currentDeck!,
                 onReviewFinished: onReviewFinished
                 })
               return;
             }
-            if(!readyForReview(deckState.last_reviewed_at!)){
+            if(!readyForReview(currentDeck!.last_reviewed_at!)){
               console.error('The deck can only be reviewed once every 8 hours');
               return;
             }
@@ -91,7 +92,7 @@ export const DeckScreen = () => {
             navigation.push('Review',
                 {
                 cards: cards,
-                deck: deckState,
+                deck: currentDeck!,
                 onReviewFinished: onReviewFinished
                 }
             )

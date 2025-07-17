@@ -1,6 +1,5 @@
 import { API_BASE_URL } from "shared/const/strings"
 import { AuthStore } from "shared/stores/auth"
-import { progressStore } from "shared/stores/progress"
 import { getLocal } from "shared/utils/common"
 import { Card, Deck, Progress, ProgressMap } from "types"
 

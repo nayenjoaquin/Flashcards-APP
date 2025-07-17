@@ -2,7 +2,6 @@ import { Text, View } from "react-native"
 import { DeckProgressBoard } from "./deck-progress-board"
 import { FilledButton } from "components/buttons/filled-button"
 import { cardsForReview } from "shared/utils/spaced-repetition"
-import { progressStore } from "shared/stores/progress"
 import { Card, Deck } from "types"
 
 interface props {
