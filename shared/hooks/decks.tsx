@@ -29,7 +29,7 @@ const useDecks = () => {
   
         if (!res.ok) throw new Error('Failed to fetch decks');
   
-        const json = await res.json();
+        const json = await res.json() as Deck[];
         setDecks(json);
       } catch (err: any) {
         console.log('ERROR: ', err)
@@ -140,7 +140,11 @@ const useDecks = () => {
         const errorText = await res.text();
         throw new Error(errorText);
       }
-      const json = await res.json();
+      const json = await res.json() as Deck[];
+      json.forEach(deck => {
+        deck.last_reviewed_at = new Date(deck.last_reviewed_at?? Date.now());
+        deck.created_at = new Date(deck.created_at);
+      });
       setSavedDecks(json);
       setLoading(false);
       return json;
@@ -217,8 +221,15 @@ const searchDeck = async (search: string) => {
     
   }
 }
+const updateDecks = async (deck: Deck) => {
+  setDecks(prev => {
+    if (!prev) return [deck];
+    return prev.map(d => d.id === deck.id ? deck : d);
+  });
+  setSavedDecks(savedDecks.map(d => d.id === deck.id ? deck : d));
+}
 
-  return { decks, savedDecks, removeSavedDeck, setDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { decks, savedDecks, removeSavedDeck, setDecks, updateDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
 };
 
 export default useDecks;

@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from "react-native";
 import { CardsListItem } from "./cards-list-item";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Card } from "types";
 

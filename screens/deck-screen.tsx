@@ -1,5 +1,5 @@
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import type { StackNavigationProp } from "@react-navigation/stack";
@@ -17,7 +17,7 @@ import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthStore } from "shared/stores/auth";
 import { useProgress } from "shared/hooks/progress";
-import { Card, DeckProgress, NewCard, Progress } from "types";
+import { Card, Deck, NewCard, Progress } from "types";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -29,24 +29,23 @@ export const DeckScreen = () => {
   const navigation = useNavigation<navigationProp>();
 
   const { deck } = route.params;
-  const { cards, createCard, fetchCards } = useCards();
-  const {getProgress, progress, saveProgress} = useProgress();
+  const [deckState, setDeckState] = useState<Deck>(deck);
+  const {createCard } = useCards();
   const {deleteDeck} = useDecks();
   const {user} = AuthStore();
+
+  const onReviewFinished = (deck: Deck) => {
+    setDeckState({
+      ...deck,
+      last_reviewed_at: new Date()
+    });
+  };
 
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
      });
   }, [navigation, deck.name]);
-
-  useEffect(() => {
-    fetchCards(deck.id);
-  }, [deck.id]);
-
-  useEffect(()=>{
-    getProgress(deck.id);
-    },[cards]);
 
   return (
     <View className="h-full flex items-center justify-center p-5">
@@ -66,35 +65,40 @@ export const DeckScreen = () => {
         :null}
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
         <Text className="text-gray-500 w-full ">{deck.description}</Text>
-        {cards.length>0 ?
+        {deck.cards.length>0 ?
         <DeckViewHeader
-        cards={cards}
+        deck={deckState}
           onReview={()=>{
-            if(!progress){
+            const cards = cardsForReview(deck.cards, deckState.progress);
+
+            if(!deckState.progress){
               navigation.push('Review',{
                 cards: shuffleArray(cards).slice(0,20),
                 deck: deck,
+                onReviewFinished: onReviewFinished
                 })
               return;
             }
-            if(!readyForReview(progress.lastReviewed!)){
+            if(!readyForReview(deckState.last_reviewed_at!)){
               console.error('The deck can only be reviewed once every 8 hours');
               return;
             }
-            if(cardsForReview(cards, progress?.progress).length === 0){
-              console.error('NO CARDS FOR REVIEW');
+            if(cards.length === 0){
+              console.error('No cards available for review');
+              
               return;
             }
             navigation.push('Review',
                 {
-                cards: cardsForReview(cards, progress?.progress)??cards,
-                deck: deck,
+                cards: cards,
+                deck: deckState,
+                onReviewFinished: onReviewFinished
                 }
             )
           }}
         />
         :null}
-        {cards.length === 0 ?
+        {deck.cards.length === 0 ?
           <View className=" w-full flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">
               No cards in this deck.

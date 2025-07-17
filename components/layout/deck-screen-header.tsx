@@ -3,21 +3,19 @@ import { DeckProgressBoard } from "./deck-progress-board"
 import { FilledButton } from "components/buttons/filled-button"
 import { cardsForReview } from "shared/utils/spaced-repetition"
 import { progressStore } from "shared/stores/progress"
-import { Card } from "types"
+import { Card, Deck } from "types"
 
 interface props {
     onReview: ()=>void;
-    cards: Card[];
+    deck: Deck;
 }
 
-export const DeckViewHeader = ({onReview, cards}: props) =>{
-
-    const {progress} = progressStore();
+export const DeckViewHeader = ({onReview, deck}: props) =>{
     return(
         <View className="flex items-start w-full bg-white p-5 py-10 rounded-xl">
-            <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(cards, progress?.progress).length}</Text>
+            <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(deck.cards, deck.progress).length}</Text>
             <Text className="text-md font-semibold w-full text-center">cards for review</Text>
-            <DeckProgressBoard progress={progress} cards={cards}/>
+            <DeckProgressBoard progress={deck.progress} cards={deck.cards}/>
             <View className="py-5 w-full">
                 <FilledButton text="Review now" onPress={onReview} />
             </View>
