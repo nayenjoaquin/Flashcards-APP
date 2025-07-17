@@ -5,6 +5,7 @@ import { AuthStore } from 'shared/stores/auth';
 import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck, ProgressMap } from 'types';
+import { getDecks } from 'shared/api/decks';
 
 const useDecks = () => {
   const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
@@ -25,27 +26,12 @@ const useDecks = () => {
   const fetchDecks = async () => {
     setLoading(true);
     setError(null);
-
-    try {
-        const res = await fetch(`${API_BASE_URL}/decks`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${await getLocal('JWT')}`,
-          },
-        });
-  
-        if (!res.ok) throw new Error('Failed to fetch decks');
-  
-        const json = await res.json() as Deck[];
-        setDecks(json);
-      } catch (err: any) {
-        console.log('ERROR: ', err)
-        setError(err.message || 'Unknown error');
-      } finally {
+    await getDecks()
+      .then(fetchedDecks => {
+        setDecks(fetchedDecks);
         setLoading(false);
-      }
-  };
+      });
+  }
 
   const getDeckbyId = async (id: string) => {
     setLoading(true);
