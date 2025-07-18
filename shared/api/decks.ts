@@ -23,5 +23,28 @@ export const getDecks = async () => {
         return json;
     } catch (err: any) {
         console.log('ERROR FETCHING DECKS: ', err)
+        return [];
+    }
+}
+
+export const createDeck = async (deck: Deck, token: string) => {
+    try{
+        const res = await fetch(`${API_BASE_URL}/decks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(deck)
+        });
+
+        if (!res.ok) throw new Error('Failed to create deck');
+
+        const json = await res.json() as Deck;
+        json.last_reviewed_at = json.last_reviewed_at ? new Date(json.last_reviewed_at) : null;
+        return json;
+    } catch (err: any) {
+        console.log('ERROR CREATING DECK: ', err)
+        return null;
     }
 }
