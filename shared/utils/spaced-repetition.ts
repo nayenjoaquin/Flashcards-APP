@@ -72,7 +72,8 @@ export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
     return shuffleArray([...pastDue, ...newCards]);
 }
 
-export const readyForReview = (date: Date) =>{
+export const readyForReview = (date: Date|null) =>{
+    if(!date) return true;
     const today = Date.now();
     const lastReviewed = date.getTime();
     const diff = today - lastReviewed;

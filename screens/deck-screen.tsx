@@ -80,7 +80,7 @@ export const DeckScreen = () => {
                 })
               return;
             }
-            if(!readyForReview(currentDeck!.last_reviewed_at!)){
+            if(!readyForReview(currentDeck!.last_reviewed_at)){
               console.error('The deck can only be reviewed once every 8 hours');
               return;
             }
