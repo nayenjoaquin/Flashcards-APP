@@ -30,6 +30,9 @@ export const DeckScreen = () => {
   const {user} = AuthStore();
 
   const onReviewFinished = (deck: Deck) => {
+    
+    const firstCardId = deck.cards[0].id;
+
     setCurrentDeck({
       ...deck,
       last_reviewed_at: new Date()
@@ -110,7 +113,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <DeckCardsList cards={deck.cards}/>
+          <DeckCardsList cards={currentDeck!.cards ?? deck.cards}/>
         }
         { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{

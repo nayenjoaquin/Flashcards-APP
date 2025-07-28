@@ -49,7 +49,6 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
 
 export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
     
-    
     if(!progress){
         console.log('No progress data available for cards review');
         

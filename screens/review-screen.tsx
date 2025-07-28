@@ -39,6 +39,7 @@ export const ReviewScreen = () => {
     const [flipped, setFlipped] = useState(false);
 
     const finishSession = async(progress: ProgressMap, results: Results) => {
+        
         const session = {
             deck_id: deck.id,
             wrong: results.wrong,
@@ -47,9 +48,10 @@ export const ReviewScreen = () => {
             created_at: Date.now(),
             duration: Date.now() - start
         } as Session
-        const updated = await saveProgress(deck, progress)
-        if(!updated) return;
-        onReviewFinished(updated);
+        const updatedDeck = await saveProgress(deck, progress);
+        if(!updatedDeck) return;
+        onReviewFinished(updatedDeck);
+        
         await saveSession(session, user?.token)
         navigation.goBack();
     }
@@ -64,6 +66,7 @@ export const ReviewScreen = () => {
             ...sessionProgress[cards[index].id],
             q: q
         });
+        
         setSessionProgress(prev=>{
             prev[cards[index].id]=cardUpdate;
             return prev;
@@ -83,7 +86,6 @@ export const ReviewScreen = () => {
         }else nextCard();
 
     }
-
 
     useLayoutEffect(() => {
         navigation.setOptions({ title: deck.name,

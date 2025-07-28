@@ -14,6 +14,7 @@ interface props {
 }
 
 export const CardsListItem = ({card, selected=false, selecting = false, onTap, progress}: props) => {
+    
     const reviewIn = !progress ? 0 : progress ? daysLeft(progress.due_date) : 0
     return(
         <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>

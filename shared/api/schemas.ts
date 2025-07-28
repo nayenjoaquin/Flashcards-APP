@@ -1,4 +1,4 @@
-import { Card, Deck, Progress } from "types";
+import { Card, Deck, Progress, ProgressMap } from "types";
 
 export const json2Progress = (json: any): Progress => {
   return {
@@ -18,8 +18,8 @@ export const json2Card = (json: any): Card => {
   }
 }
 
-export const json2ProgressMap = (json: any): Record<string, Progress> => {
-  const progressMap: Record<string, Progress> = {};
+export const json2ProgressMap = (json: any): ProgressMap => {
+  const progressMap: ProgressMap = {};
   for (const key in json) {
     progressMap[key] = json2Progress(json[key]);
   }

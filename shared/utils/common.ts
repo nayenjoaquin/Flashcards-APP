@@ -45,6 +45,7 @@ export const removeLocaL = async (name: string)=>{
 export const  daysLeft =(dueDate: Date) => {
   
   const today = new Date();
+  
 
   // Reset time to midnight for both dates
   today.setHours(0, 0, 0, 0);

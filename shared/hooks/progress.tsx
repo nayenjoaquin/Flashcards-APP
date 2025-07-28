@@ -1,3 +1,4 @@
+import { json2Deck } from "shared/api/schemas"
 import { API_BASE_URL } from "shared/const/strings"
 import { AuthStore } from "shared/stores/auth"
 import { getLocal } from "shared/utils/common"
@@ -33,24 +34,22 @@ export const useProgress = () =>{
 
     const saveProgress = async(deck: Deck, progress: ProgressMap): Promise<Deck|null> => {
 
-        const deckCopy = JSON.parse(JSON.stringify(deck)) as Deck;
-
-        if(!deckCopy.progress){
-            deckCopy.progress = progress;
+        if(!deck.progress){
+            deck.progress = progress;
         }
 
         const cardIds = Object.keys(progress);
 
         cardIds.forEach(async(id)=>{
-            const success = await saveCardProgress(deckCopy, id, progress[id]);
+            const success = await saveCardProgress(deck, id, progress[id]);
             if(success){
-                deckCopy.progress![id] = progress[id];
+                deck.progress![id] = progress[id];
             }else{
                 return null;
             }
         });
-
-        return deckCopy;
+        
+        return deck;
     }
 
     return {saveProgress}
