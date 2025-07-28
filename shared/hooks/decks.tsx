@@ -5,58 +5,25 @@ import { AuthStore } from 'shared/stores/auth';
 import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck, ProgressMap } from 'types';
-import { getDecks } from 'shared/api/decks';
+import { json2Deck } from 'shared/api/schemas';
+import { APIgetDeckById, APIgetSavedDecks } from 'shared/api/decks';
 
 const useDecks = () => {
   const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
-  const [decks, setDecks] = useState<Deck[]|undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const {user} = AuthStore();
 
-  const initCurrentDeck = async (deck: Deck) => {
-    setCurrentDeck(deck);
-  };
-
-  const updateDeckProgress = (progress: ProgressMap) => {
-
-  }
-
-  // Fetch decks from API
-  const fetchDecks = async () => {
+  const getDeckById = async (id: string) => {
     setLoading(true);
-    setError(null);
-    await getDecks()
-      .then(fetchedDecks => {
-        setDecks(fetchedDecks);
-        setLoading(false);
-      });
-  }
-
-  const getDeckbyId = async (id: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`${API_BASE_URL}/decks/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await getLocal('JWT')}`,
-        },
-      });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText);
-      }
-      const json = await res.json();
-      setLoading(false);
-      return json;
-    } catch (err: any) {
-      console.log('Error fetching deck by ID:', err);
-      setError(err.message || 'Unknown error');
+    const json = await APIgetDeckById(id);
+    if (!json) {
       setLoading(false);
       return null;
     }
+    const deck = json2Deck(json);
+    setCurrentDeck(deck);
+    setLoading(false);
+    return deck;
   };
   
   const saveDeck = async (deck: Deck) => {
@@ -75,15 +42,6 @@ const useDecks = () => {
         throw new Error(`Failed to save deck: ${errorText}`);
       }
       setSavedDecks([deck, ...savedDecks]);
-      setDecks(prev=>{
-        const updatedDecks = prev?.map(d =>{
-          if(d.id === deck.id){
-            return {...d, saved: d.saved + 1};
-          }
-          return d;
-        });
-        return updatedDecks;
-      })
     } catch(err: any){
       console.log('Error saving deck:', err);
     }
@@ -103,48 +61,17 @@ const useDecks = () => {
         throw new Error(`Failed to forget deck: ${errorText}`);
       }
       setSavedDecks(savedDecks.filter(d => d.id !== deck.id));
-      setDecks(prev=>{
-        const updatedDecks = prev?.map(d =>{
-          if(d.id === deck.id){
-            return {...d, saved: d.saved - 1};
-          }
-          return d;
-        });
-        return updatedDecks;
-      });
     } catch(err: any){
       console.log('Error forgetting deck:', err);
     }
   };
 
   const getSavedDecks = async () => {
-    setLoading(true);
-    setError(null);
     const token = await getLocal('JWT');
 
-    try{
-      const res = await fetch(API_BASE_URL+'/saved',{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText);
-      }
-      const json = await res.json() as Deck[];
-      json.forEach(deck => {
-        deck.last_reviewed_at = new Date(deck.last_reviewed_at?? Date.now());
-        deck.created_at = new Date(deck.created_at);
-      });
-      setSavedDecks(json);
-      setLoading(false);
-      return json;
-    }catch(err: any){
-      console.log('Error fetching saved decks:', err);
-      setError(err.message || 'Unknown error');
+    const savedDecks = await APIgetSavedDecks();
+    if (savedDecks!= null) {
+      setSavedDecks(savedDecks);
     }
   }
 
@@ -194,36 +121,7 @@ const deleteDeck= async (id: string) => {
   }
 }
 
-const searchDeck = async (search: string) => {
-  try{
-    const res = await fetch(API_BASE_URL+'/decks?search='+search, {
-      method: 'GET',
-
-    })
-
-    if (!res.ok){
-      throw new Error('failed to search decks: ' + await res.text())
-    }
-
-    const fetchedDecks = await res.json() as Deck[]
-    setDecks(fetchedDecks)
-    
-
-  }catch(err){
-    console.log('Error searching decks: ', err);
-    setDecks([])
-    
-  }
-}
-const updateDecks = async (deck: Deck) => {
-  setDecks(prev => {
-    if (!prev) return [deck];
-    return prev.map(d => d.id === deck.id ? deck : d);
-  });
-  setSavedDecks(savedDecks.map(d => d.id === deck.id ? deck : d));
-}
-
-  return { currentDeck, setCurrentDeck, initCurrentDeck, decks, savedDecks, removeSavedDeck, setDecks, updateDecks, searchDeck, loading, error, fetchDecks, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckbyId};
+  return { currentDeck, setCurrentDeck, savedDecks, removeSavedDeck, loading, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckById};
 };
 
 export default useDecks;

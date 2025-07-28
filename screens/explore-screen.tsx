@@ -7,11 +7,10 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 
 export const ExploreScreen = () => {
 
-  const {decks, savedDecks, fetchDecks, saveDeck, removeSavedDeck, searchDeck} = useDecks();
+  const {savedDecks, saveDeck, removeSavedDeck} = useDecks();
   const [search, setSearch] = useState('');
 
   useEffect(()=>{
-    fetchDecks();
   }, []);
   return (
     <View className="p-5">
@@ -22,23 +21,12 @@ export const ExploreScreen = () => {
         <FilledTextField
          onChange={async(text)=>{
           setSearch(text);
-          await searchDeck(text);
         }}
          placeholder="Search by deck name..."
          value={search}
          />
         <ScrollView className="w-full h-full">
           <View className="flex h-full w-full flex-col gap-2.5">
-            {decks?.map(deck => (
-              <DeckListItem 
-                key={deck.id}
-                deck={deck}
-                onTap={() => {}}
-                onSave={saveDeck}
-                onRemove={removeSavedDeck}
-                saved={savedDecks.some(savedDeck => savedDeck.id === deck.id)}
-              />
-            ))}
           </View>
         </ScrollView>
       </SafeAreaView>

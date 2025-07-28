@@ -7,15 +7,12 @@ import { FilledButton } from "components/buttons/filled-button";
 import useCards from "shared/hooks/flashcards";
 import { Ionicons } from "@expo/vector-icons";
 import { FloatingIconButton } from "components/buttons/floating-icon-button";
-import { DeckProgressBoard } from "components/layout/deck-progress-board";
 import { DeckCardsList } from "components/layout/deck-cards-list";
 import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "shared/hooks/decks";
 import { getLocal, shuffleArray } from "shared/utils/common";
 import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
-import { LinearGradient } from "expo-linear-gradient";
 import { AuthStore } from "shared/stores/auth";
-import { useProgress } from "shared/hooks/progress";
 import { Card, Deck, NewCard, Progress } from "types";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
@@ -29,7 +26,7 @@ export const DeckScreen = () => {
 
   const { deck } = route.params;
   const {createCard } = useCards();
-  const {currentDeck, setCurrentDeck, deleteDeck, initCurrentDeck} = useDecks();
+  const {currentDeck, setCurrentDeck, deleteDeck} = useDecks();
   const {user} = AuthStore();
 
   const onReviewFinished = (deck: Deck) => {
@@ -45,7 +42,7 @@ export const DeckScreen = () => {
      });
   }, [navigation, deck.name]);
   useEffect(() => {
-    initCurrentDeck(deck);
+    setCurrentDeck(deck);
   }, [deck]);
 
   return (
@@ -70,6 +67,8 @@ export const DeckScreen = () => {
         <DeckViewHeader
         deck={currentDeck??deck}
           onReview={()=>{
+            console.log('current deck last reviewed at:', typeof currentDeck?.last_reviewed_at, currentDeck?.last_reviewed_at);
+
             const cards = cardsForReview(deck.cards, currentDeck!.progress);
 
             if(!currentDeck!.progress){
@@ -85,7 +84,7 @@ export const DeckScreen = () => {
               return;
             }
             if(cards.length === 0){
-              console.error('No cards available for review');
+              // console.error('No cards available for review');
               
               return;
             }

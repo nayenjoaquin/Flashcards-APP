@@ -21,7 +21,7 @@ export const LibraryScreen = () => {
     const {user} = useAuth()
     const [filteredDecks, setFilteredDecks] = useState<Deck[]>([]);
 
-    const {savedDecks, loading, error, createDeck, fetchDecks, setDecks} = useDecks();
+    const {savedDecks, loading, createDeck, getSavedDecks} = useDecks();
 
     const filters: filter[] = [
         {
@@ -32,7 +32,7 @@ export const LibraryScreen = () => {
     ]
 
     useEffect(() => {
-    fetchDecks();
+        getSavedDecks();
     }, []);
     useEffect(()=>{
         setFilteredDecks(savedDecks);
@@ -74,9 +74,6 @@ export const LibraryScreen = () => {
             {
                 loading ?
                 <View className="h-full flex w-full items-center justify-center"><ActivityIndicator size="large"/></View>
-                :
-                error ?
-                <Text className="text-3xl font-bold">{error}</Text>
                 : <ScrollView >
                     <View className="flex flex-row flex-wrap justify-start">
                         {filteredDecks?.map((deck: Deck, index: number)=>{

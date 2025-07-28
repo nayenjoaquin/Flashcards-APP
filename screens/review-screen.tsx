@@ -27,7 +27,6 @@ export const ReviewScreen = () => {
     const {cards, deck, onReviewFinished} = route.params;
     const {user} = useAuth();
     const {saveSession} = useSession();
-    const {updateDecks} = useDecks();
     const start = Date.now()
     
     const [results, setResults] = useState({
@@ -50,7 +49,6 @@ export const ReviewScreen = () => {
         } as Session
         const updated = await saveProgress(deck, progress)
         if(!updated) return;
-        updateDecks(updated);
         onReviewFinished(updated);
         await saveSession(session, user?.token)
         navigation.goBack();

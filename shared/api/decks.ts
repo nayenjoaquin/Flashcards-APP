@@ -5,9 +5,9 @@ import { json2Deck } from "./schemas";
 
 const baseURL = API_BASE_URL+'/decks';
 
-export const getDecks = async () => {
+export const APIgetDecks = async (): Promise<Deck[]|null> => {
     try {
-        const res = await fetch(`${API_BASE_URL}/decks`, {
+        const res = await fetch(`${baseURL}`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
@@ -17,19 +17,63 @@ export const getDecks = async () => {
     
         if (!res.ok) throw new Error('Failed to fetch decks');
     
-        const json = await res.json() as Deck[];
-        const decks = json.map(deck => {
-            json2Deck(deck);
+        const json = await res.json();
+        const decks = json.map((deck: any) => {
+            return json2Deck(deck);
         });
+        return decks;
     } catch (err: any) {
         console.log('ERROR FETCHING DECKS: ', err)
-        return [];
+        return null;
     }
 }
 
-export const createDeck = async (deck: Deck, token: string) => {
+export const APIgetSavedDecks = async (): Promise<Deck[]|null> => {
     try{
-        const res = await fetch(`${API_BASE_URL}/decks`, {
+      const res = await fetch(API_BASE_URL+'/saved',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getLocal('JWT')}`,
+        },
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText);
+      }
+      const json = await res.json();
+      const processedDecks = json.map((deck: any) => json2Deck(deck));
+      return processedDecks;
+    }catch(err: any){
+      console.log('Error fetching saved decks:', err);
+        return null;
+    }
+}
+
+export const APIgetDeckById = async (id: string): Promise<Deck | null> => {
+    try {
+      const res = await fetch(`${baseURL}/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getLocal('JWT')}`,
+        },
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText);
+      }
+      const json = await res.json();
+      return json2Deck(json);
+    } catch (err: any) {
+      console.log('Error fetching deck by ID:', err);
+      return null;
+    }
+}
+
+export const APIcreateDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+    try{
+        const res = await fetch(`${baseURL}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,9 +84,8 @@ export const createDeck = async (deck: Deck, token: string) => {
 
         if (!res.ok) throw new Error('Failed to create deck');
 
-        const json = await res.json() as Deck;
-        json.last_reviewed_at = json.last_reviewed_at ? new Date(json.last_reviewed_at) : null;
-        return json;
+        const json = await res.json();
+        return json2Deck(json);
     } catch (err: any) {
         console.log('ERROR CREATING DECK: ', err)
         return null;

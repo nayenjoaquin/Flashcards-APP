@@ -18,7 +18,7 @@ export const FilledTextField = ({onChange, placeholder, value, secret}: props) =
                 secureTextEntry={obscure}
                 autoCapitalize="none"
                 onChangeText={onChange}
-                className="bg-white p-5 rounded-xl text-xl w-full placeholder:text-gray-300 border border-gray-300"
+                className="bg-white p-5 rounded-xl text-md w-full placeholder:text-gray-300 placeholder:text-md border border-gray-300"
                 placeholder={placeholder}
                 value={value}
             />
