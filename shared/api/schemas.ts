@@ -18,6 +18,14 @@ export const json2Card = (json: any): Card => {
   }
 }
 
+export const json2ProgressMap = (json: any): Record<string, Progress> => {
+  const progressMap: Record<string, Progress> = {};
+  for (const key in json) {
+    progressMap[key] = json2Progress(json[key]);
+  }
+  return progressMap;
+}
+
 export const json2Deck = (json: any): Deck => {
   return {
     id: json.id,
@@ -28,7 +36,7 @@ export const json2Deck = (json: any): Deck => {
     owner: json.owner,
     user_id: json.user_id,
     visibility: json.visibility || 'public',
-    progress: json.progress || {},
+    progress: json.progress ? json2ProgressMap(json.progress) : null,
     created_at: new Date(json.created_at),
     last_reviewed_at: json.last_reviewed_at ? new Date(json.last_reviewed_at) : null,
   };

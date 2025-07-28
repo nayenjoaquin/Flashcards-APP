@@ -67,9 +67,7 @@ export const DeckScreen = () => {
         <DeckViewHeader
         deck={currentDeck??deck}
           onReview={()=>{
-            console.log('current deck last reviewed at:', typeof currentDeck?.last_reviewed_at, currentDeck?.last_reviewed_at);
-
-            const cards = cardsForReview(deck.cards, currentDeck!.progress);
+            const cards = cardsForReview(currentDeck!.cards, currentDeck!.progress);
 
             if(!currentDeck!.progress){
               navigation.push('Review',{
@@ -84,7 +82,7 @@ export const DeckScreen = () => {
               return;
             }
             if(cards.length === 0){
-              // console.error('No cards available for review');
+              console.error('No cards available for review');
               
               return;
             }

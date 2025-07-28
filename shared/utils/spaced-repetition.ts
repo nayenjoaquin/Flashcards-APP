@@ -48,6 +48,8 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
 
 
 export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
+    
+    
     if(!progress){
         console.log('No progress data available for cards review');
         
@@ -60,6 +62,7 @@ export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
         const cardProgress = progress[card.id];
         return cardProgress?.i > 0 && (cardProgress.due_date <= new Date());
     });
+    
     let newCards = cards.filter(card=>{
         const cardProgress = progress[card.id];
         return cardProgress?.i == 0 || Object.keys(progress).includes(card.id) == false;
