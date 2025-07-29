@@ -45,7 +45,13 @@ export const HomeScreen = () => {
                             </ScrollView>
                         </View>
                         <LastSessionSection/>
-                        <ForReviewSection savedDecks={savedDecks.filter(deck => cardsForReview(deck.cards, deck.progress).length > 0)} />
+                        <ForReviewSection savedDecks={savedDecks.filter(deck => {
+                            if(!deck.cards){
+                                console.log('Deck has no cards:', deck.name, deck.id, deck.cards);
+                                return false;
+                            }
+                            return cardsForReview(deck.cards, deck.progress).length > 0
+                        })} />
                     </View>
             </ScrollView>
         </SafeAreaView>

@@ -81,9 +81,6 @@ export const APIcreateDeck = async (deck: NewDeck, token: string): Promise<Deck 
             },
             body: JSON.stringify(deck)
         });
-
-        if (!res.ok) throw new Error('Failed to create deck');
-
         const json = await res.json();
         return json2Deck(json);
     } catch (err: any) {
@@ -92,7 +89,7 @@ export const APIcreateDeck = async (deck: NewDeck, token: string): Promise<Deck 
     }
 }
 
-export const APIsaveDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+export const APIsaveDeck = async (deck: Deck, token: string): Promise<boolean> => {
     try {
         const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
             method: 'POST',
@@ -104,12 +101,10 @@ export const APIsaveDeck = async (deck: Deck, token: string): Promise<Deck | nul
         });
 
         if (!res.ok) throw new Error('Failed to save deck');
-
-        const json = await res.json();
-        return json2Deck(json);
+        return true;
     } catch (err: any) {
         console.log('ERROR SAVING DECK: ', err)
-        return null;
+        return false;
     }
 }
 

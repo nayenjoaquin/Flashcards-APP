@@ -12,7 +12,6 @@ interface props {
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
 export const ForReviewSection = ({savedDecks}: props) => {
-
     const navigation = useNavigation<navProp>();
     return(
         <View className=" flex w-full justify-center gap-5">
