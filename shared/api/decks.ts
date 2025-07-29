@@ -28,7 +28,7 @@ export const APIgetDecks = async (): Promise<Deck[]|null> => {
     }
 }
 
-export const APIgetSavedDecks = async (): Promise<Deck[]|null> => {
+export const APIgetSavedDecks = async (token: string): Promise<Deck[]|null> => {
     try{
       const res = await fetch(API_BASE_URL+'/saved',{
         method: 'GET',
@@ -111,4 +111,47 @@ export const APIsaveDeck = async (deck: Deck, token: string): Promise<Deck | nul
         console.log('ERROR SAVING DECK: ', err)
         return null;
     }
+}
+
+export const APIremoveSavedDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+  try{
+    const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Failed to forget deck: ${errorText}`);
+    }
+    const forgottenDeck = json2Deck(await res.json());
+    return forgottenDeck;
+  } catch(err: any){
+    console.log('Error forgetting deck:', err);
+    return null;
+  }
+}
+
+export const APIdeleteDeck = async (id: string, token: string): Promise<boolean> => {
+  try{
+    const res = await fetch(API_BASE_URL+'/decks/'+id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    
+    if(res.status!=204){
+      const errorText = await res.text();
+      throw new Error(`Failed to delete deck: ${errorText}`)
+    }
+    return true;
+
+  }catch(err: any){
+    console.log('Error deleting deck: ', err);
+    return false;
+  }
 }

@@ -9,12 +9,13 @@ import { useEffect } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
 import { ForReviewSection } from "components/layout/for-review-section";
+import { cardsForReview } from "shared/utils/spaced-repetition";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
 export const HomeScreen = () => {
 
-    const {decks, savedDecks, loading: loadingDecks, error, getSavedDecks, getDeckbyId} = useDecks();
+    const {savedDecks, loading: loadingDecks, getSavedDecks, getDeckById} = useDecks();
     const navigation = useNavigation<navProp>();
 
     useEffect(()=>{
@@ -33,9 +34,7 @@ export const HomeScreen = () => {
                                 <View className=" flex flex-row items-center gap-5">
                                     {loadingDecks ? (
                                         <Text className="text-white">Loading...</Text>
-                                    ) : error ? (
-                                        <Text className="text-red-500">{error}</Text>
-                                    ) : (
+                                    ): (
                                         savedDecks.map((deck) => (
                                                 <DeckTile onTap={()=>{
                                                     navigation.navigate('Deck', { deck });
@@ -46,7 +45,7 @@ export const HomeScreen = () => {
                             </ScrollView>
                         </View>
                         <LastSessionSection/>
-                        <ForReviewSection savedDecks={savedDecks} />
+                        <ForReviewSection savedDecks={savedDecks.filter(deck => cardsForReview(deck.cards, deck.progress).length > 0)} />
                     </View>
             </ScrollView>
         </SafeAreaView>

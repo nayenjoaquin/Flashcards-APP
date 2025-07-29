@@ -6,7 +6,7 @@ import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck, ProgressMap } from 'types';
 import { json2Deck } from 'shared/api/schemas';
-import { APIcreateDeck, APIgetDeckById, APIgetSavedDecks, APIsaveDeck } from 'shared/api/decks';
+import { APIcreateDeck, APIdeleteDeck, APIgetDeckById, APIgetSavedDecks, APIremoveSavedDeck, APIsaveDeck } from 'shared/api/decks';
 
 const useDecks = () => {
   const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
@@ -29,35 +29,23 @@ const useDecks = () => {
   const saveDeck = async (deck: Deck) => {
     const savedDeck = await APIsaveDeck(deck, user?.token ?? await getLocal('JWT'));
     if (!savedDeck) return null;
-    setSavedDecks([...savedDecks, savedDeck]);
+    setSavedDecks([savedDeck, ...savedDecks]);
     return savedDeck;
   };
 
   const removeSavedDeck = async (deck: Deck) => {
-    try{
-      const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await getLocal('JWT')}`,
-        },
-      });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Failed to forget deck: ${errorText}`);
-      }
-      setSavedDecks(savedDecks.filter(d => d.id !== deck.id));
-    } catch(err: any){
-      console.log('Error forgetting deck:', err);
-    }
+    const forgottenDeck = await APIremoveSavedDeck(deck, user?.token ?? await getLocal('JWT'));
+    if (!forgottenDeck) return null;
+    setSavedDecks(savedDecks.filter(d => d.id !== deck.id));
+    return forgottenDeck;
   };
 
   const getSavedDecks = async () => {
-    const token = await getLocal('JWT');
 
-    const savedDecks = await APIgetSavedDecks();
+    const savedDecks = await APIgetSavedDecks(user?.token ?? await getLocal('JWT'));
     if (savedDecks!= null) {
       setSavedDecks(savedDecks);
+        
     }
   }
 
@@ -69,22 +57,10 @@ const useDecks = () => {
 }
 
 const deleteDeck= async (id: string) => {
-  try{
-    const res = await fetch(API_BASE_URL+'/decks/'+id, {
-      method: 'DELETE',
-    })
-    
-    if(res.status!=204){
-      const errorText = await res.text();
-      throw new Error(`Failed to delete deck: ${errorText}`)
-    }
 
-    setSavedDecks(savedDecks.filter(deck => deck.id !== id));
-
-  }catch(err: any){
-    console.log('Error deleting deck: ', err);
-    
-  }
+  const success = await APIdeleteDeck(id, user?.token ?? await getLocal('JWT'));
+  if (!success) return false;
+  setSavedDecks(savedDecks.filter(deck => deck.id !== id));
 }
 
   return { currentDeck, setCurrentDeck, savedDecks, removeSavedDeck, loading, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckById};

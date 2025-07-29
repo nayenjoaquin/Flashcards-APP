@@ -117,8 +117,10 @@ export const DeckScreen = () => {
         }
         { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{
-          await deleteDeck(deck.id);
-          navigation.goBack();
+          const success = await deleteDeck(deck.id);
+          if(success){
+            navigation.goBack();
+          }
         }} className="w-full bg-white rounded-xl p-5 flex flex-row justify-start items-center gap-5">
           <Ionicons color={'red'} name="trash-bin" size={24}/>
           <Text className="text-red-500 font-semibold text-xl">Delete deck</Text>
