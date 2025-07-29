@@ -1,12 +1,18 @@
 // hooks/useDecks.ts
 import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
-import { Card, NewCard } from 'types';
+import { Card, Deck, NewCard } from 'types';
+import { AuthStore } from 'shared/stores/auth';
+import { APIcreateCard } from 'shared/api/cards';
+import { getLocal } from 'shared/utils/common';
+import { decksStore } from 'shared/stores/decks';
 
 const useCards = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const {savedDecks, setSavedDecks} = decksStore();
+  const {user} = AuthStore();
 
   // Fetch decks from API
   const fetchCards = async (did: string) => {
@@ -34,35 +40,16 @@ const useCards = () => {
   };
 
   const createCard = async(card: NewCard, did: string): Promise<boolean> => {
-    try{
-      const res = await fetch(API_BASE_URL+'/flashcards', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'Application/json'
-        },
-        body: JSON.stringify({
-          ...card,
-          deck_id: did
-        })
-      });
-
-      if(!res.ok){
-        const text = await res.text()
-        throw new Error(`Failed to create card: ${text}`);
-      }
-
-      const newCard = await res.json() as Card;
-      setCards(prev=>([
-        newCard,
-        ...prev
-      ]))
-      return true;
-
-    } catch(err:any){
-      console.log('Error creating flashcard: ', err);
-      return false;
-      
-    }
+   const newCard = await APIcreateCard(card, did, user?.token??await getLocal('JWT'));
+   if(!newCard) return false;
+   const updatedDeck = savedDecks.find(deck=>deck.id==did);
+   updatedDeck?.cards.push(newCard);
+   const updatedSavedDecks = savedDecks.map(deck=>{
+    if(deck.id==did)return updatedDeck as Deck
+    else return deck
+   })
+   setSavedDecks(updatedSavedDecks);
+   return true;
   }
 
   return { cards, loading, error, fetchCards, createCard };
