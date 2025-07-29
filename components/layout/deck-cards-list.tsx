@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Card, Progress, ProgressMap } from "types";
 import useDecks from "shared/hooks/decks";
+import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 interface props  {
     cards: Card[];
@@ -37,17 +38,7 @@ export const DeckCardsList = ({cards} : props) => {
                     ))}
                 </View>
             </ScrollView>
-             <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,0.15)']}
-            style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: 30,
-            }}
-            pointerEvents="none"
-        />
+             <BottomInnerShadow/>
         </View>
     )
 }

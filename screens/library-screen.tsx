@@ -10,6 +10,8 @@ import { Deck } from "types";
 import { DecksStackParamList, RootStackParamList} from "types/navigation";
 import { filter, FilterBar } from "components/layout/filter-bar";
 import { useAuth } from "shared/hooks/auth";
+import { LinearGradient } from "expo-linear-gradient";
+import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 
 
@@ -52,7 +54,7 @@ export const LibraryScreen = () => {
 
 
     return(
-        <View className="w-full p-5 gap-5 flex flex-col bg-neutral-100">
+        <View className="w-full h-full p-5 pb-0 gap-5 flex flex-col bg-neutral-100">
             {
                 newDeck?
                 <View className=" z-10 h-full w-screen absolute flex justify-end">
@@ -74,7 +76,8 @@ export const LibraryScreen = () => {
             {
                 loading ?
                 <View className="h-full flex w-full items-center justify-center"><ActivityIndicator size="large"/></View>
-                : <ScrollView >
+                : <>
+                <ScrollView className="h-full w-full" >
                     <View className="flex flex-row flex-wrap justify-start">
                         {filteredDecks?.map((deck: Deck, index: number)=>{
                         return <DeckCard onPressed={()=>{
@@ -85,6 +88,8 @@ export const LibraryScreen = () => {
                         })}
                     </View>
                 </ScrollView>
+                <BottomInnerShadow/>
+                </>
             }
         </View>
     )

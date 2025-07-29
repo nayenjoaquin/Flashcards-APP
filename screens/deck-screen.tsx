@@ -100,7 +100,7 @@ export const DeckScreen = () => {
         />
         :null}
         {deck.cards.length === 0 ?
-          <View className=" w-full flex grow items-center justify-center gap-5">
+          <View className=" w-full  flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">
               No cards in this deck.
             </Text>
