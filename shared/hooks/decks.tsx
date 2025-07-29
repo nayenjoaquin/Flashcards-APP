@@ -30,17 +30,16 @@ const useDecks = () => {
     const success = await APIsaveDeck(deck, user?.token ?? await getLocal('JWT'));
     if (!success) return false;
     const newSavedDecks = [deck, ...savedDecks];
-    console.log(newSavedDecks);
     
     setSavedDecks(newSavedDecks);
     return true;
   };
 
   const removeSavedDeck = async (deck: Deck) => {
-    const forgottenDeck = await APIremoveSavedDeck(deck, user?.token ?? await getLocal('JWT'));
-    if (!forgottenDeck) return null;
-    setSavedDecks(savedDecks.filter(d => d.id !== deck.id));
-    return forgottenDeck;
+    const success = await APIremoveSavedDeck(deck, user?.token ?? await getLocal('JWT'));
+    if (!success) return null;
+    setSavedDecks(savedDecks.filter(d => d.id != deck.id));
+    return success;
   };
 
   const getSavedDecks = async () => {

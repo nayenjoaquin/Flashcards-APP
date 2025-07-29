@@ -5,9 +5,9 @@ import { json2Deck } from "./schemas";
 
 const baseURL = API_BASE_URL+'/decks';
 
-export const APIgetDecks = async (): Promise<Deck[]|null> => {
+export const APIgetDecks = async (page: number): Promise<Deck[]|null> => {
     try {
-        const res = await fetch(`${baseURL}`, {
+        const res = await fetch(`${baseURL}?page=${page}`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ export const APIsaveDeck = async (deck: Deck, token: string): Promise<boolean> =
     }
 }
 
-export const APIremoveSavedDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+export const APIremoveSavedDeck = async (deck: Deck, token: string): Promise<boolean> => {
   try{
     const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
       method: 'DELETE',
@@ -121,11 +121,10 @@ export const APIremoveSavedDeck = async (deck: Deck, token: string): Promise<Dec
       const errorText = await res.text();
       throw new Error(`Failed to forget deck: ${errorText}`);
     }
-    const forgottenDeck = json2Deck(await res.json());
-    return forgottenDeck;
+    return true;
   } catch(err: any){
     console.log('Error forgetting deck:', err);
-    return null;
+    return false;
   }
 }
 

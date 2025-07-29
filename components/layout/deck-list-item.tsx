@@ -1,20 +1,48 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useState } from "react";
 import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
+import useDecks from "shared/hooks/decks";
 import { formatSavedCount } from "shared/utils/common";
 import { Deck } from "types";
+import { RootStackParamList } from "types/navigation";
 
 interface props {
     deck: Deck;
-    onTap: ()=> void;
-    saved?: boolean;
-    onSave: (deck: Deck) => void;
-    onRemove: (deck: Deck) => void;
 }
-export const DeckListItem = ({deck, onTap, saved, onSave, onRemove}: props) => {
+type navigationProp = StackNavigationProp<RootStackParamList, 'Main'>
+export const DeckListItem = ({deck}: props) => {
+
+    const navigation = useNavigation<navigationProp>();
+    const {savedDecks, saveDeck, removeSavedDeck} = useDecks();
+    const [saved, setSaved] = useState(savedDecks.map(deck=>deck.id).includes(deck.id));
+
+    const onSave = () => {
+        setSaved(true);
+        saveDeck(deck).then(success=>{
+            if(!success){
+                setSaved(false);
+            }
+        });
+    } 
+
+    const onRemove = () => {
+        setSaved(false);
+        removeSavedDeck(deck).then(success=>{
+            if(!success){
+                setSaved(true);
+            }
+        });
+    } 
 
     return (
         <TouchableOpacity
-            onPress={onTap}
+            onPress={()=>{
+                navigation.push('Deck',{
+                    deck: deck
+                });
+            }}
             className="flex w-full flex-row items-center justify-between p-2.5 bg-white border border-gray-200 rounded-lg"
         >
             <View className="flex-1">
@@ -23,7 +51,7 @@ export const DeckListItem = ({deck, onTap, saved, onSave, onRemove}: props) => {
             </View>
 
             <View className="flex flex-row items-center gap-2.5">
-                <Pressable onPress={saved ? () => onRemove(deck) : () => onSave(deck)}>
+                <Pressable onPress={saved ? () => onRemove() : () => onSave()}>
                     { saved ?
                         <Ionicons name="bookmark" size={24} color="#8a8eca" />
                         :

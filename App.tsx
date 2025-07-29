@@ -20,7 +20,16 @@ import { RegisterScreen } from 'screens/register-screen';
     return (
       <NavigationContainer>
         <stack.Navigator screenOptions={{
-          headerTintColor: 'black'
+          headerTintColor: 'black',
+          headerTitleStyle: {
+            paddingHorizontal: 16, // Padding within the title itself
+            },
+            headerLeftContainerStyle: {
+            paddingLeft: 16, // Padding for the left component (e.g., back button)
+            },
+            headerRightContainerStyle: {
+            paddingRight: 16, // Padding for the right component
+            },
         }}>
 
           <stack.Screen

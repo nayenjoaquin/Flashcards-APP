@@ -34,7 +34,18 @@ export const MainTabNavigator = () => {
     }, [])
 
     return(
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{
+            
+            headerTitleStyle: {
+            paddingHorizontal: 16, // Padding within the title itself
+            },
+            headerLeftContainerStyle: {
+            paddingLeft: 16, // Padding for the left component (e.g., back button)
+            },
+            headerRightContainerStyle: {
+            paddingRight: 16, // Padding for the right component
+            },
+        }}>
         <Tab.Screen name='Home' component={HomeScreen} options={{
             tabBarIcon: ({color, size, focused})=>(
             <Ionicons name={focused ? 'home':'home-outline'} size={size} color={color}/>

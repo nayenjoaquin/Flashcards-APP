@@ -26,8 +26,63 @@ export const DeckScreen = () => {
 
   const { deck } = route.params;
   const {createCard } = useCards();
-  const {currentDeck, setCurrentDeck, deleteDeck} = useDecks();
+  const {savedDecks, currentDeck, setCurrentDeck, deleteDeck, saveDeck, removeSavedDeck} = useDecks();
   const {user} = AuthStore();
+  const [saved, setSaved] = useState(savedDecks.map(d=>d.id).includes(deck.id));
+
+  const onSave = () => {
+        setSaved(true);
+        navigation.setOptions({
+          headerRight: ()=>(
+          <TouchableOpacity onPress={()=>{
+              onRemove();
+          }}>
+              <Ionicons name='heart' size={32} />
+          </TouchableOpacity>
+          )
+        })
+        saveDeck(deck).then(success=>{
+            if(!success){
+                setSaved(false);
+                navigation.setOptions({
+                  headerRight: ()=>(
+                  <TouchableOpacity onPress={()=>{
+                      onSave();
+                  }}>
+                      <Ionicons name='heart-outline' size={32} />
+                  </TouchableOpacity>
+                  )
+                })
+            }
+        });
+    } 
+
+    const onRemove = () => {
+        setSaved(false);
+        navigation.setOptions({
+          headerRight: ()=>(
+          <TouchableOpacity onPress={()=>{
+              onSave();
+          }}>
+              <Ionicons name='heart-outline' size={32} />
+          </TouchableOpacity>
+          )
+        })
+        removeSavedDeck(deck).then(success=>{
+            if(!success){
+                setSaved(true);
+                navigation.setOptions({
+                  headerRight: ()=>(
+                  <TouchableOpacity onPress={()=>{
+                      onRemove();
+                  }}>
+                      <Ionicons name='heart' size={32} />
+                  </TouchableOpacity>
+                  )
+                })
+            }
+        });
+    } 
 
   const onReviewFinished = (deck: Deck) => {
     
@@ -42,6 +97,17 @@ export const DeckScreen = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: '',
+      headerRight: ()=>(
+        <TouchableOpacity onPress={()=>{
+          if(saved){
+            onRemove();
+          }else{
+            onSave();
+          }
+        }}>
+            <Ionicons name={saved ? 'heart' : 'heart-outline'} size={32} />
+        </TouchableOpacity>
+      )
      });
   }, [navigation, deck.name]);
   useEffect(() => {
@@ -69,33 +135,38 @@ export const DeckScreen = () => {
         {deck.cards.length>0 ?
         <DeckViewHeader
         deck={currentDeck??deck}
+          saved = {saved}
           onReview={()=>{
-            const cards = cardsForReview(currentDeck!.cards, currentDeck!.progress);
+            if(!saved){
+              onSave();
+            }else{
+              const cards = cardsForReview(currentDeck!.cards, currentDeck!.progress);
 
-            if(!currentDeck!.progress){
-              navigation.push('Review',{
-                cards: shuffleArray(cards).slice(0,20),
-                deck: currentDeck!,
-                onReviewFinished: onReviewFinished
-                })
-              return;
+              if(!currentDeck!.progress){
+                navigation.push('Review',{
+                  cards: shuffleArray(cards).slice(0,20),
+                  deck: currentDeck!,
+                  onReviewFinished: onReviewFinished
+                  })
+                return;
+              }
+              if(!readyForReview(currentDeck!.last_reviewed_at)){
+                console.error('The deck can only be reviewed once every 8 hours');
+                return;
+              }
+              if(cards.length === 0){
+                console.error('No cards available for review');
+                
+                return;
+              }
+              navigation.push('Review',
+                  {
+                  cards: cards,
+                  deck: currentDeck!,
+                  onReviewFinished: onReviewFinished
+                  }
+              )
             }
-            if(!readyForReview(currentDeck!.last_reviewed_at)){
-              console.error('The deck can only be reviewed once every 8 hours');
-              return;
-            }
-            if(cards.length === 0){
-              console.error('No cards available for review');
-              
-              return;
-            }
-            navigation.push('Review',
-                {
-                cards: cards,
-                deck: currentDeck!,
-                onReviewFinished: onReviewFinished
-                }
-            )
           }}
         />
         :null}

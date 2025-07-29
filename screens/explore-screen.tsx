@@ -4,13 +4,16 @@ import { DeckListItem } from "components/layout/deck-list-item";
 import useDecks from "shared/hooks/decks";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { useExplore } from "shared/hooks/explore";
 
 export const ExploreScreen = () => {
 
   const {savedDecks, saveDeck, removeSavedDeck} = useDecks();
+  const {decks, loading, loadDecks} = useExplore();
   const [search, setSearch] = useState('');
 
   useEffect(()=>{
+    loadDecks();
   }, []);
   return (
     <View className="p-5">
@@ -25,10 +28,23 @@ export const ExploreScreen = () => {
          placeholder="Search by deck name..."
          value={search}
          />
-        <ScrollView className="w-full h-full">
+         {loading ?
+         <Text>Loading...</Text>
+         :
+         <ScrollView className="w-full h-full">
           <View className="flex h-full w-full flex-col gap-2.5">
+            {
+              decks.map(deck=>(
+                <DeckListItem
+                deck={deck}
+                key={deck.id}
+                />
+              ))
+            }
           </View>
         </ScrollView>
+         }
+        
       </SafeAreaView>
     </View>
   );

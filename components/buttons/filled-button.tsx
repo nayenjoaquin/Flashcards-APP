@@ -16,7 +16,7 @@ export const FilledButton = ({ text, onPress, color, grow=false}: props) => {
             width: grow ? null : '100%',
 
         }}
-         onPress={onPress} className='flex flex-row justify-center rounded-xl p-5 px-10'>
+         onPress={onPress} className='flex flex-row justify-center rounded-xl p-2.5 px-10'>
             <Text className="text-white font-bold">{text}</Text>
         </TouchableOpacity>
     );
