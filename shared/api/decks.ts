@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "shared/const/strings";
 import { getLocal } from "shared/utils/common";
-import { Deck } from "types";
+import { Deck, NewDeck } from "types";
 import { json2Deck } from "./schemas";
 
 const baseURL = API_BASE_URL+'/decks';
@@ -71,7 +71,7 @@ export const APIgetDeckById = async (id: string): Promise<Deck | null> => {
     }
 }
 
-export const APIcreateDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+export const APIcreateDeck = async (deck: NewDeck, token: string): Promise<Deck | null> => {
     try{
         const res = await fetch(`${baseURL}`, {
             method: 'POST',
@@ -88,6 +88,27 @@ export const APIcreateDeck = async (deck: Deck, token: string): Promise<Deck | n
         return json2Deck(json);
     } catch (err: any) {
         console.log('ERROR CREATING DECK: ', err)
+        return null;
+    }
+}
+
+export const APIsaveDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/saved/`+deck.id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(deck),
+        });
+
+        if (!res.ok) throw new Error('Failed to save deck');
+
+        const json = await res.json();
+        return json2Deck(json);
+    } catch (err: any) {
+        console.log('ERROR SAVING DECK: ', err)
         return null;
     }
 }

@@ -55,7 +55,7 @@ export const LibraryScreen = () => {
         <View className="w-full p-5 gap-5 flex flex-col bg-neutral-100">
             {
                 newDeck?
-                <View className=" z-10 h-full w-full absolute flex justify-end">
+                <View className=" z-10 h-full w-screen absolute flex justify-end">
                     <Pressable
                     className='absolute h-screen w-full bg-black opacity-20 flex justify-center'
                     onPress={()=>setNewDeck(false)}>
