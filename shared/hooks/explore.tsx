@@ -6,7 +6,7 @@ import { useStoreWithEqualityFn } from "zustand/traditional";
 export const useExplore = () => {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(2);
+  const [page, setPage] = useState<number>(1);
   const [keepFetching, setKeepFetching] = useState<boolean>(true);
 
   const loadDecks = async () => {

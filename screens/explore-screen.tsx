@@ -5,6 +5,7 @@ import useDecks from "shared/hooks/decks";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useExplore } from "shared/hooks/explore";
+import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 export const ExploreScreen = () => {
 
@@ -16,7 +17,7 @@ export const ExploreScreen = () => {
     loadDecks();
   }, []);
   return (
-    <View className="p-5">
+    <View className="pt-5">
       <SafeAreaView className="flex items-center justify-center h-full w-full gap-5">
         <Text className="text-2xl font-bold">
           Find new Decks
@@ -31,7 +32,7 @@ export const ExploreScreen = () => {
          {loading ?
          <Text>Loading...</Text>
          :
-         <ScrollView className="w-full h-full">
+         <ScrollView className="w-full h-full px-5">
           <View className="flex h-full w-full flex-col gap-2.5">
             {
               decks.map(deck=>(
@@ -43,8 +44,8 @@ export const ExploreScreen = () => {
             }
           </View>
         </ScrollView>
-         }
-        
+        }
+        <BottomInnerShadow/>
       </SafeAreaView>
     </View>
   );

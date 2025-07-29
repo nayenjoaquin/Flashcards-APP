@@ -10,6 +10,7 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
 import { ForReviewSection } from "components/layout/for-review-section";
 import { cardsForReview } from "shared/utils/spaced-repetition";
+import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -35,10 +36,10 @@ export const HomeScreen = () => {
                                     {loadingDecks ? (
                                         <Text className="text-white">Loading...</Text>
                                     ): (
-                                        savedDecks.map((deck) => (
+                                        savedDecks.map((deck, index) => (
                                                 <DeckTile onTap={()=>{
                                                     navigation.navigate('Deck', { deck });
-                                                }} deck={deck} key={deck.id}/>
+                                                }} deck={deck} key={deck.id+'-'+index}/>
                                         ))
                                     )}
                                 </View>
