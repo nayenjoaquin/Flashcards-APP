@@ -5,13 +5,13 @@ import { json2Deck } from "./schemas";
 
 const baseURL = API_BASE_URL+'/decks';
 
-export const APIgetDecks = async (page: number): Promise<Deck[]|null> => {
+export const APIgetDecks = async (page: number, token: string): Promise<Deck[]|null> => {
     try {
         const res = await fetch(`${baseURL}?page=${page}`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${await getLocal('JWT')}`,
+            'Authorization': `Bearer ${token}`,
             },
         });
     
@@ -147,5 +147,25 @@ export const APIdeleteDeck = async (id: string, token: string): Promise<boolean>
   }catch(err: any){
     console.log('Error deleting deck: ', err);
     return false;
+  }
+}
+
+export const APIsearchDecks = async (text: string, token: string): Promise<Deck[]|null> => {
+  try{
+    const res = await fetch(baseURL+'?search='+text, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+token
+      }
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
+    const json = await res.json() as any[];
+
+    return json.map(item=>json2Deck(item));
+  }catch(err){
+    console.log('Failed to search decks: ', err);
+    return null;
   }
 }

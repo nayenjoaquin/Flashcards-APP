@@ -10,7 +10,7 @@ import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 export const ExploreScreen = () => {
 
   const {savedDecks, saveDeck, removeSavedDeck} = useDecks();
-  const {decks, loading, loadDecks} = useExplore();
+  const {decks, loading, loadDecks, searchDecks} = useExplore();
   const [search, setSearch] = useState('');
 
   useEffect(()=>{
@@ -25,6 +25,7 @@ export const ExploreScreen = () => {
         <FilledTextField
          onChange={async(text)=>{
           setSearch(text);
+          searchDecks(text);
         }}
          placeholder="Search by deck name..."
          value={search}
