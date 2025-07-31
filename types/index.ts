@@ -35,6 +35,14 @@ export type Progress = {
 }
 export type ProgressMap = Record<string, Progress>
 
+export type newSession = {
+    deck_id: string;
+    wrong: number;
+    good: number;
+    perfect: number;
+    duration: number;
+}
+
 export type Session = {
     deck_id: string;
     wrong: number;

@@ -7,7 +7,7 @@ import { RootStackParamList } from "types/navigation";
 import { updateCard } from "shared/utils/spaced-repetition";
 import { saveLocal } from "shared/utils/common";
 import { NEW_CARDS_PER_SESSION } from "shared/const/values";
-import { Progress, ProgressMap, Session } from "types";
+import { newSession, Progress, ProgressMap, Session } from "types";
 import { useProgress } from "shared/hooks/progress";
 import { useAuth } from "shared/hooks/auth";
 import { useSession } from "shared/hooks/last-session";
@@ -45,14 +45,13 @@ export const ReviewScreen = () => {
             wrong: results.wrong,
             good: results.good,
             perfect: results.perfect,
-            created_at: Date.now(),
             duration: Date.now() - start
-        } as Session
+        } as newSession
         const updatedDeck = await saveProgress(deck, progress);
         if(!updatedDeck) return;
         onReviewFinished(updatedDeck);
         
-        await saveSession(session, user?.token)
+        await saveSession(session)
         navigation.goBack();
     }
 

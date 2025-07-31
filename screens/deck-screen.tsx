@@ -138,18 +138,18 @@ export const DeckScreen = () => {
                   })
                 return;
               }
-              if(!readyForReview(currentDeck!.last_reviewed_at)){
-                console.error('The deck can only be reviewed once every 8 hours');
-                return;
-              }
-              if(cards.length === 0){
-                console.error('No cards available for review');
+              // if(!readyForReview(currentDeck!.last_reviewed_at)){
+              //   console.error('The deck can only be reviewed once every 8 hours');
+              //   return;
+              // }
+              // if(cards.length === 0){
+              //   console.error('No cards available for review');
                 
-                return;
-              }
+              //   return;
+              //}
               navigation.push('Review',
                   {
-                  cards: cards,
+                  cards: currentDeck!.cards,
                   deck: currentDeck!,
                   onReviewFinished: onReviewFinished
                   }

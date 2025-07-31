@@ -18,22 +18,20 @@ type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
 
 export const LastSessionSection = () => {
     const [lastDeck, setLastDeck] = useState<Deck | null>(null);
-    const {lastSession, getLastSession, setLastSession} = useSession();
+    const {lastSession, getLastSession} = useSession();
     const {getDeckById} = useDecks();
     const navigation = useNavigation<navProp>();
     const {user} = useAuth();
 
     useEffect(() => {
         
-        getLastSession(user?.token).then((session) => {
-            if (session) {
-                setLastSession(session);
-                getDeckById(session.deck_id).then((deck) => {
-                    setLastDeck(deck);
-                });
-            }
-        });
-    }, [user]);
+        getLastSession();
+    }, []);
+    useEffect(()=>{
+        if(lastSession)getDeckById(lastSession.deck_id).then(deck=>{
+            setLastDeck(deck);
+        })
+    }, [lastSession]);
     if(!lastSession){
         return null
     }

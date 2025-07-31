@@ -1,4 +1,4 @@
-import colors from './shared/const/app-theme';
+import appTheme from './shared/const/app-theme';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     presets: [require("nativewind/preset")],
     theme: {
       extend: {
-        colors
+        colors: appTheme.color
       },
     },
     plugins: [],
