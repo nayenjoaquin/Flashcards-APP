@@ -17,7 +17,7 @@ import { Card, Deck, NewCard, Progress } from "types";
 import appTheme from "shared/const/app-theme";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
-  type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
+type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
 export const DeckScreen = () => {
   
@@ -118,18 +118,9 @@ export const DeckScreen = () => {
   return (
     <View className="relative h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex flex-col items-center justify-center gap-2.5">
-        {deck.user_id == user?.id ?
-        <FloatingIconButton
-          icon="add"
-          onPress={()=>{
-            navigation.push('NewCard')
-          }}
-          color={appTheme.color.secondary[500]}
-        />
-        :null}
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
         <Text className="text-gray-500 w-full ">{deck.description}</Text>
-        {deck.cards.length>0 ?
+        {currentDeck?.cards.length!=0 ?
         <DeckViewHeader
         deck={currentDeck??deck}
           saved = {saved}
@@ -167,7 +158,7 @@ export const DeckScreen = () => {
           }}
         />
         :null}
-        {deck.cards.length === 0 ?
+        {currentDeck?.cards.length === 0 ?
           <View className=" w-full  flex grow items-center justify-center gap-5">
             <Text className="text-gray-500 text-center flex">
               No cards in this deck.
@@ -177,7 +168,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <DeckCardsList cards={currentDeck!.cards ?? deck.cards}/>
+          <DeckCardsList cards={currentDeck!.cards}/>
         }
         { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{

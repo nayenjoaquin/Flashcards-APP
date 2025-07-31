@@ -58,6 +58,7 @@ export const  daysLeft =(dueDate: Date) => {
 }
 
 export const timeAgo = (pastDate: number): string => {
+  console.log('parsing date: ', pastDate);
   
   const now = Date.now();
   const diff = now-pastDate;

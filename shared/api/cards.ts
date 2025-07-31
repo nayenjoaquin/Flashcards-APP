@@ -31,3 +31,27 @@ export const APIcreateCard = async (card: NewCard, deck_id: string, token: strin
         
     }
 }
+
+export const APIdeleteCard = async (card_id: string, token: string): Promise<boolean> => {
+    console.log('USING TOKEN: ', token);
+    
+
+    try{
+        const res = await fetch(base_url+'/'+card_id, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer '+token
+            }
+        });
+
+        if(res.status!=204) throw new Error(await res.text());
+
+        return true;
+
+    }catch(err){
+        console.log('FAILED TO DELETE CARD: ', err);
+        
+        return false;
+    }
+
+}

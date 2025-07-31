@@ -3,7 +3,7 @@ import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
 import { Card, Deck, NewCard } from 'types';
 import { AuthStore } from 'shared/stores/auth';
-import { APIcreateCard } from 'shared/api/cards';
+import { APIcreateCard, APIdeleteCard } from 'shared/api/cards';
 import { getLocal } from 'shared/utils/common';
 import { decksStore } from 'shared/stores/decks';
 
@@ -11,7 +11,7 @@ const useCards = () => {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const {savedDecks, setSavedDecks} = decksStore();
+  const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
   const {user} = AuthStore();
 
   // Fetch decks from API
@@ -52,7 +52,26 @@ const useCards = () => {
    return newCard;
   }
 
-  return { cards, loading, error, fetchCards, createCard };
+  const deleteCard = async(card_id: string): Promise<boolean> => {
+    const success = await APIdeleteCard(card_id, user?.token??await getLocal('JWT'));
+    if(!success) return false;
+    const updatedCards = currentDeck?.cards.filter(c=>c.id!=card_id) as Card[];
+    setSavedDecks(savedDecks.map(d=>{
+      if(d.cards.map(c=>c.id).includes(card_id)) return {
+        ...d,
+        cards: updatedCards
+      }
+
+      return d
+    }))
+    setCurrentDeck({
+      ... currentDeck,
+      cards: updatedCards
+    } as Deck);
+    return true;
+  }
+
+  return { cards, loading, error, fetchCards, createCard, deleteCard};
 };
 
 export default useCards;

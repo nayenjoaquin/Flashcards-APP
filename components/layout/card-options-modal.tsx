@@ -10,9 +10,10 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 interface Props {
   onClose: () => void;
+  onDelete: ()=>void;
 }
 
-export const CardOptionsModal = ({ onClose }: Props) => {
+export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
   const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current; // Start off-screen
   const [newDeck, setNewDeck] = useState<NewDeck>({
     name: '',
@@ -53,7 +54,8 @@ export const CardOptionsModal = ({ onClose }: Props) => {
         </TouchableOpacity>
       </View>
       <View className="flex flex-col w-full">
-        <Pressable className="flex flex-row gap-5 px-5 py-2.5 items-center">
+        <Pressable className="w-full flex flex-row gap-5 px-5 py-2.5 items-center"
+        onPress={onDelete}>
           <Ionicons name="trash-outline" color={'red'} size={appTheme.size.m}/>
           <Text className="text-md font-semibold text-red-500">Delete card</Text>
         </Pressable>

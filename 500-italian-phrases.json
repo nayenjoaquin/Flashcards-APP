@@ -1,0 +1,405 @@
+[
+  {
+    "front": "Ciao",
+    "back": "Hi / Hello"
+  },
+  {
+    "front": "Buongiorno",
+    "back": "Good morning"
+  },
+  {
+    "front": "Buonasera",
+    "back": "Good evening"
+  },
+  {
+    "front": "Buonanotte",
+    "back": "Good night"
+  },
+  {
+    "front": "Arrivederci",
+    "back": "Goodbye"
+  },
+  {
+    "front": "Come ti chiami?",
+    "back": "What is your name?"
+  },
+  {
+    "front": "Mi chiamo...",
+    "back": "My name is..."
+  },
+  {
+    "front": "Piacere di conoscerti",
+    "back": "Nice to meet you"
+  },
+  {
+    "front": "Come stai?",
+    "back": "How are you?"
+  },
+  {
+    "front": "Sto bene, grazie",
+    "back": "I'm fine, thank you"
+  },
+  {
+    "front": "E tu?",
+    "back": "And you?"
+  },
+  {
+    "front": "Sì",
+    "back": "Yes"
+  },
+  {
+    "front": "No",
+    "back": "No"
+  },
+  {
+    "front": "Per favore",
+    "back": "Please"
+  },
+  {
+    "front": "Grazie",
+    "back": "Thank you"
+  },
+  {
+    "front": "Prego",
+    "back": "You're welcome"
+  },
+  {
+    "front": "Scusa",
+    "back": "Excuse me / Sorry (informal)"
+  },
+  {
+    "front": "Mi dispiace",
+    "back": "I'm sorry"
+  },
+  {
+    "front": "Non capisco",
+    "back": "I don't understand"
+  },
+  {
+    "front": "Parli inglese?",
+    "back": "Do you speak English?"
+  },
+  {
+    "front": "Parlo un po' di italiano",
+    "back": "I speak a little Italian"
+  },
+  {
+    "front": "Dove è il bagno?",
+    "back": "Where is the bathroom?"
+  },
+  {
+    "front": "Quanto costa?",
+    "back": "How much does it cost?"
+  },
+  {
+    "front": "Che ore sono?",
+    "back": "What time is it?"
+  },
+  {
+    "front": "Non lo so",
+    "back": "I don't know"
+  },
+  {
+    "front": "Va bene",
+    "back": "Okay / All right"
+  },
+  {
+    "front": "Come si dice... in italiano?",
+    "back": "How do you say... in Italian?"
+  },
+  {
+    "front": "Puoi ripetere, per favore?",
+    "back": "Can you repeat, please?"
+  },
+  {
+    "front": "Parla più lentamente, per favore",
+    "back": "Speak more slowly, please"
+  },
+  {
+    "front": "Ho una domanda",
+    "back": "I have a question"
+  },
+  {
+    "front": "Posso andare al bagno?",
+    "back": "Can I go to the bathroom?"
+  },
+  {
+    "front": "Ho fame",
+    "back": "I'm hungry"
+  },
+  {
+    "front": "Ho sete",
+    "back": "I'm thirsty"
+  },
+  {
+    "front": "Sono stanco",
+    "back": "I'm tired (male)"
+  },
+  {
+    "front": "Sono stanca",
+    "back": "I'm tired (female)"
+  },
+  {
+    "front": "Che cosa fai?",
+    "back": "What do you do?"
+  },
+  {
+    "front": "Lavoro come...",
+    "back": "I work as a..."
+  },
+  {
+    "front": "Sono uno studente",
+    "back": "I am a student (male)"
+  },
+  {
+    "front": "Sono una studentessa",
+    "back": "I am a student (female)"
+  },
+  {
+    "front": "Dove abiti?",
+    "back": "Where do you live?"
+  },
+  {
+    "front": "Abito a...",
+    "back": "I live in..."
+  },
+  {
+    "front": "Di dove sei?",
+    "back": "Where are you from?"
+  },
+  {
+    "front": "Sono di...",
+    "back": "I am from..."
+  },
+  {
+    "front": "Che giorno è oggi?",
+    "back": "What day is today?"
+  },
+  {
+    "front": "Oggi è lunedì",
+    "back": "Today is Monday"
+  },
+  {
+    "front": "Domani è martedì",
+    "back": "Tomorrow is Tuesday"
+  },
+  {
+    "front": "Ieri era domenica",
+    "back": "Yesterday was Sunday"
+  },
+  {
+    "front": "Che tempo fa?",
+    "back": "What's the weather like?"
+  },
+  {
+    "front": "Fa caldo",
+    "back": "It's hot"
+  },
+  {
+    "front": "Fa freddo",
+    "back": "It's cold"
+  },
+  {
+    "front": "Piove",
+    "back": "It's raining"
+  },
+  {
+    "front": "C'è il sole",
+    "back": "It's sunny"
+  },
+  {
+    "front": "È nuvoloso",
+    "back": "It's cloudy"
+  },
+  {
+    "front": "C'è vento",
+    "back": "It's windy"
+  },
+  {
+    "front": "Che ore sono?",
+    "back": "What time is it?"
+  },
+  {
+    "front": "È l'una",
+    "back": "It's one o'clock"
+  },
+  {
+    "front": "Sono le due",
+    "back": "It's two o'clock"
+  },
+  {
+    "front": "A che ora?",
+    "back": "At what time?"
+  },
+  {
+    "front": "Alle tre",
+    "back": "At three"
+  },
+  {
+    "front": "Ho bisogno di aiuto",
+    "back": "I need help"
+  },
+  {
+    "front": "Posso aiutarti?",
+    "back": "Can I help you?"
+  },
+  {
+    "front": "Sto cercando...",
+    "back": "I am looking for..."
+  },
+  {
+    "front": "Dove si trova...?",
+    "back": "Where is...?"
+  },
+  {
+    "front": "A sinistra",
+    "back": "To the left"
+  },
+  {
+    "front": "A destra",
+    "back": "To the right"
+  },
+  {
+    "front": "Dritto",
+    "back": "Straight ahead"
+  },
+  {
+    "front": "Qui vicino",
+    "back": "Near here"
+  },
+  {
+    "front": "Lontano da qui",
+    "back": "Far from here"
+  },
+  {
+    "front": "Desidera?",
+    "back": "May I help you?"
+  },
+  {
+    "front": "Vorrei...",
+    "back": "I would like..."
+  },
+  {
+    "front": "Il conto, per favore",
+    "back": "The bill, please"
+  },
+  {
+    "front": "Posso pagare con carta?",
+    "back": "Can I pay by card?"
+  },
+  {
+    "front": "Contanti",
+    "back": "Cash"
+  },
+  {
+    "front": "È troppo caro",
+    "back": "It's too expensive"
+  },
+  {
+    "front": "È economico",
+    "back": "It's cheap"
+  },
+  {
+    "front": "Mi piace",
+    "back": "I like it"
+  },
+  {
+    "front": "Non mi piace",
+    "back": "I don't like it"
+  },
+  {
+    "front": "Ti piace?",
+    "back": "Do you like it?"
+  },
+  {
+    "front": "Mi fa male la testa",
+    "back": "I have a headache"
+  },
+  {
+    "front": "Mi sento male",
+    "back": "I feel sick"
+  },
+  {
+    "front": "Sto bene",
+    "back": "I'm well"
+  },
+  {
+    "front": "Chiamate un dottore!",
+    "back": "Call a doctor!"
+  },
+  {
+    "front": "Ho bisogno di un medico",
+    "back": "I need a doctor"
+  },
+  {
+    "front": "Dove si trova la farmacia?",
+    "back": "Where is the pharmacy?"
+  },
+  {
+    "front": "Mi sono perso",
+    "back": "I'm lost (male)"
+  },
+  {
+    "front": "Mi sono persa",
+    "back": "I'm lost (female)"
+  },
+  {
+    "front": "Può aiutarmi?",
+    "back": "Can you help me?"
+  },
+  {
+    "front": "Parla inglese?",
+    "back": "Do you speak English?"
+  },
+  {
+    "front": "Non parlo italiano molto bene",
+    "back": "I don't speak Italian very well"
+  },
+  {
+    "front": "Capisco",
+    "back": "I understand"
+  },
+  {
+    "front": "Non capisco",
+    "back": "I don't understand"
+  },
+  {
+    "front": "Può scriverlo?",
+    "back": "Can you write it down?"
+  },
+  {
+    "front": "Può ripetere?",
+    "back": "Can you repeat?"
+  },
+  {
+    "front": "Cosa significa?",
+    "back": "What does it mean?"
+  },
+  {
+    "front": "Significa...",
+    "back": "It means..."
+  },
+  {
+    "front": "Posso fare una foto?",
+    "back": "Can I take a photo?"
+  },
+  {
+    "front": "È vietato",
+    "back": "It's forbidden"
+  },
+  {
+    "front": "È permesso",
+    "back": "It's allowed"
+  },
+  {
+    "front": "Benvenuto",
+    "back": "Welcome (to a man)"
+  },
+  {
+    "front": "Benvenuta",
+    "back": "Welcome (to a woman)"
+  }
+]
+
+
+

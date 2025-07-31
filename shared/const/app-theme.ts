@@ -28,6 +28,7 @@ export default {
             }
     },
     size: {
+        xs: 11,
         s: 16,
         m: 24,
         l: 32,

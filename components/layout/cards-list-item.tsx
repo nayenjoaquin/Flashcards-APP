@@ -12,7 +12,7 @@ interface props {
     progress: Progress|null;
     selected?: boolean;
     selecting?: boolean;
-    onTap: ()=>void;
+    onTap: (card: Card)=>void;
 }
 
 export const CardsListItem = ({card, selected=false, selecting = false, onTap, progress}: props) => {
@@ -22,7 +22,7 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap, p
     
     const reviewIn = !progress ? 0 : progress ? daysLeft(progress.due_date) : 0
     return(
-        <Pressable onPress={onTap}>
+        <Pressable onPress={()=>onTap(card)}>
             <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
                 <View className="flex-1">
                     <Text className="text-md font-semibold">{card.front}</Text>
@@ -30,7 +30,7 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap, p
                 </View>
                 <View className="flex flex-row grow gap-5 items-center justify-end">
                     <Text className="text-gray-400">Review in {reviewIn>=0 ? reviewIn : 0} days</Text>
-                    <TouchableOpacity onPress={onTap}>
+                    <TouchableOpacity onPress={()=>onTap(card)}>
                         {currentDeck?.user_id == user?.id ?
                         !selecting ?
                             <Ionicons name="ellipsis-vertical" size={24}/>
