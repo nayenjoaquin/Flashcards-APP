@@ -7,10 +7,12 @@ import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck, ProgressMap } from 'types';
 import { json2Deck } from 'shared/api/schemas';
 import { APIcreateDeck, APIdeleteDeck, APIgetDeckById, APIgetSavedDecks, APIremoveSavedDeck, APIsaveDeck } from 'shared/api/decks';
+import { sessionStore } from 'shared/stores/last-session';
 
 const useDecks = () => {
   const {savedDecks, setSavedDecks, currentDeck, setCurrentDeck} = decksStore();
   const [loading, setLoading] = useState<boolean>(false);
+  const {lastSession, setLastSession} = sessionStore();
   const {user} = AuthStore();
 
   const getDeckById = async (id: string) => {
@@ -63,6 +65,8 @@ const deleteDeck= async (id: string) => {
   const success = await APIdeleteDeck(id, user?.token ?? await getLocal('JWT'));
   if (!success) return false;
   setSavedDecks(savedDecks.filter(deck => deck.id !== id));
+  if(lastSession?.deck_id==id) setLastSession(null);
+  setCurrentDeck(null);
   return true;
 }
 

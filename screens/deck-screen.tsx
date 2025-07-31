@@ -128,7 +128,7 @@ export const DeckScreen = () => {
             if(!saved){
               onSave();
             }else{
-              const cards = cardsForReview(currentDeck!.cards, currentDeck!.progress);
+              const cards = cardsForReview(currentDeck?.cards??[], currentDeck?.progress??{});
 
               if(!currentDeck!.progress){
                 navigation.push('Review',{
@@ -138,18 +138,18 @@ export const DeckScreen = () => {
                   })
                 return;
               }
-              // if(!readyForReview(currentDeck!.last_reviewed_at)){
-              //   console.error('The deck can only be reviewed once every 8 hours');
-              //   return;
-              // }
-              // if(cards.length === 0){
-              //   console.error('No cards available for review');
+              if(!readyForReview(currentDeck!.last_reviewed_at)){
+                console.error('The deck can only be reviewed once every 8 hours');
+                return;
+              }
+              if(cards.length === 0){
+                console.error('No cards available for review');
                 
-              //   return;
-              //}
+                return;
+              }
               navigation.push('Review',
                   {
-                  cards: currentDeck!.cards,
+                  cards: cards,
                   deck: currentDeck!,
                   onReviewFinished: onReviewFinished
                   }
@@ -168,7 +168,7 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <DeckCardsList cards={currentDeck!.cards}/>
+          <DeckCardsList cards={currentDeck?.cards??[]}/>
         }
         { user?.id == deck.user_id ?
         <TouchableOpacity onPress={async ()=>{

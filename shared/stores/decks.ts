@@ -5,7 +5,7 @@ interface storeProps{
   savedDecks: Deck[];
   myDecks: Deck[];
   currentDeck?: Deck|null;
-  setCurrentDeck: (deck: Deck) => void;
+  setCurrentDeck: (deck: Deck|null) => void;
   setSavedDecks: (decks: Deck[])=>void;
   setMyDecks: (decks: Deck[])=>void;
 }
@@ -14,7 +14,7 @@ export const decksStore = create<storeProps>(set=>({
   savedDecks: [],
   myDecks: [],
   currentDeck: null,
-  setCurrentDeck: (deck: Deck) => set({currentDeck: deck}),
+  setCurrentDeck: (deck: Deck|null) => set({currentDeck: deck}),
   setSavedDecks: (decks)=>set({savedDecks: decks}),
   setMyDecks: (decks)=>set({myDecks: decks})
   }));
