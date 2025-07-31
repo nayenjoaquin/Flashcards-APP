@@ -1,4 +1,4 @@
-import { Card, Deck, Progress, ProgressMap } from "types";
+import { Card, Deck, Progress, ProgressMap, Session } from "types";
 
 export const json2Progress = (json: any): Progress => {
   return {
@@ -40,4 +40,15 @@ export const json2Deck = (json: any): Deck => {
     created_at: new Date(json.created_at),
     last_reviewed_at: json.last_reviewed_at ? new Date(json.last_reviewed_at) : null,
   };
+}
+
+export const json2Sesssion = (json: any): Session => {
+  return{
+    deck_id:json.deck_id,
+    wrong: json.wrong,
+    good: json.good,
+    perfect: json.perfect,
+    created_at: new Date(json.created_at),
+    duration: json.duration
+  }
 }

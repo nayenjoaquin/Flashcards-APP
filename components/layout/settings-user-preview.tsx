@@ -27,7 +27,7 @@ export const SettingsUserPreview = () => {
                 });
             }}
             text="Sign out"
-            color={appTheme.secondary[500]}
+            color={appTheme.color.secondary[500]}
             />
         </View>
     )

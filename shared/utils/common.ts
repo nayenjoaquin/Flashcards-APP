@@ -57,11 +57,12 @@ export const  daysLeft =(dueDate: Date) => {
   return diffDays;
 }
 
-export const timeAgo = (pastDate: number): string => {
-  console.log('parsing date: ', pastDate);
+export const timeAgo = (pastDate: Date): string => {
   
-  const now = Date.now();
-  const diff = now-pastDate;
+  const now = new Date();
+  const diff = now.getTime() - pastDate.getTime();
+  
+  
   if(diff<1000){
     return 'just now'
   }else if(diff<1000*60){

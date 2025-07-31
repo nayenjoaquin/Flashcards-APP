@@ -40,7 +40,7 @@ export type Session = {
     wrong: number;
     good: number;
     perfect: number;
-    created_at: number;
+    created_at: Date;
     duration: number;
 }
 export type User = {

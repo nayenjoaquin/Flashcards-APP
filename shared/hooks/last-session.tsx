@@ -3,32 +3,19 @@ import { getLocal, saveLocal } from "shared/utils/common";
 import { Deck, Progress, Session } from "types";
 import { useProgress } from "./progress";
 import { API_BASE_URL } from "shared/const/strings";
+import { APIgetLastSession } from "shared/api/session";
+import { AuthStore } from "shared/stores/auth";
 
 export const useSession = ()=>{
     const {lastSession, setLastSession} = sessionStore();
     const {saveProgress} = useProgress();
+    const {user} = AuthStore();
 
     const getLastSession = async(token?: string): Promise<Session | null> =>{
-        try{
-            const res = await fetch(API_BASE_URL+'/last-review', {
-                method: 'GET',
-                headers: {
-                    "Authorization": 'Bearer '+ (token ?? await getLocal('JWT'))
-                }
-            })
 
-            if(!res.ok){
-                throw new Error('Failed to retrieve last session from API: '+await res.text())
-            }
-
-            const body = await res.json();
-            
-            
-            return {...body, created_at: new Date(body.created_at).getTime()} as Session
-        }catch(err){
-            console.log('Failed to retrieve last session from API');
-            return null
-        }
+       const lastSession = await APIgetLastSession(user?.token??await getLocal('JWT'));
+       setLastSession(lastSession);
+       return lastSession;
     }
 
     const saveSession = async( session: Session, token?: string): Promise<boolean> => {
