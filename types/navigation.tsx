@@ -16,9 +16,7 @@ import { Card, Deck, NewCard } from "types";
   export type RootStackParamList = {
     Main: undefined;
     Deck: { deck: Deck};
-    NewCard: {
-      onSubmit: (newCard: NewCard)=>Promise<boolean>
-    }
+    NewCard: undefined;
     Review: {
       cards: Card[],
       deck: Deck,

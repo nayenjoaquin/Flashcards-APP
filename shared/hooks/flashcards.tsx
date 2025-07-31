@@ -39,9 +39,9 @@ const useCards = () => {
       }
   };
 
-  const createCard = async(card: NewCard, did: string): Promise<boolean> => {
+  const createCard = async(card: NewCard, did: string): Promise<Card|null> => {
    const newCard = await APIcreateCard(card, did, user?.token??await getLocal('JWT'));
-   if(!newCard) return false;
+   if(!newCard) return null;
    const updatedDeck = savedDecks.find(deck=>deck.id==did);
    updatedDeck?.cards.push(newCard);
    const updatedSavedDecks = savedDecks.map(deck=>{
@@ -49,7 +49,7 @@ const useCards = () => {
     else return deck
    })
    setSavedDecks(updatedSavedDecks);
-   return true;
+   return newCard;
   }
 
   return { cards, loading, error, fetchCards, createCard };

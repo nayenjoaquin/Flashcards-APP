@@ -29,7 +29,7 @@ export const FilterBar = ({filters}: props) => {
                                 setActive(prev=>!prev)
                             }}>
                                 <Text style={{
-                                    backgroundColor: !active ? `${appTheme.primary[500]}80`: appTheme.primary[500]
+                                    backgroundColor: !active ? `${appTheme.color.primary[500]}80`: appTheme.color.primary[500]
                                 }} className='p-2.5 rounded-full text-white font-semibold'>
                                     {filter.name}
                                 </Text>

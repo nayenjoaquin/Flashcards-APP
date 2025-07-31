@@ -41,11 +41,11 @@ export const LastSessionSection = () => {
         <View className="flexjustify-center items-start gap-2.5 ">
             <Text className="text-2xl font-semibold">Last session</Text>
             { lastDeck ? (
-                <View className="flex w-full flex-row items-center gap-5 bg-white p-5 rounded-2xl border border-gray-200">
+                <View className="flex w-full flex-row items-center gap-2.5 rounded-2xl ">
                     <DeckCard deck={lastDeck} onPressed={()=>{
                         navigation.navigate('Deck', { deck: lastDeck });
                     }}
-                    index={1}
+                    index={2}
                     />
                     <View className="flex-1 flex-col justify-center items-start gap-2.5">
                         <View className="flex flex-row items-center gap-2">
@@ -58,7 +58,7 @@ export const LastSessionSection = () => {
                         <Text className="text-xl">Perfect: {lastSession?.perfect??0}</Text>
                         <FilledButton
                             text="Review deck"
-                            color={appTheme.primary[500]}
+                            color={appTheme.color.primary[500]}
                             onPress={()=>{
                                 navigation.navigate('Deck', {deck: lastDeck});
                             }}

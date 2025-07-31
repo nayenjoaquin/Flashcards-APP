@@ -54,12 +54,12 @@ export const LibraryScreen = () => {
 
 
     return(
-        <View className="w-full h-full p-5 pb-0 gap-5 flex flex-col bg-neutral-100">
-            {
+        <View className="flex-1">
+             {
                 newDeck?
-                <View className=" z-10 h-full w-screen absolute flex justify-end">
+                <View className="  z-10 bottom-0 h-full w-screen absolute flex justify-end">
                     <Pressable
-                    className='absolute h-screen w-full bg-black opacity-20 flex justify-center'
+                    className='absolute h-full w-full bg-black opacity-20 flex justify-center'
                     onPress={()=>setNewDeck(false)}>
                     </Pressable>
                     <NewDeckModal
@@ -69,28 +69,30 @@ export const LibraryScreen = () => {
                     onSubmit={createDeck}/>
                     
                 </View>
-                :
-                null
+                : null
             }
-            <FilterBar filters={filters}/>
-            {
-                loading ?
-                <View className="h-full flex w-full items-center justify-center"><ActivityIndicator size="large"/></View>
-                : <>
-                <ScrollView className="h-full w-full" >
-                    <View className="flex flex-row flex-wrap justify-start">
-                        {filteredDecks?.map((deck: Deck, index: number)=>{
-                        return <DeckCard onPressed={()=>{
-                            navigation.push('Deck',{
-                                deck: deck
-                            })
-                        }} deck={deck} key={deck.id} index={index}/>
-                        })}
-                    </View>
-                </ScrollView>
-                <BottomInnerShadow/>
-                </>
-            }
+            <View className="w-full h-full p-5 pb-0 gap-5 flex flex-col bg-neutral-100">
+                <FilterBar filters={filters}/>
+                {
+                    loading ?
+                    <View className="h-full flex w-full items-center justify-center"><ActivityIndicator size="large"/></View>
+                    : <>
+                    <ScrollView className="h-full w-full" >
+                        <View className="flex flex-row flex-wrap justify-start">
+                            {filteredDecks?.map((deck: Deck, index: number)=>{
+                            return <DeckCard onPressed={()=>{
+                                navigation.push('Deck',{
+                                    deck: deck
+                                })
+                            }} deck={deck} key={deck.id} index={index}/>
+                            })}
+                        </View>
+                    </ScrollView>
+                    <BottomInnerShadow/>
+                    </>
+                }
+            </View>
         </View>
+            
     )
 }

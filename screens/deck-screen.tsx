@@ -14,6 +14,7 @@ import { getLocal, shuffleArray } from "shared/utils/common";
 import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
 import { AuthStore } from "shared/stores/auth";
 import { Card, Deck, NewCard, Progress } from "types";
+import appTheme from "shared/const/app-theme";
 
 type DeckScreenRouteProp = RouteProp<RootStackParamList, "Deck">;
   type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
@@ -115,19 +116,15 @@ export const DeckScreen = () => {
   }, [deck]);
 
   return (
-    <View className="h-full flex items-center justify-center p-5">
+    <View className="relative h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex flex-col items-center justify-center gap-2.5">
         {deck.user_id == user?.id ?
         <FloatingIconButton
           icon="add"
           onPress={()=>{
-            navigation.push('NewCard',{
-              onSubmit: async (card: NewCard)=>{
-                return await createCard(card, deck.id);
-              },
-            })
+            navigation.push('NewCard')
           }}
-          color="#6260a2"
+          color={appTheme.color.secondary[500]}
         />
         :null}
         <Text className="text-2xl font-semibold w-full">{deck.name}</Text>
@@ -176,11 +173,7 @@ export const DeckScreen = () => {
               No cards in this deck.
             </Text>
             <FilledButton text="Add cards" onPress={()=>{
-              navigation.push('NewCard', {
-                onSubmit: async (card: NewCard)=>{
-                  return await createCard(card, deck.id);
-                },
-              })
+              navigation.push('NewCard')
             }}/>
           </View>
         :

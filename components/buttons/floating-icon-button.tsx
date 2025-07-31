@@ -14,6 +14,7 @@ export const FloatingIconButton= ({icon, color, onPress}: props)=>{
         <TouchableOpacity 
         onPress={onPress}
         style={{
+            backgroundColor: color,
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,
@@ -23,8 +24,9 @@ export const FloatingIconButton= ({icon, color, onPress}: props)=>{
             shadowRadius: 2,
             elevation: 5,
         }}
-        className="absolute bottom-5 right-5 bg-secondary-400 z-10 p-2.5 aspect-square rounded-xl">
-            <Ionicons name={icon} size={48} color={color}/>
+        className="absolute bottom-5 right-5  z-10 p-2.5 aspect-square rounded-xl"
+        >
+            <Ionicons name={icon} size={48} color={'white'}/>
         </TouchableOpacity>
     )
 }
