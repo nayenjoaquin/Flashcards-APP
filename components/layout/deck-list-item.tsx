@@ -47,7 +47,6 @@ export const DeckListItem = ({deck}: props) => {
         >
             <View className="flex-1">
                 <Text className="text-lg font-semibold">{deck.name}</Text>
-                <Text className="text-md text-gray-500">{deck.description}</Text>
             </View>
 
             <View className="flex flex-row items-center gap-2.5">
