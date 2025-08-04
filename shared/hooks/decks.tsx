@@ -17,15 +17,13 @@ const useDecks = () => {
 
   const getDeckById = async (id: string) => {
     setLoading(true);
-    const json = await APIgetDeckById(id);
-    if (!json) {
+    const fetchedDeck = await APIgetDeckById(id);
+    if (!fetchedDeck) {
       setLoading(false);
       return null;
     }
-    const deck = json2Deck(json);
-    setCurrentDeck(deck);
     setLoading(false);
-    return deck;
+    return fetchedDeck;
   };
   
   const saveDeck = async (deck: Deck) => {

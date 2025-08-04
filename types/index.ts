@@ -10,6 +10,7 @@ export type Deck={
     id: string;
     name: string;
     description: string;
+    img: string|null;
     saved: number;
     visibility: string;
     owner: string;

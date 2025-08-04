@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { DecksStackParamList, RootStackParamList } from "types/navigation";
 import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
@@ -34,6 +34,9 @@ export const DeckCard = ({deck, index, onPressed}: DeckProps) => {
                     elevation: 5,
                 }} className="flex flex-col gap-2.5 p-2.5 bg-white rounded-lg">
                     <View className="aspect-[3/4] w-full">
+                    {deck.img ?
+                        <Image className=" w-[full h-full object-cover" src={deck.img}/>
+                        :
                         <LinearGradient
                             colors={gradient}
                             style={{
@@ -43,6 +46,7 @@ export const DeckCard = ({deck, index, onPressed}: DeckProps) => {
                                 
                             }}
                         ></LinearGradient>
+                    }
                     </View>
                     <Text>{deck.name}</Text>
                 </View>
