@@ -67,17 +67,21 @@ export const timeAgo = (pastDate: Date): string => {
     return 'just now'
   }else if(diff<1000*60){
     const seconds = Math.round(diff/1000)
-    return seconds + ' seconds ago'
+    if(seconds>1) return seconds+' seconds ago'
+     else return seconds+' second ago'
   }else if(diff<1000*60*60){
      const minutes = Math.round(diff/(1000*60))
-    return minutes + ' minutes ago'
+     if(minutes>1) return minutes+' minutes ago'
+     else return minutes+' minute ago'
   }else if(diff<1000*60*60*24){
      const hours = Math.round(diff/(1000*60*60))
      
-    return hours + ' hours ago'
+    if(hours>1) return hours+' hours ago'
+     else return hours+' hour ago'
   }else{
      const days = Math.round(diff/(1000*60*60*24))
-    return days + ' days ago'
+    if(days>1) return days+' days ago'
+     else return days+' day ago'
   }
 }
 

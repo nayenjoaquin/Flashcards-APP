@@ -19,6 +19,7 @@ export type Deck={
     cards: Card[];
     progress: ProgressMap|null;
     last_reviewed_at: Date|null;
+    featured: boolean;
 }
 
 export type NewDeck = {

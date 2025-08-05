@@ -36,6 +36,7 @@ export const json2Deck = (json: any): Deck => {
     cards: json.cards?.map((card: any) => json2Card(card)),
     owner: json.owner,
     user_id: json.user_id,
+    featured: json.featured,
     visibility: json.visibility || 'public',
     progress: json.progress ? json2ProgressMap(json.progress) : null,
     created_at: new Date(json.created_at),
