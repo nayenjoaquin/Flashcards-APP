@@ -97,10 +97,9 @@ export const APIsaveDeck = async (deck: Deck, token: string): Promise<boolean> =
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify(deck),
         });
 
-        if (!res.ok) throw new Error('Failed to save deck');
+        if (!res.ok) throw new Error(await res.text());
         return true;
     } catch (err: any) {
         console.log('ERROR SAVING DECK: ', err)

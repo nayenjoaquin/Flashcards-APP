@@ -1,6 +1,6 @@
 import { NEW_CARDS_PER_SESSION, REVIEW_COOLDOWN } from "shared/const/values";
 import { shuffleArray } from "./common";
-import { Card, Progress , ProgressMap, Session } from "types";
+import { Card, Deck, Progress , ProgressMap, Session } from "types";
 
 interface props{
     q: number;
@@ -41,21 +41,25 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
         progress.ef=Math.max(1.3, Math.round((ef-0.2)*100)/100)
         
     }
-    progress.due_date =new Date(Date.now() + (progress.i*24*60*60*1000));
+    progress.due_date =new Date(Date.now() + (progress.i*REVIEW_COOLDOWN));
 
     return progress;
 }
 
 
-export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
+export const cardsForReview= (deck: Deck)=> {
+    const {progress, cards, last_reviewed_at} = deck;
+    if (!cards) return[];
+    
     
     if(!progress){
-        console.log('No progress data available for cards review');
+        if(deck.name=='Math Basics') console.log('No progress data available for cards review');
         
         const processed =shuffleArray(cards).slice(0,NEW_CARDS_PER_SESSION);
         
         return processed;
     }
+    
 
     const pastDue = cards.filter(card=>{
         const cardProgress = progress[card.id];
@@ -70,8 +74,7 @@ export const cardsForReview= (cards: Card[], progress: ProgressMap|null)=> {
     if (newCards.length > NEW_CARDS_PER_SESSION) {
         newCards = shuffleArray(newCards).slice(0, NEW_CARDS_PER_SESSION);
     }
-
-    const total = pastDue.length +  Math.min(NEW_CARDS_PER_SESSION, newCards.length);
+    if(last_reviewed_at?.getTime()??Date.now()-Date.now()<24*60*60*1000) newCards=[];
 
     return shuffleArray([...pastDue, ...newCards]);
 }

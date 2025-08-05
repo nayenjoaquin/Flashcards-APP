@@ -51,7 +51,7 @@ export const HomeScreen = () => {
                                 console.log('Deck has no cards:', deck.name, deck.id, deck.cards);
                                 return false;
                             }
-                            return cardsForReview(deck.cards, deck.progress).length > 0
+                            return cardsForReview(deck).length > 0
                         })} />
                     </View>
             </ScrollView>

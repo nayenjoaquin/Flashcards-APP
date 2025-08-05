@@ -4,10 +4,6 @@ import newGradient from 'random-gradient';
 import { LinearGradient } from "expo-linear-gradient";
 import { Deck } from "types";
 import { cardsForReview } from "shared/utils/spaced-repetition";
-import { useEffect, useState } from "react";
-import { useProgress } from "shared/hooks/progress";
-import useCards from "shared/hooks/flashcards";
-import { useSession } from "shared/hooks/last-session";
 
 interface props {
     deck: Deck;
@@ -30,7 +26,7 @@ const gradient = gradient2Colors(newGradient(deck.id)) as [string, string, ...st
                 </View>
                 <View className="flex flex-col justify-center items-start gap-2.5">
                     <Text className="text-lg font-semibold">{deck.name}</Text>
-                    <Text className="text-gray-500">Cards for review:  {cardsForReview(deck.cards, deck.progress).length}</Text>
+                    <Text className="text-gray-500">Cards for review:  {cardsForReview(deck).length}</Text>
                 </View>
             </View>
         </TouchableOpacity>

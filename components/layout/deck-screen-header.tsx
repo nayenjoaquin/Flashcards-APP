@@ -13,7 +13,7 @@ interface props {
 export const DeckViewHeader = ({onReview, deck, saved}: props) =>{
     return(
         <View className="flex items-start w-full bg-white p-5 py-10 rounded-xl">
-            <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(deck.cards, deck.progress).length}</Text>
+            <Text className="text-5xl font-semibold w-full text-center">{cardsForReview(deck).length}</Text>
             <Text className="text-md font-semibold w-full text-center">cards for review</Text>
             <DeckProgressBoard progress={deck.progress} cards={deck.cards}/>
             <View className="py-5 w-full">

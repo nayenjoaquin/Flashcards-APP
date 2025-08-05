@@ -1,7 +1,7 @@
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { FilledButton } from "components/buttons/filled-button";
 import { FlashCard } from "components/layout/FlashCard";
-import { useEffect, useId, useLayoutEffect, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import { updateCard } from "shared/utils/spaced-repetition";
@@ -12,6 +12,7 @@ import { useProgress } from "shared/hooks/progress";
 import { useAuth } from "shared/hooks/auth";
 import { useSession } from "shared/hooks/last-session";
 import useDecks from "shared/hooks/decks";
+import { Confetti, ConfettiMethods, ContinuousConfetti, PIConfetti } from "react-native-fast-confetti";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -27,7 +28,8 @@ export const ReviewScreen = () => {
     const {cards, deck, onReviewFinished} = route.params;
     const {user} = useAuth();
     const {saveSession} = useSession();
-    const start = Date.now()
+    const start = Date.now();
+    const confettiRef = useRef<ConfettiMethods>(null);
     
     const [results, setResults] = useState({
         wrong: 0,
@@ -39,6 +41,7 @@ export const ReviewScreen = () => {
     const [flipped, setFlipped] = useState(false);
 
     const finishSession = async(progress: ProgressMap, results: Results) => {
+        confettiRef.current?.restart();
         
         const session = {
             deck_id: deck.id,
@@ -94,6 +97,7 @@ export const ReviewScreen = () => {
 
     return(
         <View className="w-full h-full max-h-screen p-10">
+            <ContinuousConfetti ref={confettiRef} />
             <SafeAreaView className="flex items-center gap-5">
                 <Text className="text-xl">{index + 1} / {cards.length}</Text>
                 <FlashCard card={cards[index]} flipped={flipped} onFlip={()=>setFlipped(true)} onNext={nextCard} key={cards[index]?.id}/>
