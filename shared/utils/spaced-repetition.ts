@@ -43,6 +43,9 @@ export const updateCard = ({q, n=0, i=0, ef=2.5}: props)=>{
     }
     progress.due_date =new Date(Date.now() + (progress.i*REVIEW_COOLDOWN));
 
+    console.log('new due date: ', progress.due_date.toISOString(), 'i: ', progress.i);
+    
+
     return progress;
 }
 
@@ -63,7 +66,10 @@ export const cardsForReview= (deck: Deck)=> {
 
     const pastDue = cards.filter(card=>{
         const cardProgress = progress[card.id];
-        return cardProgress?.i > 0 && (cardProgress.due_date <= new Date());
+        // if(deck.name.includes('Python')) console.log('fetched due date: ', progress[card.id].due_date.toISOString());
+        
+        return cardProgress?.i > 0 && (cardProgress.due_date.getTime() <= Date.now());
+        
     });
     
     let newCards = cards.filter(card=>{

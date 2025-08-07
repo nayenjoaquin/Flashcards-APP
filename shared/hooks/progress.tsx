@@ -7,6 +7,16 @@ import { Card, Deck, Progress, ProgressMap } from "types"
 export const useProgress = () =>{
 
     const saveCardProgress = async (deck: Deck, card_id: string, progress: Progress) => {
+        const body = JSON.stringify({
+            i: progress.i,
+            n: progress.n,
+            ef: progress.ef,
+            due_date: progress.due_date.toISOString()
+        })
+
+        console.log('sending: ', body);
+        
+        
 
         try{
             const res = await fetch(API_BASE_URL+'/progress/'+card_id, {
@@ -15,12 +25,7 @@ export const useProgress = () =>{
                     "Content-Type": "Application/json",
                     "Authorization": "Bearer "+ await getLocal('JWT')
                 },
-                body: JSON.stringify({
-                    i: progress.i,
-                    n: progress.n,
-                    ef: progress.ef,
-                    due_date: progress.due_date
-                })
+                body: body
             });
             if(!res.ok){
                 throw new Error(await res.text());
