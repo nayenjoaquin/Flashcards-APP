@@ -11,7 +11,7 @@ import { DeckViewHeader } from "components/layout/deck-screen-header";
 import useDecks from "shared/hooks/decks";
 import { readyForReview } from "shared/utils/spaced-repetition";
 import { AuthStore } from "shared/stores/auth";
-import { Deck } from "types";
+import { Card, Deck } from "types";
 import { CardOptionsModal } from "components/layout/card-options-modal";
 import { DeckOptionsModal } from "components/layout/deck-options-modal";
 import appTheme from "shared/const/app-theme";
@@ -137,7 +137,10 @@ export const DeckScreen = () => {
             }}/>
           </View>
         :
-          <DeckCardsList cards={currentDeck?.cards??[]}/>
+          <DeckCardsList
+          cards={currentDeck?.cards??[]}
+          onCardOptions={(card: Card)=>showCardOptions(true)}
+          />
         }
       </SafeAreaView>
     </View>

@@ -16,11 +16,12 @@ import useCards from "shared/hooks/flashcards";
 
 interface props  {
     cards: Card[];
+    onCardOptions: (card: Card)=>void;
 }
 
 type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
-export const DeckCardsList = ({cards} : props) => {
+export const DeckCardsList = ({cards, onCardOptions} : props) => {
 
     const navigation = useNavigation<navigationProp>();
     const [selected, setSelected] = useState<Card[]>([]);
@@ -43,6 +44,7 @@ export const DeckCardsList = ({cards} : props) => {
                     <CardsListItem key={card.id} progress={currentDeck?.progress?.[card.id] ?? null} card={card} selected={selected.includes(card)}selecting={selecting} onTap={
                         !selecting ?
                             (card: Card)=>{
+                                onCardOptions(card);
                             }
                         : !selected.includes(card) ?
                             ()=>{
