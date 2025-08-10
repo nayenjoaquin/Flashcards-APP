@@ -81,14 +81,12 @@ export const cardsForReview= (deck: Deck)=> {
     return shuffleArray([...pastDue, ...newCards]);
 }
 
-export const readyForReview = (date: Date|null) =>{
-    if(!date) return true;
-    const today = Date.now();
-    const lastReviewed = date.getTime();
-    const diff = today - lastReviewed;
-    
-
-    return diff > REVIEW_COOLDOWN;
+export const readyForReview = (deck: Deck): Card[]=>{
+    const cards = cardsForReview(deck);
+    if(cards.length==0){
+        throw new Error('No cards for review')
+    }
+    return cards;
 
 }
 

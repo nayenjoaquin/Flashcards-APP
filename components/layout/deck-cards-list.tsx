@@ -25,25 +25,10 @@ export const DeckCardsList = ({cards} : props) => {
     const navigation = useNavigation<navigationProp>();
     const [selected, setSelected] = useState<Card[]>([]);
     const [selecting, setSelecting] = useState(false);
-    const [currentCard, setCurrentCard] = useState<Card|null>(null);
     const { currentDeck} = useDecks();
     const {deleteCard} = useCards();
     return(
         <View className="flex-1 w-full">
-            {
-                currentCard ?
-                <View className="absolute z-10 bottom-0 -left-5 h-screen w-screen flex ">
-                    <Pressable className="h-full w-full absolute bg-black opacity-20" onPress={()=> setCurrentCard(null)}/>
-                    <CardOptionsModal onClose={()=>setCurrentCard(null)} onDelete={()=>{
-                        deleteCard(currentCard.id).then(success=>{
-                            if(!success)console.error('Failed to delete card, please try again.');
-                            setCurrentCard(null);
-                            return;
-                        })
-                    }}/>
-                        </View>
-                : null
-            }
             <ScrollView className=" w-full">
                 <View className=" flex w-full items-center justify-center gap-2.5">
                     <View className="w-full flex flex-row items-center justify-between">
@@ -58,7 +43,6 @@ export const DeckCardsList = ({cards} : props) => {
                     <CardsListItem key={card.id} progress={currentDeck?.progress?.[card.id] ?? null} card={card} selected={selected.includes(card)}selecting={selecting} onTap={
                         !selecting ?
                             (card: Card)=>{
-                                setCurrentCard(card);
                             }
                         : !selected.includes(card) ?
                             ()=>{

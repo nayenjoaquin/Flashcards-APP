@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FilledButton } from "../buttons/filled-button";
-import { LabeledCheckBox } from "components/inputs/labeled-checkbox";
 import { NewDeck } from "types";
 import appTheme from "shared/const/app-theme";
 
@@ -13,8 +11,10 @@ interface Props {
   onDelete: ()=>void;
 }
 
-export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
+export const DeckOptionsModal = ({ onClose, onDelete }: Props) => {
 
+  useEffect(() => {
+  }, []);
 
   const closeModal = () => {
     onClose();
@@ -22,18 +22,16 @@ export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
 
   return (
     <View
-      className="bg-white w-full pb-5 absolute bottom-0 left-0 right-0 rounded-t-2xl"
-      style={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 1,
-                    },
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5,
-                    elevation: 5,
-                }}
-    >
+    style={{
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 1,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      elevation: 5,
+    }} className="bg-white w-full pb-5 absolute bottom-0 left-0 right-0 rounded-t-2xl">
       <View className="p-5 w-full border-b border-gray-200 flex flex-row justify-center items-center">
         <Text className="text-xl">Options</Text>
         <TouchableOpacity onPress={closeModal} className="absolute right-5">
@@ -44,11 +42,11 @@ export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
         <Pressable className="w-full flex flex-row gap-5 px-5 py-2.5 items-center"
         onPress={onDelete}>
           <Ionicons name="trash-outline" color={'red'} size={appTheme.size.m}/>
-          <Text className="text-md font-semibold text-red-500">Delete card</Text>
+          <Text className="text-md font-semibold text-red-500">Delete deck</Text>
         </Pressable>
         <Pressable className="flex flex-row gap-5 px-5 py-2.5 items-center">
           <Ionicons name="create-outline" color={'black'} size={appTheme.size.m}/>
-          <Text className="text-md font-semibold text-black">Edit card</Text>
+          <Text className="text-md font-semibold text-black">Edit deck</Text>
         </Pressable>
       </View>
     </View>
