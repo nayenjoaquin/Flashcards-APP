@@ -2,7 +2,7 @@
 📚 A modern flashcards app that makes studying simple and effective. Organize decks, review cards, and master any subject using spaced repetition, right from your phone.
 
 ## 📱 Demo
-<img src="assets/screenshots/demo.gif" alt="App Demo" width="400" />
+<img src="assets/screenshots/demo.gif" alt="App Demo" width="300" />
 
 
 ## ✨ Features
