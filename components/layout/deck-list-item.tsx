@@ -9,6 +9,7 @@ import { formatSavedCount, gradient2Colors } from "shared/utils/common";
 import { Deck } from "types";
 import { RootStackParamList } from "types/navigation";
 import newGradient from 'random-gradient';
+import appTheme from "shared/const/app-theme";
 
 interface props {
     deck: Deck;
@@ -59,7 +60,10 @@ export const DeckListItem = ({deck}: props) => {
             </View>
             <View className="flex-1">
                 <Text className="text-lg font-semibold">{deck.name}</Text>
-                <Text className="text-gray-400 italic">{deck.owner}</Text>
+                <View className="flex flex-row items-center gap-1">
+                    <Text className="text-gray-400 italic">{deck.featured ? 'Featured' : deck.owner}</Text>
+                    {deck. featured ? <Ionicons name="checkmark-circle" color='blue' size={appTheme.size.s}></Ionicons>: null}
+                </View>
             </View>
 
             <View className="flex flex-row items-center gap-2.5">
