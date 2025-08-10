@@ -30,7 +30,7 @@
 
 #### Clone the project:
 ```bash
-git clone <repo-url>
+git clone https://github.com/nayenjoaquin/Flashcards-APP
 cd <project-folder>
 ```
 
