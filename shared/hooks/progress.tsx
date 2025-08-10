@@ -1,10 +1,12 @@
 import { json2Deck } from "shared/api/schemas"
 import { API_BASE_URL } from "shared/const/strings"
 import { AuthStore } from "shared/stores/auth"
+import { decksStore } from "shared/stores/decks"
 import { getLocal } from "shared/utils/common"
 import { Card, Deck, Progress, ProgressMap } from "types"
 
 export const useProgress = () =>{
+    const {savedDecks, setSavedDecks} = decksStore();
 
     const saveCardProgress = async (deck: Deck, card_id: string, progress: Progress) => {
         const body = JSON.stringify({
@@ -52,7 +54,15 @@ export const useProgress = () =>{
                 return null;
             }
         });
-        
+        setSavedDecks(savedDecks.map(d=>{
+            if(d.id==deck.id){
+                return {
+                    ...d,
+                    last_reviewed_at: new Date()
+                }
+            }
+            return d;
+        }));
         return deck;
     }
 

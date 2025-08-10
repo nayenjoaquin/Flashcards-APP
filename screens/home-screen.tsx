@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native"
 import { RootStackParamList } from "types/navigation";
 import { ForReviewSection } from "components/layout/for-review-section";
-import { cardsForReview } from "shared/utils/spaced-repetition";
+import { cardsForReview, readyForReview } from "shared/utils/spaced-repetition";
 import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 type navProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
