@@ -13,8 +13,6 @@ export const useProgress = () =>{
             ef: progress.ef,
             due_date: progress.due_date.toISOString()
         })
-
-        console.log('sending: ', body);
         
         
 
@@ -38,6 +36,7 @@ export const useProgress = () =>{
     }
 
     const saveProgress = async(deck: Deck, progress: ProgressMap): Promise<Deck|null> => {
+        
 
         if(!deck.progress){
             deck.progress = progress;

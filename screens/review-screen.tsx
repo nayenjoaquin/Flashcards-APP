@@ -5,14 +5,10 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { RootStackParamList } from "types/navigation";
 import { updateCard } from "shared/utils/spaced-repetition";
-import { saveLocal } from "shared/utils/common";
-import { NEW_CARDS_PER_SESSION } from "shared/const/values";
 import { newSession, Progress, ProgressMap, Session } from "types";
 import { useProgress } from "shared/hooks/progress";
-import { useAuth } from "shared/hooks/auth";
 import { useSession } from "shared/hooks/last-session";
-import useDecks from "shared/hooks/decks";
-import { Confetti, ConfettiMethods, ContinuousConfetti, PIConfetti } from "react-native-fast-confetti";
+import { ReviewCompletedScreen } from "./review-completed-screen";
 
 type routeProp = RouteProp<RootStackParamList, 'Review'>;
 type navigationProp = NavigationProp<RootStackParamList, 'Review'>;
@@ -25,37 +21,35 @@ export const ReviewScreen = () => {
     const navigation = useNavigation<navigationProp>();
     const [index, setIndex] = useState(0);
     const {saveProgress} = useProgress();
+    const [completed, setCompleted] = useState(false);
     const {cards, deck, onReviewFinished} = route.params;
-    const {user} = useAuth();
     const {saveSession} = useSession();
-    const start = Date.now();
-    const confettiRef = useRef<ConfettiMethods>(null);
+    const [start, setStart] = useState(0);
     
-    const [results, setResults] = useState({
+    
+    const [session, setSession] = useState<newSession>({
+        deck_id: deck.id,
         wrong: 0,
         good: 0,
-        perfect: 0
+        perfect: 0,
+        duration: 0
     })
 
     const [sessionProgress, setSessionProgress] = useState<ProgressMap>(deck.progress??{})
     const [flipped, setFlipped] = useState(false);
 
-    const finishSession = async(progress: ProgressMap, results: Results) => {
-        confettiRef.current?.restart();
-        
-        const session = {
-            deck_id: deck.id,
-            wrong: results.wrong,
-            good: results.good,
-            perfect: results.perfect,
-            duration: Date.now() - start
-        } as newSession
+    const finishSession = async(progress: ProgressMap) => {
+        const end = Date.now();
+        setSession(prev=>({
+            ...prev,
+            duration: end-start
+        }))
         const updatedDeck = await saveProgress(deck, progress);
         if(!updatedDeck) return;
         onReviewFinished(updatedDeck);
         
         await saveSession(session)
-        navigation.goBack();
+        setCompleted(true);
     }
 
     const nextCard = async() =>{
@@ -73,31 +67,35 @@ export const ReviewScreen = () => {
             prev[cards[index].id]=cardUpdate;
             return prev;
         })
-        let newResults;
+        let updatedSession;
         if(q==0){
-            newResults = {...results, wrong: results.wrong+1}
+            updatedSession = {...session, wrong: session.wrong+1}
         }else if(q==1){
-            newResults = {...results, good: results.good+1}
+            updatedSession = {...session, good: session.good+1}
         }else{
-            newResults = {...results, perfect: results.perfect+1}
+            updatedSession = {...session, perfect: session.perfect+1}
         }
-        setResults(newResults);
+        setSession(updatedSession);
 
         if(index==cards.length-1){
-            finishSession(sessionProgress, newResults);
+            finishSession(sessionProgress);
         }else nextCard();
 
     }
+
+    useEffect(()=>{
+        setStart(Date.now());
+    }, [])
 
     useLayoutEffect(() => {
         navigation.setOptions({ title: deck.name,
             headerBackTitle: ''
         });
       }, [navigation, deck.name]);
+    if(completed) return <ReviewCompletedScreen session={session}/>
 
     return(
         <View className="w-full h-full max-h-screen p-10">
-            <ContinuousConfetti ref={confettiRef} />
             <SafeAreaView className="flex items-center gap-5">
                 <Text className="text-xl">{index + 1} / {cards.length}</Text>
                 <FlashCard card={cards[index]} flipped={flipped} onFlip={()=>setFlipped(true)} onNext={nextCard} key={cards[index]?.id}/>

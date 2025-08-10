@@ -104,3 +104,25 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
   return shuffled;
 }
+
+export const formatMS = (time: number) => {
+  
+  if(time<1000*60){
+    const seconds = Math.round(time/1000)
+    if(seconds>1) return seconds+' seconds'
+     else return seconds+' second'
+  }else if(time<1000*60*60){
+     const minutes = Math.round(time/(1000*60))
+     if(minutes>1) return minutes+' minutes'
+     else return minutes+' minute'
+  }else if(time<1000*60*60*24){
+     const hours = Math.round(time/(1000*60*60))
+     
+    if(hours>1) return hours+' hours'
+     else return hours+' hour'
+  }else{
+     const days = Math.round(time/(1000*60*60*24))
+    if(days>1) return days+' days'
+     else return days+' day'
+  }
+}

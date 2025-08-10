@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import AppTheme from '../../shared/const/app-theme';
-import { daysLeft } from "shared/utils/common";
+import { daysLeft, formatMS } from "shared/utils/common";
 import { Card, Progress } from "types";
 import { useEffect } from "react";
 import { AuthStore } from "shared/stores/auth";
@@ -17,10 +17,11 @@ interface props {
 
 export const CardsListItem = ({card, selected=false, selecting = false, onTap, progress}: props) => {
 
+    const msForDue = progress ?progress?.due_date.getTime()-Date.now() : null;
+
     const {user} = AuthStore();
     const { currentDeck} = useDecks();
-    
-    const reviewIn = !progress ? 0 : progress ? daysLeft(progress.due_date) : 0
+    if(card.front=='Forse') console.log('due date: ', progress?.due_date.toISOString());
     return(
         <Pressable onPress={()=>onTap(card)}>
             <View key={card.id} className={`p-5 flex w-full flex-row gap-5 justify-between items-center border bg-white rounded-lg ${selected ? 'border-primary-500 border-2' : 'border-gray-300'}`}>
@@ -29,7 +30,7 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap, p
                     <Text className="text-gray-600">{card.back}</Text>
                 </View>
                 <View className="flex flex-row grow gap-5 items-center justify-end">
-                    <Text className="text-gray-400">Review in {reviewIn>=0 ? reviewIn : 0} days</Text>
+                    <Text className="text-gray-400">{msForDue ? msForDue>0 ? 'Review in '+formatMS(msForDue) : 'Ready for review' : 'Not reviewed yet'}</Text>
                     <TouchableOpacity onPress={()=>onTap(card)}>
                         {currentDeck?.user_id == user?.id ?
                         !selecting ?

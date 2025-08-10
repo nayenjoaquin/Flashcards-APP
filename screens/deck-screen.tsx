@@ -86,8 +86,6 @@ export const DeckScreen = () => {
     } 
 
   const onReviewFinished = (deck: Deck) => {
-    
-    const firstCardId = deck.cards[0].id;
 
     setCurrentDeck({
       ...deck,
