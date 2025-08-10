@@ -63,6 +63,6 @@ npx expo start
 
 ## 📬 Contact
 
-Your Name – [LinkedIn](https://www.linkedin.com/in/joaqu%C3%ADn-nayen-136266186/) – [Email](mailto:jotanayen@gmail.com)
+Joaquín Nayen – [LinkedIn](https://www.linkedin.com/in/joaqu%C3%ADn-nayen-136266186/) – [Email](mailto:jotanayen@gmail.com)
 
 Feel free to reach out if you want to discuss the app, collaboration, or just say hi! 😊
