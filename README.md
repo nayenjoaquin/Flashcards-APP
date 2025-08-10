@@ -1,7 +1,9 @@
-# Flashcards Mobile Application
+# Flash PVP - Flashcards Mobile Application
 📚 A modern flashcards app that makes studying simple and effective. Organize decks, review cards, and master any subject using spaced repetition, right from your phone.
 
-![App Demo](assets/screenshots/demo.gif)
+## 📱 Demo
+<img src="assets/screenshots/demo.gif" alt="App Demo" width="400" />
+
 
 ## ✨ Features
 
