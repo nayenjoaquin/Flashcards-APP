@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NewCardScreen } from 'screens/new-card-screen';
 import { LogInScreen } from 'screens/log-in-screen';
 import { RegisterScreen } from 'screens/register-screen';
+import { EditDeckScreen } from 'screens/edit-deck-screen';
 
   export default function App() {
 
@@ -56,6 +57,9 @@ import { RegisterScreen } from 'screens/register-screen';
         <stack.Screen name='NewCard' component={NewCardScreen}/>
         <stack.Screen name='Login' component={LogInScreen}/>
         <stack.Screen name='Register' component={RegisterScreen}/>
+        <stack.Screen name='EditDeck' component={EditDeckScreen} options={{
+          headerTitle: 'Edit Deck'
+        }}/>
         </stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

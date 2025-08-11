@@ -9,9 +9,10 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 interface Props {
   onClose: () => void;
   onDelete: ()=>void;
+  onEdit: ()=>void;
 }
 
-export const DeckOptionsModal = ({ onClose, onDelete }: Props) => {
+export const DeckOptionsModal = ({ onClose, onDelete, onEdit }: Props) => {
 
   useEffect(() => {
   }, []);
@@ -44,7 +45,8 @@ export const DeckOptionsModal = ({ onClose, onDelete }: Props) => {
           <Ionicons name="trash-outline" color={'red'} size={appTheme.size.m}/>
           <Text className="text-md font-semibold text-red-500">Delete deck</Text>
         </Pressable>
-        <Pressable className="flex flex-row gap-5 px-5 py-2.5 items-center">
+        <Pressable className="flex flex-row gap-5 px-5 py-2.5 items-center"
+        onPress={onEdit}>
           <Ionicons name="create-outline" color={'black'} size={appTheme.size.m}/>
           <Text className="text-md font-semibold text-black">Edit deck</Text>
         </Pressable>

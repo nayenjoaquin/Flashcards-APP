@@ -16,6 +16,7 @@ import { Card, Deck, NewCard } from "types";
   export type RootStackParamList = {
     Main: undefined;
     Deck: { deck: Deck};
+    EditDeck: {deck: Deck};
     NewCard: undefined;
     Review: {
       cards: Card[],

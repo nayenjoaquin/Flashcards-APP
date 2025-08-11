@@ -110,16 +110,30 @@ export const DeckScreen = () => {
             cardOptions ?
             <CardOptionsModal onClose={closeModal} onDelete={()=>{}}/>
             :
-            <DeckOptionsModal onClose={closeModal} onDelete={()=>{}}/>
+            <DeckOptionsModal onClose={closeModal} onDelete={()=>{
+              deleteDeck(deck.id).then(success=>{
+                if(success){
+                  navigation.goBack();
+                }else console.error('Failed to delete deck, please try again later');
+                
+              })
+            }}
+            onEdit={()=>{
+              closeModal();
+              navigation.push('EditDeck', {
+                deck: currentDeck ?? deck
+              });
+            }}
+            />
           }
         </Modal>
         <View className="flex flex-row w-full justify-between items-center">
-          <Text className="text-2xl font-semibold">{deck.name}</Text>
+          <Text className="text-2xl font-semibold">{currentDeck?.name}</Text>
           <TouchableOpacity onPress={saved ? onRemove : onSave}>
             <Ionicons name={saved ? 'bookmark' : 'bookmark-outline'} size={appTheme.size.l}/>
           </TouchableOpacity>
         </View>
-        <Text className="text-gray-500 w-full ">{deck.description}</Text>
+        <Text className="text-gray-500 w-full ">{currentDeck?.description}</Text>
         {currentDeck?.cards.length!=0 ?
         <DeckViewHeader
         deck={currentDeck??deck}

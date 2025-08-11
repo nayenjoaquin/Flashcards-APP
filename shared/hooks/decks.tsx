@@ -6,7 +6,7 @@ import { decksStore } from 'shared/stores/decks';
 import { getLocal } from 'shared/utils/common';
 import { Deck, NewDeck, ProgressMap } from 'types';
 import { json2Deck } from 'shared/api/schemas';
-import { APIcreateDeck, APIdeleteDeck, APIgetDeckById, APIgetSavedDecks, APIremoveSavedDeck, APIsaveDeck } from 'shared/api/decks';
+import { APIcreateDeck, APIdeleteDeck, APIgetDeckById, APIgetSavedDecks, APIremoveSavedDeck, APIsaveDeck, APIupdateDeck } from 'shared/api/decks';
 import { sessionStore } from 'shared/stores/last-session';
 
 const useDecks = () => {
@@ -56,19 +56,34 @@ const useDecks = () => {
     if(!newDeck) return null;
     await saveDeck(newDeck);
     return newDeck;
-}
+  }
 
-const deleteDeck= async (id: string) => {
+  const deleteDeck= async (id: string) => {
 
-  const success = await APIdeleteDeck(id, user?.token ?? await getLocal('JWT'));
-  if (!success) return false;
-  setSavedDecks(savedDecks.filter(deck => deck.id !== id));
-  if(lastSession?.deck_id==id) setLastSession(null);
-  setCurrentDeck(null);
-  return true;
-}
+    const success = await APIdeleteDeck(id, user?.token ?? await getLocal('JWT'));
+    if (!success) return false;
+    setSavedDecks(savedDecks.filter(deck => deck.id !== id));
+    if(lastSession?.deck_id==id) setLastSession(null);
+    setCurrentDeck(null);
+    return true;
+  }
 
-  return { currentDeck, setCurrentDeck, savedDecks, removeSavedDeck, loading, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckById};
+  const updateDeck = async (deck: Deck): Promise<boolean> => {
+    
+    const updatedDeck = await APIupdateDeck(deck, user?.token ?? await getLocal('JWT'));
+
+    if(!deck) return false;
+
+    setSavedDecks(savedDecks.map(d=>{
+      if(d.id==deck.id) return updatedDeck!
+      return d;
+    }));
+    setCurrentDeck(updatedDeck);
+
+    return true;
+  }
+
+  return { currentDeck, setCurrentDeck, savedDecks, updateDeck, removeSavedDeck, loading, saveDeck, createDeck, deleteDeck, getSavedDecks, getDeckById};
 };
 
 export default useDecks;

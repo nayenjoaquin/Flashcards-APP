@@ -149,6 +149,34 @@ export const APIdeleteDeck = async (id: string, token: string): Promise<boolean>
   }
 }
 
+export const APIupdateDeck = async (deck: Deck, token: string): Promise<Deck | null> => {
+  const {name, description, img } = deck;
+  const body = JSON.stringify({
+    name, 
+    description,
+    img
+  });
+  
+  try{
+    const res = await fetch(baseURL+`/${deck.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body
+    });
+    
+    if(!res.ok) throw new Error(await res.text());
+
+    return json2Deck(await res.json());
+
+  }catch(err){
+    console.log('Failed to update deck: ', err);
+    return null;
+  }
+}
+
 export const APIsearchDecks = async (text: string, token: string): Promise<Deck[]|null> => {
   try{
     const res = await fetch(baseURL+'?search='+text, {

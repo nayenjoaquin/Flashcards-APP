@@ -21,7 +21,6 @@ export const CardsListItem = ({card, selected=false, selecting = false, onTap, p
 
     const {user} = AuthStore();
     const { currentDeck} = useDecks();
-    if(card.front=='Forse') console.log('due date: ', progress?.due_date.toISOString());
     return(
         <Pressable onPress={()=>{
             if(selecting) onTap(card);

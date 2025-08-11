@@ -21,7 +21,7 @@ export const LabeledTextField = ({onChange, placeholder, value, label, secret}: 
                     secureTextEntry={obscure}
                     autoCapitalize="none"
                     onChangeText={onChange}
-                    className="bg-white p-5 rounded-xl text-xl w-full placeholder:text-gray-300 border border-gray-300"
+                    className="bg-white p-5 rounded-xl text-xl w-full placeholder:text-gray-300 border border-gray-200"
                     placeholder={placeholder}
                     value={value}
                 />
