@@ -26,7 +26,7 @@ export const SettingsUserPreview = () => {
                     routes:[{name:'Login'}]
                 });
             }}
-            text="Sign out"
+            text="Log out"
             color={appTheme.color.secondary[500]}
             />
         </View>

@@ -52,7 +52,7 @@ export const DeckListItem = ({deck}: props) => {
             <View className="h-full aspect-square">
                 {
                     deck.img?
-                    <Image src={deck.img} className="w-full h-full object-cover"/>
+                    <Image src={'data:image/png;base64,'+deck.img} className="w-full h-full object-cover"/>
                     :
                     <LinearGradient className="w-full h-full" colors={gradient}/>
                 }
