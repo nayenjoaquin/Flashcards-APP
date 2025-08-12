@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "shared/const/strings";
-import { NewCard } from "types";
-import { json2Card } from "./schemas";
+import { Card, Deck, NewCard } from "types";
+import { json2Card, json2Deck } from "./schemas";
 
 const base_url = API_BASE_URL + '/flashcards'
 
@@ -54,4 +54,29 @@ export const APIdeleteCard = async (card_id: string, token: string): Promise<boo
         return false;
     }
 
+}
+
+export const APIupdateCard = async (card: Card, token: string): Promise<boolean|null> => {
+    const body = JSON.stringify({
+        front: card.front,
+        back: card.back,
+    })
+    try{
+        const res = await fetch(base_url+'/'+card.id, {
+            method: 'PATCH',
+             headers: {
+                'Content-Type': 'Application/json',
+                'Authorization': 'Bearer '+ token
+            },
+            body
+        });
+
+        if(!res.ok) throw new Error(await res.text());
+        const json = await res.json();
+        return true;
+    } catch(err){
+        console.log('Failed to update card: ', err);
+        return false;
+        
+    }
 }

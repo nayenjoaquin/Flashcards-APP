@@ -1,10 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions, Pressable } from "react-native";
+import { useEffect } from "react";
+import { Text, TouchableOpacity, View, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { NewDeck } from "types";
 import appTheme from "shared/const/app-theme";
-
-const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 interface Props {
   onClose: () => void;
@@ -32,9 +29,9 @@ export const DeckOptionsModal = ({ onClose, onDelete, onEdit }: Props) => {
       shadowOpacity: 0.5,
       shadowRadius: 5,
       elevation: 5,
-    }} className="bg-white w-full pb-5 absolute bottom-0 left-0 right-0 rounded-t-2xl">
+    }} className="bg-white w-full pb-10 absolute bottom-0 left-0 right-0 rounded-t-2xl">
       <View className="p-5 w-full border-b border-gray-200 flex flex-row justify-center items-center">
-        <Text className="text-xl">Options</Text>
+        <Text className="text-xl">Deck options</Text>
         <TouchableOpacity onPress={closeModal} className="absolute right-5">
           <Ionicons name="close" size={appTheme.size.m} />
         </TouchableOpacity>

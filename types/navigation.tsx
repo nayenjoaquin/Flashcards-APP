@@ -18,6 +18,7 @@ import { Card, Deck, NewCard } from "types";
     Deck: { deck: Deck};
     EditDeck: {deck: Deck};
     NewCard: undefined;
+    EditCard: {card: Card};
     Review: {
       cards: Card[],
       deck: Deck,

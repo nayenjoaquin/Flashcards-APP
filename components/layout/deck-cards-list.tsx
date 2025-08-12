@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CardsListItem } from "./cards-list-item";
 import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,20 +16,31 @@ import useCards from "shared/hooks/flashcards";
 
 interface props  {
     cards: Card[];
-    onCardOptions: (card: Card)=>void;
 }
 
 type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
-export const DeckCardsList = ({cards, onCardOptions} : props) => {
+export const DeckCardsList = ({cards} : props) => {
 
     const navigation = useNavigation<navigationProp>();
     const [selected, setSelected] = useState<Card[]>([]);
     const [selecting, setSelecting] = useState(false);
+    const [modalCard, setModalCard] = useState<Card|null>(null);
     const { currentDeck} = useDecks();
     const {deleteCard} = useCards();
     return(
         <View className="flex-1 w-full">
+            <Modal
+            visible={modalCard ? true : false}
+            onRequestClose={()=>setModalCard(null)}
+            animationType="slide"
+            transparent
+            >
+                <CardOptionsModal
+                onClose={()=>setModalCard(null)}
+                onDelete={()=>{}}
+                card={modalCard!}/>
+            </Modal>
             <ScrollView className=" w-full">
                 <View className=" flex w-full items-center justify-center gap-2.5">
                     <View className="w-full flex flex-row items-center justify-between">
@@ -44,7 +55,7 @@ export const DeckCardsList = ({cards, onCardOptions} : props) => {
                     <CardsListItem key={card.id} progress={currentDeck?.progress?.[card.id] ?? null} card={card} selected={selected.includes(card)}selecting={selecting} onTap={
                         !selecting ?
                             (card: Card)=>{
-                                onCardOptions(card);
+                                setModalCard(card);
                             }
                         : !selected.includes(card) ?
                             ()=>{

@@ -37,7 +37,7 @@ export const DeckCard = ({deck, index, onPressed}: DeckProps) => {
                 }} className="flex w-full flex-col gap-2.5 p-2.5 bg-white rounded-lg">
                     <View className="aspect-[3/4] w-full ">
                         {deck.img ?
-                            <Image className=" w-[full h-full object-cover" src={deck.img}/>
+                            <Image className=" w-[full h-full object-cover" src={'data:image/png;base64,'+deck.img}/>
                             :
                             <LinearGradient
                                 colors={gradient}

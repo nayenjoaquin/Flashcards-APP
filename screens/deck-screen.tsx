@@ -27,8 +27,7 @@ export const DeckScreen = () => {
 
   const { deck } = route.params;
   const {savedDecks, currentDeck, setCurrentDeck, deleteDeck, saveDeck, removeSavedDeck} = useDecks();
-  const [deckOptions, showDeckOptions] = useState(false);
-  const [cardOptions, showCardOptions] = useState(false);
+  const [options, showOptions] = useState(false);
   const {user} = AuthStore();
   const [saved, setSaved] = useState(savedDecks.map(d=>d.id).includes(deck.id));
 
@@ -75,8 +74,7 @@ export const DeckScreen = () => {
   };
 
   const closeModal = ()=>{
-    showCardOptions(false);
-    showDeckOptions(false);
+    showOptions(false);
   }
 
 
@@ -85,7 +83,7 @@ export const DeckScreen = () => {
       navigation.setOptions({ title: '',
         headerRight: ()=>(
           <TouchableOpacity onPress={()=>{
-            showDeckOptions(true);
+            showOptions(true);
           }}>
               <Ionicons name='ellipsis-horizontal' size={32} />
           </TouchableOpacity>
@@ -101,31 +99,26 @@ export const DeckScreen = () => {
     <View className="relative h-full flex items-center justify-center p-5">
       <SafeAreaView className="w-full h-full flex flex-col items-center justify-center gap-2.5">
         <Modal
-        visible={cardOptions || deckOptions}
+        visible={options}
         onRequestClose={closeModal}
         transparent
         animationType="slide"
         >
-          {
-            cardOptions ?
-            <CardOptionsModal onClose={closeModal} onDelete={()=>{}}/>
-            :
-            <DeckOptionsModal onClose={closeModal} onDelete={()=>{
-              deleteDeck(deck.id).then(success=>{
-                if(success){
-                  navigation.goBack();
-                }else console.error('Failed to delete deck, please try again later');
-                
-              })
-            }}
-            onEdit={()=>{
-              closeModal();
-              navigation.push('EditDeck', {
-                deck: currentDeck ?? deck
-              });
-            }}
-            />
-          }
+          <DeckOptionsModal onClose={closeModal} onDelete={()=>{
+            deleteDeck(deck.id).then(success=>{
+              if(success){
+                navigation.goBack();
+              }else console.error('Failed to delete deck, please try again later');
+              
+            })
+          }}
+          onEdit={()=>{
+            closeModal();
+            navigation.push('EditDeck', {
+              deck: currentDeck ?? deck
+            });
+          }}
+          />
         </Modal>
         <View className="flex flex-row w-full justify-between items-center">
           <Text className="text-2xl font-semibold">{currentDeck?.name}</Text>
@@ -153,7 +146,6 @@ export const DeckScreen = () => {
         :
           <DeckCardsList
           cards={currentDeck?.cards??[]}
-          onCardOptions={(card: Card)=>showCardOptions(true)}
           />
         }
       </SafeAreaView>

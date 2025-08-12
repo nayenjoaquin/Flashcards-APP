@@ -1,28 +1,27 @@
-import { useEffect, useRef, useState } from "react";
-import { Animated, Text, TextInput, TouchableOpacity, View, Dimensions, Pressable } from "react-native";
+import { Text, TouchableOpacity, View, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FilledButton } from "../buttons/filled-button";
-import { LabeledCheckBox } from "components/inputs/labeled-checkbox";
-import { NewDeck } from "types";
 import appTheme from "shared/const/app-theme";
+import { RootStackParamList } from "types/navigation";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { Card } from "types";
+import useCards from "shared/hooks/flashcards";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 interface Props {
+  card: Card;
   onClose: () => void;
   onDelete: ()=>void;
 }
 
-export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
+type navigationProp = StackNavigationProp<RootStackParamList, "Deck">;
 
+export const CardOptionsModal = ({ onClose, onDelete, card }: Props) => {
 
-  const closeModal = () => {
-    onClose();
-  };
-
+  const navigation = useNavigation<navigationProp>();
   return (
     <View
-      className="bg-white w-full pb-5 absolute bottom-0 left-0 right-0 rounded-t-2xl"
+      className="bg-white w-full pb-10 absolute bottom-0 left-0 right-0 rounded-t-2xl"
       style={{
                     shadowColor: "#000",
                     shadowOffset: {
@@ -35,8 +34,8 @@ export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
                 }}
     >
       <View className="p-5 w-full border-b border-gray-200 flex flex-row justify-center items-center">
-        <Text className="text-xl">Options</Text>
-        <TouchableOpacity onPress={closeModal} className="absolute right-5">
+        <Text className="text-xl">Card options</Text>
+        <TouchableOpacity onPress={onClose} className="absolute right-5">
           <Ionicons name="close" size={appTheme.size.m} />
         </TouchableOpacity>
       </View>
@@ -46,7 +45,12 @@ export const CardOptionsModal = ({ onClose, onDelete }: Props) => {
           <Ionicons name="trash-outline" color={'red'} size={appTheme.size.m}/>
           <Text className="text-md font-semibold text-red-500">Delete card</Text>
         </Pressable>
-        <Pressable className="flex flex-row gap-5 px-5 py-2.5 items-center">
+        <Pressable onPress={()=>{
+          onClose();
+          navigation.push('EditCard', {
+            card: card
+          })
+        }} className="flex flex-row gap-5 px-5 py-2.5 items-center">
           <Ionicons name="create-outline" color={'black'} size={appTheme.size.m}/>
           <Text className="text-md font-semibold text-black">Edit card</Text>
         </Pressable>

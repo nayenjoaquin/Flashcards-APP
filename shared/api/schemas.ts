@@ -31,7 +31,7 @@ export const json2Deck = (json: any): Deck => {
     id: json.id,
     name: json.name,
     description: json.description,
-    img: json.img ? 'data:image/png;base64,'+json.img : null,
+    img: json.img,
     saved: json.saved || 0,
     cards: json.cards?.map((card: any) => json2Card(card)),
     owner: json.owner,

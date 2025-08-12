@@ -12,6 +12,7 @@ import { NewCardScreen } from 'screens/new-card-screen';
 import { LogInScreen } from 'screens/log-in-screen';
 import { RegisterScreen } from 'screens/register-screen';
 import { EditDeckScreen } from 'screens/edit-deck-screen';
+import { EditCardScreen } from 'screens/edit-card';
 
   export default function App() {
 
@@ -54,7 +55,12 @@ import { EditDeckScreen } from 'screens/edit-deck-screen';
             </TouchableOpacity>
           ),
         })} name='Review' component={ReviewScreen}/>
-        <stack.Screen name='NewCard' component={NewCardScreen}/>
+        <stack.Screen name='NewCard' component={NewCardScreen} options={{
+          headerTitle: 'New Card'
+        }}/>
+        <stack.Screen name='EditCard' component={EditCardScreen} options={{
+          headerTitle: 'Edit Card'
+        }}/>
         <stack.Screen name='Login' component={LogInScreen}/>
         <stack.Screen name='Register' component={RegisterScreen}/>
         <stack.Screen name='EditDeck' component={EditDeckScreen} options={{

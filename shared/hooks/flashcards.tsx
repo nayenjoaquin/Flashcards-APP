@@ -3,7 +3,7 @@ import { API_BASE_URL } from 'shared/const/strings';
 import { useState, useEffect } from 'react';
 import { Card, Deck, NewCard } from 'types';
 import { AuthStore } from 'shared/stores/auth';
-import { APIcreateCard, APIdeleteCard } from 'shared/api/cards';
+import { APIcreateCard, APIdeleteCard, APIupdateCard } from 'shared/api/cards';
 import { getLocal } from 'shared/utils/common';
 import { decksStore } from 'shared/stores/decks';
 
@@ -71,7 +71,27 @@ const useCards = () => {
     return true;
   }
 
-  return { cards, loading, error, fetchCards, createCard, deleteCard};
+  const updateCard = async (card: Card): Promise<boolean> => {
+    const success = await APIupdateCard(card, user?.token ?? await getLocal('JWT'));
+
+    if(!success) return false;
+    if(!currentDeck) return false;
+    const updatedDeck = currentDeck;
+    updatedDeck.cards = updatedDeck?.cards.map(c=>{
+      if(c.id==card.id) return card
+      return c;
+    });
+    setCurrentDeck(updatedDeck);
+    setSavedDecks(savedDecks.map(d=>{
+      if(d.id==updatedDeck.id) return updatedDeck;
+      return d;
+    }));
+
+
+    return true;
+  }
+
+  return { cards, loading, error, fetchCards, createCard, deleteCard, updateCard};
 };
 
 export default useCards;
