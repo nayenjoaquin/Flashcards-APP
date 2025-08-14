@@ -4,6 +4,7 @@ import { DeckTile } from "./deck-tile";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "types/navigation";
 import { useNavigation } from "@react-navigation/native";
+import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 
 interface props {
     decks: Deck[];

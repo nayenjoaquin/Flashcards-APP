@@ -1,8 +1,7 @@
-import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { CardsListItem } from "./cards-list-item";
-import { useEffect, useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import { Card, Progress, ProgressMap } from "types";
+import { useState } from "react";
+import { Card } from "types";
 import useDecks from "shared/hooks/decks";
 import { BottomInnerShadow } from "components/visuals/bottom-inner-shadow";
 import { CardOptionsModal } from "./card-options-modal";
@@ -12,7 +11,6 @@ import appTheme from "shared/const/app-theme";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "types/navigation";
 import { StackNavigationProp } from "@react-navigation/stack";
-import useCards from "shared/hooks/flashcards";
 
 interface props  {
     cards: Card[];
@@ -24,10 +22,9 @@ export const DeckCardsList = ({cards} : props) => {
 
     const navigation = useNavigation<navigationProp>();
     const [selected, setSelected] = useState<Card[]>([]);
-    const [selecting, setSelecting] = useState(false);
     const [modalCard, setModalCard] = useState<Card|null>(null);
+    const {user} = AuthStore();
     const { currentDeck} = useDecks();
-    const {deleteCard} = useCards();
     return(
         <View className="flex-1 w-full">
             <Modal
@@ -45,29 +42,18 @@ export const DeckCardsList = ({cards} : props) => {
                 <View className=" flex w-full items-center justify-center gap-2.5">
                     <View className="w-full flex flex-row items-center justify-between">
                         <Text className=" font-semibold">Cards in deck ({cards.length})</Text>
+                        {currentDeck?.user_id == user?.id ?
                         <TouchableOpacity onPress={()=>{
                             navigation.push('NewCard');
                         }}>
                             <Ionicons name="create-outline" size={appTheme.size.m}/>
                         </TouchableOpacity>
+                        :null}
                     </View>
                     {cards.map((card) => (
-                    <CardsListItem key={card.id} progress={currentDeck?.progress?.[card.id] ?? null} card={card} selected={selected.includes(card)}selecting={selecting} onTap={
-                        !selecting ?
-                            (card: Card)=>{
-                                setModalCard(card);
-                            }
-                        : !selected.includes(card) ?
-                            ()=>{
-                                setSelected(prev=>[...prev, card]);
-                            }
-                        :
-                            ()=>{
-                                setSelected(prev=>{
-                                    return prev.filter(item=>item!=card)
-                                });
-                            }
-                        }/>
+                    <CardsListItem key={card.id} progress={currentDeck?.progress?.[card.id] ?? null} card={card} onTap={(card: Card)=>{
+                        setModalCard(card);
+                    }}/>
                     ))}
                 </View>
             </ScrollView>
