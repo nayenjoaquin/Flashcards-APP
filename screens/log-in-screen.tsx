@@ -52,7 +52,10 @@ export const LogInScreen = () => {
                         signIn(fields.email, fields.password)
                         .then((user)=>{
                             if(user){
-                                navigation.push('Main');
+                                navigation.reset({
+                                    index: 0,
+                                    routes:[{name:'Main'}]
+                                });
                             }else{
                                 setFields({
                                     email: '',

@@ -72,10 +72,11 @@ const useDecks = () => {
     
     const updatedDeck = await APIupdateDeck(deck, user?.token ?? await getLocal('JWT'));
 
-    if(!deck) return false;
+
+    if(!updatedDeck) return false;
 
     setSavedDecks(savedDecks.map(d=>{
-      if(d.id==deck.id) return updatedDeck!
+      if(d.id==deck.id) return updatedDeck
       return d;
     }));
     setCurrentDeck(updatedDeck);
